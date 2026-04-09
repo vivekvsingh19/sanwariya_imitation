@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../blocs/auth/auth_bloc.dart';
 import '../../blocs/auth/auth_state.dart';
 import '../../blocs/auth/auth_event.dart';
-import '../../core/constants/colors.dart';
+import '../../../core/constants/colors.dart';
 import 'package:sanwariya_imitation/presentation/screens/auth/login_screen.dart';
 import '../orders/orders_screen.dart';
 

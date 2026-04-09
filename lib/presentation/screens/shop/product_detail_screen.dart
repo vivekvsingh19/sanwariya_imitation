@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import '../../domain/entities/product.dart';
-import '../../domain/entities/cart_item.dart';
+import '../../../../domain/entities/product.dart';
+import '../../../../domain/entities/cart_item.dart';
 import '../../blocs/cart/cart_bloc.dart';
 import '../../blocs/cart/cart_event.dart';
-import '../../core/constants/colors.dart';
+import '../../../core/constants/colors.dart';
 import '../../widgets/custom_button.dart';
 
 class ProductDetailScreen extends StatelessWidget {

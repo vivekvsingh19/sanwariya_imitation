@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import '../../blocs/order/order_bloc.dart';
 import '../../blocs/order/order_event.dart';
 import '../../blocs/order/order_state.dart';
-import '../../core/constants/colors.dart';
+import '../../../core/constants/colors.dart';
 import 'order_tracking_screen.dart';
 
 class OrdersScreen extends StatefulWidget {

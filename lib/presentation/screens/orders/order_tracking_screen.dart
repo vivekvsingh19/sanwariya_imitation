@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../domain/entities/order.dart';
-import '../../core/constants/colors.dart';
+import '../../../core/constants/colors.dart';
 
 class OrderTrackingScreen extends StatelessWidget {
   final Order order;

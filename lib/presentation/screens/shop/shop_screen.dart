@@ -4,7 +4,7 @@ import '../../blocs/product/product_bloc.dart';
 import '../../blocs/product/product_state.dart';
 import '../../widgets/product_card.dart';
 import 'product_detail_screen.dart';
-import '../../core/constants/colors.dart';
+import '../../../core/constants/colors.dart';
 
 class ShopScreen extends StatelessWidget {
   const ShopScreen({super.key});
