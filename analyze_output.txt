@@ -1,0 +1,178 @@
+Analyzing sanwariya_imitation...                                
+
+  error • Target of URI doesn't exist: 'colors.dart' • lib/core/theme/app_theme.dart:3:8 • uri_does_not_exist
+  error • Undefined name 'AppColors' • lib/core/theme/app_theme.dart:9:32 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/core/theme/app_theme.dart:10:21 • undefined_identifier
+  error • Invalid constant value • lib/core/theme/app_theme.dart:12:18 • invalid_constant
+  error • Undefined name 'AppColors' • lib/core/theme/app_theme.dart:12:18 • undefined_identifier
+  error • Invalid constant value • lib/core/theme/app_theme.dart:13:20 • invalid_constant
+  error • Undefined name 'AppColors' • lib/core/theme/app_theme.dart:13:20 • undefined_identifier
+  error • Invalid constant value • lib/core/theme/app_theme.dart:14:18 • invalid_constant
+  error • Undefined name 'AppColors' • lib/core/theme/app_theme.dart:14:18 • undefined_identifier
+   info • 'background' is deprecated and shouldn't be used. Use surface instead. This feature was deprecated after v3.18.0-0.1.pre • lib/core/theme/app_theme.dart:15:9 • deprecated_member_use
+  error • Invalid constant value • lib/core/theme/app_theme.dart:15:21 • invalid_constant
+  error • Undefined name 'AppColors' • lib/core/theme/app_theme.dart:15:21 • undefined_identifier
+  error • Invalid constant value • lib/core/theme/app_theme.dart:16:16 • invalid_constant
+  error • Undefined name 'AppColors' • lib/core/theme/app_theme.dart:16:16 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/core/theme/app_theme.dart:20:20 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/core/theme/app_theme.dart:22:20 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/core/theme/app_theme.dart:24:20 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/core/theme/app_theme.dart:26:20 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/core/theme/app_theme.dart:28:20 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/core/theme/app_theme.dart:31:26 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/core/theme/app_theme.dart:35:20 • undefined_identifier
+  error • Invalid constant value • lib/core/theme/app_theme.dart:36:47 • invalid_constant
+  error • Undefined name 'AppColors' • lib/core/theme/app_theme.dart:36:47 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/core/theme/app_theme.dart:40:28 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/core/theme/app_theme.dart:41:28 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/core/theme/app_theme.dart:49:20 • undefined_identifier
+  error • Invalid constant value • lib/core/theme/app_theme.dart:56:47 • invalid_constant
+  error • Undefined name 'AppColors' • lib/core/theme/app_theme.dart:56:47 • undefined_identifier
+  error • Invalid constant value • lib/core/theme/app_theme.dart:60:47 • invalid_constant
+  error • Undefined name 'AppColors' • lib/core/theme/app_theme.dart:60:47 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/core/theme/app_theme.dart:62:45 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/core/theme/app_theme.dart:63:46 • undefined_identifier
+  error • The argument type 'CardTheme' can't be assigned to the parameter type 'CardThemeData?'.  • lib/core/theme/app_theme.dart:65:18 • argument_type_not_assignable
+  error • Undefined name 'AppColors' • lib/core/theme/app_theme.dart:66:16 • undefined_identifier
+  error • Target of URI doesn't exist: '../../core/constants/colors.dart' • lib/presentation/screens/auth/login_screen.dart:7:8 • uri_does_not_exist
+  error • Undefined name 'AppColors' • lib/presentation/screens/auth/login_screen.dart:33:116 • undefined_identifier
+  error • Invalid constant value • lib/presentation/screens/auth/login_screen.dart:45:62 • invalid_constant
+  error • Undefined name 'AppColors' • lib/presentation/screens/auth/login_screen.dart:45:62 • undefined_identifier
+  error • Invalid constant value • lib/presentation/screens/auth/login_screen.dart:54:69 • invalid_constant
+  error • Undefined name 'AppColors' • lib/presentation/screens/auth/login_screen.dart:54:69 • undefined_identifier
+  error • Invalid constant value • lib/presentation/screens/auth/login_screen.dart:63:67 • invalid_constant
+  error • Undefined name 'AppColors' • lib/presentation/screens/auth/login_screen.dart:63:67 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/presentation/screens/auth/login_screen.dart:71:79 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/presentation/screens/auth/login_screen.dart:95:72 • undefined_identifier
+  error • Target of URI doesn't exist: '../../core/constants/colors.dart' • lib/presentation/screens/auth/signup_screen.dart:7:8 • uri_does_not_exist
+  error • Undefined name 'AppColors' • lib/presentation/screens/auth/signup_screen.dart:34:116 • undefined_identifier
+  error • Invalid constant value • lib/presentation/screens/auth/signup_screen.dart:46:62 • invalid_constant
+  error • Undefined name 'AppColors' • lib/presentation/screens/auth/signup_screen.dart:46:62 • undefined_identifier
+  error • Invalid constant value • lib/presentation/screens/auth/signup_screen.dart:54:69 • invalid_constant
+  error • Undefined name 'AppColors' • lib/presentation/screens/auth/signup_screen.dart:54:69 • undefined_identifier
+  error • Invalid constant value • lib/presentation/screens/auth/signup_screen.dart:62:69 • invalid_constant
+  error • Undefined name 'AppColors' • lib/presentation/screens/auth/signup_screen.dart:62:69 • undefined_identifier
+  error • Invalid constant value • lib/presentation/screens/auth/signup_screen.dart:71:67 • invalid_constant
+  error • Undefined name 'AppColors' • lib/presentation/screens/auth/signup_screen.dart:71:67 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/presentation/screens/auth/signup_screen.dart:99:72 • undefined_identifier
+  error • Target of URI doesn't exist: '../../core/constants/colors.dart' • lib/presentation/screens/cart/cart_screen.dart:7:8 • uri_does_not_exist
+  error • Invalid constant value • lib/presentation/screens/cart/cart_screen.dart:34:73 • invalid_constant
+  error • Undefined name 'AppColors' • lib/presentation/screens/cart/cart_screen.dart:34:73 • undefined_identifier
+   info • Unnecessary use of multiple underscores • lib/presentation/screens/cart/cart_screen.dart:45:43 • unnecessary_underscores
+  error • Invalid constant value • lib/presentation/screens/cart/cart_screen.dart:45:71 • invalid_constant
+  error • Undefined name 'AppColors' • lib/presentation/screens/cart/cart_screen.dart:45:71 • undefined_identifier
+  error • Invalid constant value • lib/presentation/screens/cart/cart_screen.dart:67:94 • invalid_constant
+  error • Undefined name 'AppColors' • lib/presentation/screens/cart/cart_screen.dart:67:94 • undefined_identifier
+  error • Invalid constant value • lib/presentation/screens/cart/cart_screen.dart:87:66 • invalid_constant
+  error • Undefined name 'AppColors' • lib/presentation/screens/cart/cart_screen.dart:87:66 • undefined_identifier
+  error • Invalid constant value • lib/presentation/screens/cart/cart_screen.dart:100:28 • invalid_constant
+  error • Undefined name 'AppColors' • lib/presentation/screens/cart/cart_screen.dart:100:28 • undefined_identifier
+  error • Invalid constant value • lib/presentation/screens/cart/cart_screen.dart:119:75 • invalid_constant
+  error • Undefined name 'AppColors' • lib/presentation/screens/cart/cart_screen.dart:119:75 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/presentation/screens/cart/cart_screen.dart:130:144 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/presentation/screens/cart/cart_screen.dart:159:37 • undefined_identifier
+  error • Target of URI doesn't exist: '../../core/constants/colors.dart' • lib/presentation/screens/cart/checkout_screen.dart:2:8 • uri_does_not_exist
+  error • Target of URI doesn't exist: '../../domain/entities/order.dart' • lib/presentation/screens/cart/checkout_screen.dart:10:8 • uri_does_not_exist
+   info • The imported package 'uuid' isn't a dependency of the importing package • lib/presentation/screens/cart/checkout_screen.dart:11:8 • depend_on_referenced_packages
+  error • Undefined name 'AppColors' • lib/presentation/screens/cart/checkout_screen.dart:37:34 • undefined_identifier
+  error • Invalid constant value • lib/presentation/screens/cart/checkout_screen.dart:38:62 • invalid_constant
+  error • Undefined name 'AppColors' • lib/presentation/screens/cart/checkout_screen.dart:38:62 • undefined_identifier
+  error • Invalid constant value • lib/presentation/screens/cart/checkout_screen.dart:46:82 • invalid_constant
+  error • Undefined name 'AppColors' • lib/presentation/screens/cart/checkout_screen.dart:46:82 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/presentation/screens/cart/checkout_screen.dart:59:102 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/presentation/screens/cart/checkout_screen.dart:64:26 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/presentation/screens/cart/checkout_screen.dart:66:45 • undefined_identifier
+  error • Invalid constant value • lib/presentation/screens/cart/checkout_screen.dart:73:111 • invalid_constant
+  error • Undefined name 'AppColors' • lib/presentation/screens/cart/checkout_screen.dart:73:111 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/presentation/screens/cart/checkout_screen.dart:80:100 • undefined_identifier
+  error • The name 'CartLoaded' isn't defined, so it can't be used in an 'is' expression • lib/presentation/screens/cart/checkout_screen.dart:93:37 • type_test_with_undefined_name
+  error • The getter 'items' isn't defined for the type 'CartState' • lib/presentation/screens/cart/checkout_screen.dart:93:61 • undefined_getter
+  error • The method 'Order' isn't defined for the type '_CheckoutScreenState' • lib/presentation/screens/cart/checkout_screen.dart:95:33 • undefined_method
+  error • The getter 'items' isn't defined for the type 'CartState' • lib/presentation/screens/cart/checkout_screen.dart:97:38 • undefined_getter
+  error • The getter 'totalAmount' isn't defined for the type 'CartState' • lib/presentation/screens/cart/checkout_screen.dart:98:44 • undefined_getter
+  error • Undefined name 'AppColors' • lib/presentation/screens/cart/checkout_screen.dart:121:18 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/presentation/screens/cart/checkout_screen.dart:123:50 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/presentation/screens/cart/checkout_screen.dart:127:44 • undefined_identifier
+  error • Invalid constant value • lib/presentation/screens/cart/checkout_screen.dart:131:67 • invalid_constant
+  error • Undefined name 'AppColors' • lib/presentation/screens/cart/checkout_screen.dart:131:67 • undefined_identifier
+  error • Target of URI doesn't exist: '../../core/constants/colors.dart' • lib/presentation/screens/home/home_screen.dart:7:8 • uri_does_not_exist
+  error • Invalid constant value • lib/presentation/screens/home/home_screen.dart:37:73 • invalid_constant
+  error • Undefined name 'AppColors' • lib/presentation/screens/home/home_screen.dart:37:73 • undefined_identifier
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/presentation/screens/home/home_screen.dart:53:47 • deprecated_member_use
+  error • Undefined name 'AppColors' • lib/presentation/screens/home/home_screen.dart:63:126 • undefined_identifier
+   info • Unnecessary use of multiple underscores • lib/presentation/screens/home/home_screen.dart:89:45 • unnecessary_underscores
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/presentation/screens/home/home_screen.dart:147:54 • deprecated_member_use
+  error • Target of URI doesn't exist: '../../domain/entities/order.dart' • lib/presentation/screens/orders/order_tracking_screen.dart:2:8 • uri_does_not_exist
+  error • Target of URI doesn't exist: '../../core/constants/colors.dart' • lib/presentation/screens/orders/order_tracking_screen.dart:3:8 • uri_does_not_exist
+  error • Undefined class 'Order' • lib/presentation/screens/orders/order_tracking_screen.dart:6:9 • undefined_class
+  error • Invalid constant value • lib/presentation/screens/orders/order_tracking_screen.dart:22:100 • invalid_constant
+  error • Undefined name 'AppColors' • lib/presentation/screens/orders/order_tracking_screen.dart:22:100 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/presentation/screens/orders/order_tracking_screen.dart:68:81 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/presentation/screens/orders/order_tracking_screen.dart:68:101 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/presentation/screens/orders/order_tracking_screen.dart:74:39 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/presentation/screens/orders/order_tracking_screen.dart:74:59 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/presentation/screens/orders/order_tracking_screen.dart:75:58 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/presentation/screens/orders/order_tracking_screen.dart:75:78 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/presentation/screens/orders/order_tracking_screen.dart:78:84 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/presentation/screens/orders/order_tracking_screen.dart:78:104 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/presentation/screens/orders/order_tracking_screen.dart:89:110 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/presentation/screens/orders/order_tracking_screen.dart:91:86 • undefined_identifier
+   info • The imported package 'intl' isn't a dependency of the importing package • lib/presentation/screens/orders/orders_screen.dart:4:8 • depend_on_referenced_packages
+  error • Target of URI doesn't exist: 'package:intl/intl.dart' • lib/presentation/screens/orders/orders_screen.dart:4:8 • uri_does_not_exist
+  error • Target of URI doesn't exist: '../../core/constants/colors.dart' • lib/presentation/screens/orders/orders_screen.dart:8:8 • uri_does_not_exist
+  error • Invalid constant value • lib/presentation/screens/orders/orders_screen.dart:34:73 • invalid_constant
+  error • Undefined name 'AppColors' • lib/presentation/screens/orders/orders_screen.dart:34:73 • undefined_identifier
+   info • Unnecessary use of multiple underscores • lib/presentation/screens/orders/orders_screen.dart:42:37 • unnecessary_underscores
+  error • Undefined name 'AppColors' • lib/presentation/screens/orders/orders_screen.dart:52:30 • undefined_identifier
+  error • Invalid constant value • lib/presentation/screens/orders/orders_screen.dart:63:90 • invalid_constant
+  error • Undefined name 'AppColors' • lib/presentation/screens/orders/orders_screen.dart:63:90 • undefined_identifier
+  error • The method 'DateFormat' isn't defined for the type '_OrdersScreenState' • lib/presentation/screens/orders/orders_screen.dart:66:31 • undefined_method
+  error • Invalid constant value • lib/presentation/screens/orders/orders_screen.dart:67:61 • invalid_constant
+  error • Undefined name 'AppColors' • lib/presentation/screens/orders/orders_screen.dart:67:61 • undefined_identifier
+  error • Invalid constant value • lib/presentation/screens/orders/orders_screen.dart:96:104 • invalid_constant
+  error • Undefined name 'AppColors' • lib/presentation/screens/orders/orders_screen.dart:96:104 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/presentation/screens/orders/orders_screen.dart:104:85 • undefined_identifier
+  error • Target of URI doesn't exist: '../../core/constants/colors.dart' • lib/presentation/screens/profile/profile_screen.dart:6:8 • uri_does_not_exist
+  error • Invalid constant value • lib/presentation/screens/profile/profile_screen.dart:34:36 • invalid_constant
+  error • Undefined name 'AppColors' • lib/presentation/screens/profile/profile_screen.dart:34:36 • undefined_identifier
+  error • Invalid constant value • lib/presentation/screens/profile/profile_screen.dart:35:62 • invalid_constant
+  error • Undefined name 'AppColors' • lib/presentation/screens/profile/profile_screen.dart:35:62 • undefined_identifier
+  error • Invalid constant value • lib/presentation/screens/profile/profile_screen.dart:50:66 • invalid_constant
+  error • Undefined name 'AppColors' • lib/presentation/screens/profile/profile_screen.dart:50:66 • undefined_identifier
+  error • Invalid constant value • lib/presentation/screens/profile/profile_screen.dart:57:38 • invalid_constant
+  error • Undefined name 'AppColors' • lib/presentation/screens/profile/profile_screen.dart:57:38 • undefined_identifier
+  error • Invalid constant value • lib/presentation/screens/profile/profile_screen.dart:59:62 • invalid_constant
+  error • Undefined name 'AppColors' • lib/presentation/screens/profile/profile_screen.dart:59:62 • undefined_identifier
+  error • Invalid constant value • lib/presentation/screens/profile/profile_screen.dart:64:38 • invalid_constant
+  error • Undefined name 'AppColors' • lib/presentation/screens/profile/profile_screen.dart:64:38 • undefined_identifier
+  error • Invalid constant value • lib/presentation/screens/profile/profile_screen.dart:66:60 • invalid_constant
+  error • Undefined name 'AppColors' • lib/presentation/screens/profile/profile_screen.dart:66:60 • undefined_identifier
+  error • Invalid constant value • lib/presentation/screens/profile/profile_screen.dart:67:71 • invalid_constant
+  error • Undefined name 'AppColors' • lib/presentation/screens/profile/profile_screen.dart:67:71 • undefined_identifier
+  error • Target of URI doesn't exist: '../../domain/entities/product.dart' • lib/presentation/screens/shop/product_detail_screen.dart:4:8 • uri_does_not_exist
+  error • Target of URI doesn't exist: '../../domain/entities/cart_item.dart' • lib/presentation/screens/shop/product_detail_screen.dart:5:8 • uri_does_not_exist
+  error • Target of URI doesn't exist: '../../core/constants/colors.dart' • lib/presentation/screens/shop/product_detail_screen.dart:8:8 • uri_does_not_exist
+  error • Undefined class 'Product' • lib/presentation/screens/shop/product_detail_screen.dart:12:9 • undefined_class
+  error • Invalid constant value • lib/presentation/screens/shop/product_detail_screen.dart:49:18 • invalid_constant
+  error • Undefined name 'AppColors' • lib/presentation/screens/shop/product_detail_screen.dart:49:18 • undefined_identifier
+  error • The method 'CartItem' isn't defined for the type 'ProductDetailScreen' • lib/presentation/screens/shop/product_detail_screen.dart:57:31 • undefined_method
+  error • Undefined name 'AppColors' • lib/presentation/screens/shop/product_detail_screen.dart:91:123 • undefined_identifier
+  error • Invalid constant value • lib/presentation/screens/shop/product_detail_screen.dart:94:57 • invalid_constant
+  error • Undefined name 'AppColors' • lib/presentation/screens/shop/product_detail_screen.dart:94:57 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/presentation/screens/shop/product_detail_screen.dart:106:134 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/presentation/screens/shop/product_detail_screen.dart:108:178 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/presentation/screens/shop/product_detail_screen.dart:112:132 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/presentation/screens/shop/product_detail_screen.dart:134:20 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/presentation/screens/shop/product_detail_screen.dart:136:39 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/presentation/screens/shop/product_detail_screen.dart:138:36 • undefined_identifier
+  error • Invalid constant value • lib/presentation/screens/shop/product_detail_screen.dart:146:58 • invalid_constant
+  error • Undefined name 'AppColors' • lib/presentation/screens/shop/product_detail_screen.dart:146:58 • undefined_identifier
+  error • Target of URI doesn't exist: '../../core/constants/colors.dart' • lib/presentation/screens/shop/shop_screen.dart:7:8 • uri_does_not_exist
+  error • Invalid constant value • lib/presentation/screens/shop/shop_screen.dart:21:73 • invalid_constant
+  error • Undefined name 'AppColors' • lib/presentation/screens/shop/shop_screen.dart:21:73 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/presentation/screens/shop/shop_screen.dart:24:22 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/presentation/screens/shop/shop_screen.dart:25:32 • undefined_identifier
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/presentation/widgets/glassmorphic_container.dart:15:34 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/presentation/widgets/glassmorphic_container.dart:17:53 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/presentation/widgets/glassmorphic_container.dart:20:34 • deprecated_member_use
+

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../core/constants/colors.dart';
+import '../../../core/constants/colors.dart';
 import '../../widgets/custom_button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../blocs/order/order_bloc.dart';
@@ -7,7 +7,7 @@ import '../../blocs/cart/cart_bloc.dart';
 import '../../blocs/cart/cart_event.dart';
 import '../../blocs/order/order_event.dart';
 import '../../blocs/order/order_state.dart';
-import '../../domain/entities/order.dart';
+import '../../../../domain/entities/order.dart';
 import 'package:uuid/uuid.dart';
 
 class CheckoutScreen extends StatefulWidget {

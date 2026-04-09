@@ -4,7 +4,7 @@ import '../../blocs/product/product_bloc.dart';
 import '../../blocs/product/product_state.dart';
 import '../../blocs/product/product_event.dart';
 import '../../widgets/product_card.dart';
-import '../../core/constants/colors.dart';
+import '../../../core/constants/colors.dart';
 import '../shop/product_detail_screen.dart';
 
 class HomeScreen extends StatefulWidget {

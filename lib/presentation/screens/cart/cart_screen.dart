@@ -4,7 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import '../../blocs/cart/cart_bloc.dart';
 import '../../blocs/cart/cart_event.dart';
 import '../../blocs/cart/cart_state.dart';
-import '../../core/constants/colors.dart';
+import '../../../core/constants/colors.dart';
 import '../../widgets/custom_button.dart';
 import 'checkout_screen.dart';
 
