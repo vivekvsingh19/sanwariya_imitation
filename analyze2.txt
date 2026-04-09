@@ -1,0 +1,20 @@
+Analyzing sanwariya_imitation...                                
+
+   info • 'background' is deprecated and shouldn't be used. Use surface instead. This feature was deprecated after v3.18.0-0.1.pre • lib/core/theme/app_theme.dart:15:9 • deprecated_member_use
+  error • The argument type 'CardTheme' can't be assigned to the parameter type 'CardThemeData?'.  • lib/core/theme/app_theme.dart:65:18 • argument_type_not_assignable
+   info • Unnecessary use of multiple underscores • lib/presentation/screens/cart/cart_screen.dart:45:43 • unnecessary_underscores
+   info • The imported package 'uuid' isn't a dependency of the importing package • lib/presentation/screens/cart/checkout_screen.dart:11:8 • depend_on_referenced_packages
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/presentation/screens/cart/checkout_screen.dart:66:63 • deprecated_member_use
+  error • The name 'CartLoaded' isn't defined, so it can't be used in an 'is' expression • lib/presentation/screens/cart/checkout_screen.dart:93:37 • type_test_with_undefined_name
+  error • The getter 'items' isn't defined for the type 'CartState' • lib/presentation/screens/cart/checkout_screen.dart:93:61 • undefined_getter
+  error • The getter 'items' isn't defined for the type 'CartState' • lib/presentation/screens/cart/checkout_screen.dart:97:38 • undefined_getter
+  error • The getter 'totalAmount' isn't defined for the type 'CartState' • lib/presentation/screens/cart/checkout_screen.dart:98:44 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/presentation/screens/home/home_screen.dart:53:47 • deprecated_member_use
+   info • Unnecessary use of multiple underscores • lib/presentation/screens/home/home_screen.dart:89:45 • unnecessary_underscores
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/presentation/screens/home/home_screen.dart:147:54 • deprecated_member_use
+   info • Unnecessary use of multiple underscores • lib/presentation/screens/orders/orders_screen.dart:42:37 • unnecessary_underscores
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/presentation/screens/shop/product_detail_screen.dart:136:57 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/presentation/widgets/glassmorphic_container.dart:15:34 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/presentation/widgets/glassmorphic_container.dart:17:53 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/presentation/widgets/glassmorphic_container.dart:20:34 • deprecated_member_use
+
