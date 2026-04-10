@@ -69,7 +69,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               const SizedBox(height: 16),
               _buildAddressCard(),
               const SizedBox(height: 32),
-              
+
               _buildHeaderRow('Payment Method', ''),
               const SizedBox(height: 16),
               _buildPaymentOption(0, 'UPI', 'Google Pay, PhonePe, Paytm', Icons.account_balance_wallet_outlined),
@@ -79,11 +79,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               _buildPaymentOption(2, 'Net Banking', 'All major Indian banks', Icons.account_balance_outlined),
               const SizedBox(height: 12),
               _buildPaymentOption(3, 'Cash on Delivery', 'Pay when you receive your order', Icons.payments_outlined),
-              
+
               const SizedBox(height: 32),
               _buildHeaderRow('Order Summary', ''),
               const SizedBox(height: 16),
-              
+
               BlocBuilder<CartBloc, CartState>(
                 builder: (context, cartState) {
                   if (cartState is CartLoaded) {
@@ -103,7 +103,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   return const Center(child: CircularProgressIndicator(color: AppColors.primary));
                 },
               ),
-              
+
               const SizedBox(height: 16),
               _buildFooterText(),
               const SizedBox(height: 32),
@@ -123,7 +123,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: const Icon(LucideIcons.checkCircle, color: AppColors.primary, size: 60),
         content: Text(
-          'Your masterpiece is being prepared for delivery.', 
+          'Your masterpiece is being prepared for delivery.',
           textAlign: TextAlign.center,
           style: GoogleFonts.inter(color: Colors.white),
         ),
@@ -134,7 +134,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 Navigator.popUntil(context, (route) => route.isFirst);
               },
               child: Text(
-                'BACK TO HOME', 
+                'BACK TO HOME',
                 style: GoogleFonts.inter(color: AppColors.primary, fontWeight: FontWeight.bold),
               ),
             ),

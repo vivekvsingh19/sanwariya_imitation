@@ -18,9 +18,14 @@ class OrdersScreen extends StatefulWidget {
   State<OrdersScreen> createState() => _OrdersScreenState();
 }
 
-class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderStateMixin {
+class _OrdersScreenState extends State<OrdersScreen>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  final NumberFormat _currencyFormat = NumberFormat.currency(locale: 'en_IN', symbol: '₹', decimalDigits: 0);
+  final NumberFormat _currencyFormat = NumberFormat.currency(
+    locale: 'en_IN',
+    symbol: '₹',
+    decimalDigits: 0,
+  );
 
   @override
   void initState() {
@@ -68,7 +73,9 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
             Container(
               width: 40,
               height: 1,
-              color: const Color(0xFFD4AF37).withOpacity(0.5), // Tiny gold divider
+              color: const Color(
+                0xFFD4AF37,
+              ).withOpacity(0.5), // Tiny gold divider
             ),
           ],
         ),
@@ -98,12 +105,14 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
               Tab(text: 'WISHLIST'),
             ],
           ),
-          
+
           Expanded(
             child: BlocBuilder<OrderBloc, OrderState>(
               builder: (context, state) {
                 if (state is OrderLoading) {
-                  return const Center(child: CircularProgressIndicator(color: AppColors.primary));
+                  return const Center(
+                    child: CircularProgressIndicator(color: AppColors.primary),
+                  );
                 } else if (state is OrderLoaded) {
                   if (state.orders.isEmpty) {
                     return _buildEmptyState();
@@ -117,20 +126,25 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
                     children: [
                       // Current Orders Tab
                       _buildOrdersList(currentOrders),
-                      
+
                       // Archive Tab (Empty for now)
                       _buildEmptyState(message: 'No archived orders.'),
-                      
+
                       // Wishlist Tab (Empty for now)
                       _buildEmptyState(message: 'Your wishlist is empty.'),
                     ],
                   );
                 }
-                return const Center(child: Text('Failed to load orders.', style: TextStyle(color: Colors.white)));
+                return const Center(
+                  child: Text(
+                    'Failed to load orders.',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                );
               },
             ),
           ),
-          
+
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 24.0),
             child: Text(
@@ -147,7 +161,9 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
     );
   }
 
-  Widget _buildEmptyState({String message = 'No orders currently in progress.'}) {
+  Widget _buildEmptyState({
+    String message = 'No orders currently in progress.',
+  }) {
     return Center(
       child: Text(
         message,
@@ -165,7 +181,7 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
         // If order has no items, we won't show it (safety check)
         final order = orders[index];
         if (order.items.isEmpty) return const SizedBox.shrink();
-        
+
         // Display the first item in the order as the representative "Product"
         final mainItem = order.items.first;
         final product = mainItem.product;
@@ -205,8 +221,10 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
                   child: CachedNetworkImage(
                     imageUrl: product.imageUrl,
                     fit: BoxFit.cover,
-                    placeholder: (context, url) => Container(color: Colors.black26),
-                    errorWidget: (context, url, _) => Container(color: Colors.black26),
+                    placeholder: (context, url) =>
+                        Container(color: Colors.black26),
+                    errorWidget: (context, url, _) =>
+                        Container(color: Colors.black26),
                   ),
                 ),
               ),
@@ -214,7 +232,10 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
                 top: 12,
                 left: 12,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 6,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.black.withOpacity(0.7),
                     borderRadius: BorderRadius.circular(4),
@@ -232,9 +253,9 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
               ),
             ],
           ),
-          
+
           const SizedBox(height: 20),
-          
+
           // Title & Price Row
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -260,12 +281,13 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
               ),
             ],
           ),
-          
+
           const SizedBox(height: 12),
-          
+
           // Description
           Text(
-            product.description ?? 'Beautiful handcrafted jewelry piece featuring exquisite design and premium stones.',
+            product.description ??
+                'Beautiful handcrafted jewelry piece featuring exquisite design and premium stones.',
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.inter(
@@ -274,16 +296,20 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
               height: 1.5,
             ),
           ),
-          
+
           const SizedBox(height: 20),
-          
+
           // Status and Date Row
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
                 children: [
-                  const Icon(LucideIcons.calendar, color: Colors.white54, size: 14),
+                  const Icon(
+                    LucideIcons.calendar,
+                    color: Colors.white54,
+                    size: 14,
+                  ),
                   const SizedBox(width: 6),
                   Text(
                     DateFormat('MMM dd, yyyy').format(order.date).toUpperCase(),
@@ -298,15 +324,23 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
               Row(
                 children: [
                   Icon(
-                    isDelivered ? LucideIcons.checkCircle2 : (isShipped ? LucideIcons.truck : LucideIcons.settings),
-                    color: isDelivered ? Colors.white54 : const Color(0xFFD4AF37),
+                    isDelivered
+                        ? LucideIcons.checkCircle2
+                        : (isShipped
+                              ? LucideIcons.truck
+                              : LucideIcons.settings),
+                    color: isDelivered
+                        ? Colors.white54
+                        : const Color(0xFFD4AF37),
                     size: 14,
                   ),
                   const SizedBox(width: 6),
                   Text(
                     status,
                     style: GoogleFonts.inter(
-                      color: isDelivered ? Colors.white54 : const Color(0xFFD4AF37),
+                      color: isDelivered
+                          ? Colors.white54
+                          : const Color(0xFFD4AF37),
                       fontSize: 10,
                       letterSpacing: 1.0,
                       fontWeight: FontWeight.w600,
@@ -316,9 +350,9 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
               ),
             ],
           ),
-          
+
           const SizedBox(height: 24),
-          
+
           // Action Buttons
           _buildActionButtons(order, isInProduction, isShipped, isDelivered),
         ],
@@ -326,7 +360,12 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
     );
   }
 
-  Widget _buildActionButtons(dynamic order, bool isInProduction, bool isShipped, bool isDelivered) {
+  Widget _buildActionButtons(
+    dynamic order,
+    bool isInProduction,
+    bool isShipped,
+    bool isDelivered,
+  ) {
     if (isDelivered) {
       return Row(
         children: [
@@ -336,32 +375,39 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
         ],
       );
     }
-    
+
     // For Production or Shipped
     return SizedBox(
       width: isInProduction ? null : double.infinity,
-      child: isInProduction 
-        ? ElevatedButton(
-            onPressed: () => _navigateToTracking(order),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFFD4A347), // Solid warm gold
-              foregroundColor: Colors.black,
-              elevation: 0,
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+      child: isInProduction
+          ? ElevatedButton(
+              onPressed: () => _navigateToTracking(order),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFFD4A347), // Solid warm gold
+                foregroundColor: Colors.black,
+                elevation: 0,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 16,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6),
+                ),
+              ),
+              child: _buildTrackJourneyContent(true),
+            )
+          : OutlinedButton(
+              onPressed: () => _navigateToTracking(order),
+              style: OutlinedButton.styleFrom(
+                foregroundColor: const Color(0xFFD4A347),
+                side: const BorderSide(color: Color(0xFFD4A347)),
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6),
+                ),
+              ),
+              child: _buildTrackJourneyContent(false),
             ),
-            child: _buildTrackJourneyContent(true),
-          )
-        : OutlinedButton(
-            onPressed: () => _navigateToTracking(order),
-            style: OutlinedButton.styleFrom(
-              foregroundColor: const Color(0xFFD4A347),
-              side: const BorderSide(color: Color(0xFFD4A347)),
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
-            ),
-            child: _buildTrackJourneyContent(false),
-        ),
     );
   }
 
@@ -417,7 +463,7 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
 
   void _navigateToTracking(dynamic order) {
     Navigator.push(
-      context, 
+      context,
       MaterialPageRoute(builder: (_) => OrderTrackingScreen(order: order)),
     );
   }
