@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../core/constants/colors.dart';
+import '../../core/theme/app_theme.dart';
 import '../screens/auth/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -50,19 +50,26 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Icon(Icons.diamond, size: 80, color: AppColors.primary),
-              const SizedBox(height: 16),
+              const SizedBox(height: AppSpacing.lg),
               Text(
                 'SANWARIYA',
-                style: Theme.of(context).textTheme.displayLarge?.copyWith(letterSpacing: 4),
+                style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                  letterSpacing: AppTypography.letterSpacingUltra,
+                ),
               ),
               Text(
                 'IMITATION',
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(letterSpacing: 8, color: AppColors.secondary),
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  letterSpacing: 8,
+                  color: AppColors.secondary,
+                ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: AppSpacing.xxl),
               Text(
                 'elegant & luxury',
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontStyle: FontStyle.italic),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontStyle: FontStyle.italic,
+                ),
               )
             ],
           ),

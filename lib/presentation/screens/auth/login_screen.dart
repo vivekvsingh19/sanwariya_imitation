@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../../core/theme/app_theme.dart';
 import '../../blocs/auth/auth_bloc.dart';
 import '../../blocs/auth/auth_event.dart';
 import '../../blocs/auth/auth_state.dart';
-import '../../../core/constants/colors.dart';
 import '../main_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -29,7 +28,10 @@ class _LoginScreenState extends State<LoginScreen> {
             );
           } else if (state is AuthError) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.message, style: const TextStyle(color: Colors.white)), backgroundColor: AppColors.error),
+              SnackBar(
+                content: Text(state.message, style: const TextStyle(color: AppColors.textWhite)),
+                backgroundColor: AppColors.error,
+              ),
             );
           }
         },
@@ -40,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 center: const Alignment(0, -0.2),
                 radius: 1.0,
                 colors: [
-                  const Color(0xFF2A2A2A), // Soft highlight behind text
+                  AppColors.surfaceHighlight,
                   AppColors.background,
                 ],
               ),
@@ -48,80 +50,70 @@ class _LoginScreenState extends State<LoginScreen> {
             child: SafeArea(
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                  padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sectionGap),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const SizedBox(height: 48),
+                    const SizedBox(height: AppSpacing.massive),
                     // Top header
                     Text(
-                      'S A N W A R I Y A   I M I T A T I O N',
-                      style: GoogleFonts.inter(
-                        color: AppColors.primary,
-                        letterSpacing: 4.0,
-                        fontSize: 10,
-                        fontWeight: FontWeight.w600,
+                      'SANWARIYA  IMITATION',
+                      style: AppTypography.brandTitle(
+                        fontSize: AppTypography.fontSizeXS,
                       ),
                     ),
-                    const SizedBox(height: 64),
+                    const SizedBox(height: AppSpacing.giant),
                     // Title
                     Text(
                       'Welcome to\nSanwariya Imitation',
                       textAlign: TextAlign.center,
-                      style: GoogleFonts.playfairDisplay(
-                        color: AppColors.primary,
-                        fontSize: 36,
-                        height: 1.2,
-                      ),
+                      style: AppTypography.displayLarge(),
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: AppSpacing.xxl),
                     // Subtitle
                     Text(
                       'AUTHENTICATE TO VIEW OUR PRIVATE\nCURATIONS',
                       textAlign: TextAlign.center,
-                      style: GoogleFonts.inter(
-                        color: AppColors.textMuted,
-                        letterSpacing: 2.0,
-                        fontSize: 10,
-                        height: 1.5,
-                      ),
+                      style: AppTypography.labelMedium(
+                        letterSpacing: AppTypography.letterSpacingXWide,
+                      ).copyWith(height: 1.5),
                     ),
-                    const SizedBox(height: 80),
+                    const SizedBox(height: AppSpacing.colossal),
                     
                     // Form
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
                         'MOBILE IDENTITY',
-                        style: GoogleFonts.inter(
-                          color: AppColors.textMuted,
-                          fontSize: 10,
+                        style: AppTypography.labelMedium(
                           fontWeight: FontWeight.bold,
-                          letterSpacing: 2.0,
+                          letterSpacing: AppTypography.letterSpacingXWide,
                         ),
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: AppSpacing.sm),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
                           '+91',
-                          style: GoogleFonts.inter(
-                            color: Colors.white,
-                            fontSize: 20,
-                            letterSpacing: 1.0,
-                          ),
+                          style: AppTypography.headingMedium(
+                            fontWeight: FontWeight.normal,
+                          ).copyWith(letterSpacing: AppTypography.letterSpacingNormal),
                         ),
-                        const SizedBox(width: 16),
+                        const SizedBox(width: AppSpacing.lg),
                         Expanded(
                           child: TextField(
                             controller: _phoneController,
                             keyboardType: TextInputType.phone,
-                            style: GoogleFonts.inter(color: Colors.white, fontSize: 20, letterSpacing: 4.0),
+                            style: AppTypography.headingMedium(
+                              fontWeight: FontWeight.normal,
+                            ).copyWith(letterSpacing: AppTypography.letterSpacingUltra),
                             decoration: InputDecoration(
                               hintText: 'O O O O O  O O O O O',
-                              hintStyle: GoogleFonts.inter(color: Colors.white24, fontSize: 18, letterSpacing: 4.0),
+                              hintStyle: AppTypography.headingSmall(
+                                color: AppColors.white24,
+                              ).copyWith(letterSpacing: AppTypography.letterSpacingUltra),
                               border: InputBorder.none,
                               enabledBorder: InputBorder.none,
                               focusedBorder: InputBorder.none,
@@ -132,8 +124,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ],
                     ),
-                    const Divider(color: Colors.white24, height: 1),
-                    const SizedBox(height: 48),
+                    Divider(color: AppColors.white24, height: 1),
+                    const SizedBox(height: AppSpacing.massive),
 
                     // Button
                     SizedBox(
@@ -143,16 +135,15 @@ class _LoginScreenState extends State<LoginScreen> {
                         onPressed: state is AuthLoading
                             ? null
                             : () {
-                                // Defaulting bypass logic to satisfy block
                                 context.read<AuthBloc>().add(
                                   const LoginRequested('test@example.com', 'password'),
                                 );
                               },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.secondary, // Slightly lighter gold
+                          backgroundColor: AppColors.secondary,
                           foregroundColor: Colors.black,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: AppRadius.mdBorder,
                           ),
                           elevation: 0,
                         ),
@@ -164,36 +155,33 @@ class _LoginScreenState extends State<LoginScreen> {
                               )
                             : Text(
                                 'REQUEST SECURE ACCESS',
-                                style: GoogleFonts.inter(
+                                style: AppTypography.bodySmall(
                                   fontWeight: FontWeight.bold,
-                                  letterSpacing: 1.5,
-                                  fontSize: 12,
+                                  letterSpacing: AppTypography.letterSpacingWide,
                                 ),
                               ),
                       ),
                     ),
 
-                    const SizedBox(height: 64),
+                    const SizedBox(height: AppSpacing.giant),
                     // Divider OR
                     Row(
                       children: [
-                        const Expanded(child: Divider(color: Colors.white12)),
+                        Expanded(child: Divider(color: AppColors.white12)),
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
                           child: Text(
                             'OR AUTHENTICATE VIA',
-                            style: GoogleFonts.inter(
-                              color: AppColors.textMuted,
-                              fontSize: 10,
-                              letterSpacing: 1.5,
+                            style: AppTypography.labelMedium(
+                              letterSpacing: AppTypography.letterSpacingWide,
                             ),
                           ),
                         ),
-                        const Expanded(child: Divider(color: Colors.white12)),
+                        Expanded(child: Divider(color: AppColors.white12)),
                       ],
                     ),
                     
-                    const SizedBox(height: 32),
+                    const SizedBox(height: AppSpacing.sectionGap),
                     
                     // Social buttons
                     Row(
@@ -203,33 +191,38 @@ class _LoginScreenState extends State<LoginScreen> {
                           iconWidget: _buildGoogleIcon(),
                           label: 'GOOGLE',
                         ),
-                        const SizedBox(width: 24),
+                        const SizedBox(width: AppSpacing.xxl),
                         _buildSocialBtn(
-                          iconWidget: const Icon(Icons.apple, color: Colors.white, size: 20),
+                          iconWidget: const Icon(Icons.apple, color: AppColors.textWhite, size: 20),
                           label: 'IOS',
                         ),
                       ],
                     ),
 
-                    const SizedBox(height: 48),
+                    const SizedBox(height: AppSpacing.massive),
                     
                     // Bottom Terms
                     Text(
                       'BY ENTERING, YOU AGREE TO OUR',
-                      style: GoogleFonts.inter(color: AppColors.textMuted, fontSize: 10, letterSpacing: 1.5),
+                      style: AppTypography.labelMedium(
+                        letterSpacing: AppTypography.letterSpacingWide,
+                      ),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: AppSpacing.xs),
                     RichText(
                       text: TextSpan(
-                        style: GoogleFonts.inter(fontSize: 10, letterSpacing: 1.0, color: AppColors.primary),
-                        children: const [
-                          TextSpan(text: 'PRIVACY MANDATE'),
+                        style: AppTypography.labelMedium(
+                          color: AppColors.primary,
+                          letterSpacing: AppTypography.letterSpacingNormal,
+                        ),
+                        children: [
+                          const TextSpan(text: 'PRIVACY MANDATE'),
                           TextSpan(text: ' & ', style: TextStyle(color: AppColors.textMuted)),
-                          TextSpan(text: 'TERMS OF ACCESS'),
+                          const TextSpan(text: 'TERMS OF ACCESS'),
                         ],
                       ),
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: AppSpacing.xxl),
                   ],
                 ),
               ),
@@ -246,16 +239,16 @@ class _LoginScreenState extends State<LoginScreen> {
       width: 20,
       height: 20,
       decoration: const BoxDecoration(
-        color: Colors.white,
+        color: AppColors.textWhite,
         shape: BoxShape.circle,
       ),
       alignment: Alignment.center,
-      child: const Text(
+      child: Text(
         'G',
         style: TextStyle(
           color: Colors.black,
           fontWeight: FontWeight.bold,
-          fontSize: 14,
+          fontSize: AppTypography.fontSizeSM,
         ),
       ),
     );
@@ -263,23 +256,28 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _buildSocialBtn({required Widget iconWidget, required String label}) {
     return InkWell(
-      borderRadius: BorderRadius.circular(30),
+      borderRadius: AppRadius.pillBorder,
       onTap: () {},
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.xl,
+          vertical: AppSpacing.md,
+        ),
         decoration: BoxDecoration(
           color: Colors.transparent,
-          border: Border.all(color: Colors.white12),
-          borderRadius: BorderRadius.circular(30),
+          border: Border.all(color: AppColors.white12),
+          borderRadius: AppRadius.pillBorder,
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             iconWidget,
-            const SizedBox(width: 12),
+            const SizedBox(width: AppSpacing.md),
             Text(
               label,
-              style: GoogleFonts.inter(color: Colors.white, fontSize: 11, letterSpacing: 2.0),
+              style: AppTypography.labelLarge(
+                letterSpacing: AppTypography.letterSpacingXWide,
+              ),
             ),
           ],
         ),

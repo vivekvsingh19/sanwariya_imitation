@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../core/constants/colors.dart';
+import '../../core/theme/app_theme.dart';
 import 'home/home_screen.dart';
 import 'shop/shop_screen.dart';
 import 'orders/orders_screen.dart';
@@ -28,10 +28,10 @@ class _MainScreenState extends State<MainScreen> {
       body: _pages[_currentIndex],
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
-          color: Color(0xFF0B0B0B),
-          border: Border(top: BorderSide(color: Color(0xFF1F1F1F))),
+          color: AppColors.backgroundDark,
+          border: Border(top: BorderSide(color: AppColors.borderNav)),
         ),
-        padding: const EdgeInsets.fromLTRB(6, 8, 6, 10),
+        padding: const EdgeInsets.fromLTRB(6, AppSpacing.sm, 6, 10),
         child: SafeArea(
           top: false,
           child: Row(
@@ -93,22 +93,22 @@ class _NavItem extends StatelessWidget {
     return Expanded(
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: AppRadius.mdBorder,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 2),
+          padding: const EdgeInsets.symmetric(vertical: AppSpacing.xxs),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
+                  horizontal: AppSpacing.md,
                   vertical: 7,
                 ),
                 decoration: BoxDecoration(
                   color: isActive
-                      ? const Color(0xFF35301E)
+                      ? AppColors.surfaceNavActive
                       : Colors.transparent,
-                  borderRadius: BorderRadius.circular(6),
+                  borderRadius: AppRadius.smBorder,
                 ),
                 child: Icon(
                   isActive ? activeIcon : icon,
@@ -121,7 +121,7 @@ class _NavItem extends StatelessWidget {
                 label,
                 style: TextStyle(
                   color: color,
-                  fontSize: 10,
+                  fontSize: AppTypography.fontSizeTiny,
                   letterSpacing: 0.9,
                   fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
                 ),

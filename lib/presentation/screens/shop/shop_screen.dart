@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import '../../../core/theme/app_theme.dart';
 import '../../blocs/product/product_bloc.dart';
 import '../../blocs/product/product_event.dart';
 import '../../blocs/product/product_state.dart';
 import 'product_detail_screen.dart';
-import '../../../core/constants/colors.dart';
 import '../../../domain/entities/product.dart';
-import '../cart/cart_screen.dart';
+import '../../widgets/brand_app_bar.dart';
 
 class ShopScreen extends StatefulWidget {
   const ShopScreen({super.key});
@@ -52,49 +52,61 @@ class _ShopScreenState extends State<ShopScreen> {
                   SliverToBoxAdapter(
                     child: SafeArea(
                       bottom: false,
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Shop - Category View',
-                              style: Theme.of(context).textTheme.bodyMedium
-                                  ?.copyWith(
-                                    color: AppColors.textMuted,
-                                    fontSize: 12,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const BrandAppBar(useSafeArea: false),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(
+                              AppSpacing.lg,
+                              AppSpacing.sm,
+                              AppSpacing.lg,
+                              0,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const SizedBox(height: AppSpacing.xxl),
+                                Center(
+                                  child: Text(
+                                    'The Necklaces',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .displayMedium
+                                        ?.copyWith(
+                                          color: AppColors.textWhite,
+                                          fontSize:
+                                              AppTypography.fontSizeDisplayXL,
+                                        ),
                                   ),
+                                ),
+                                const SizedBox(height: AppSpacing.sm),
+                                Center(
+                                  child: Text(
+                                    'ARTISANAL IMITATION COLLECTION',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.copyWith(
+                                          letterSpacing: AppTypography
+                                              .letterSpacingXXWide,
+                                          fontSize: AppTypography.fontSizeXXS,
+                                        ),
+                                  ),
+                                ),
+                                const SizedBox(height: AppSpacing.lg + 2),
+                                _buildFilterChips(context),
+                              ],
                             ),
-                            const SizedBox(height: 10),
-                            _buildTopBrandBar(context),
-                            const SizedBox(height: 24),
-                            Center(
-                              child: Text(
-                                'The Necklaces',
-                                style: Theme.of(context).textTheme.displayMedium
-                                    ?.copyWith(
-                                      color: Colors.white,
-                                      fontSize: 46,
-                                    ),
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            Center(
-                              child: Text(
-                                'ARTISANAL IMITATION COLLECTION',
-                                style: Theme.of(context).textTheme.bodyMedium
-                                    ?.copyWith(letterSpacing: 3, fontSize: 11),
-                              ),
-                            ),
-                            const SizedBox(height: 18),
-                            _buildFilterChips(context),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
                   SliverPadding(
-                    padding: const EdgeInsets.fromLTRB(16, 18, 16, 24),
+                    padding: const EdgeInsets.fromLTRB(
+                      AppSpacing.lg, 18, AppSpacing.lg, AppSpacing.xxl,
+                    ),
                     sliver: SliverGrid(
                       delegate: SliverChildBuilderDelegate((context, index) {
                         final product = state.products[index];
@@ -148,51 +160,12 @@ class _ShopScreenState extends State<ShopScreen> {
     return index.isEven ? 'LIMITED' : 'NEW';
   }
 
-  Widget _buildTopBrandBar(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(4),
-        color: const Color(0xFF0B0B0B),
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-      child: Row(
-        children: [
-          const Icon(Icons.menu, color: AppColors.primary, size: 20),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Text(
-              'S A N W A R I Y A\nI M I T A T I O N',
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                color: AppColors.primary,
-                fontSize: 16,
-                height: 1.25,
-                letterSpacing: 3,
-              ),
-            ),
-          ),
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const CartScreen()),
-              );
-            },
-            child: const Icon(
-              Icons.shopping_bag_outlined,
-              color: AppColors.primary,
-              size: 20,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 
   Widget _buildFilterChips(BuildContext context) {
     final chipTextStyle = Theme.of(context).textTheme.bodyMedium?.copyWith(
-      color: Colors.white,
+      color: AppColors.textWhite,
       fontWeight: FontWeight.w500,
-      fontSize: 12,
+      fontSize: AppTypography.fontSizeXS,
     );
 
     return SizedBox(
@@ -202,11 +175,11 @@ class _ShopScreenState extends State<ShopScreen> {
         children: [
           Container(
             decoration: BoxDecoration(
-              color: const Color(0xFF262117),
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: const Color(0xFF53462B)),
+              color: AppColors.surfaceGoldAccent,
+              borderRadius: AppRadius.xxlBorder,
+              border: Border.all(color: AppColors.borderGoldAccent),
             ),
-            padding: const EdgeInsets.symmetric(horizontal: 14),
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm + 6),
             alignment: Alignment.center,
             child: Row(
               children: [
@@ -215,7 +188,7 @@ class _ShopScreenState extends State<ShopScreen> {
                   size: 14,
                   color: AppColors.primary,
                 ),
-                const SizedBox(width: 4),
+                const SizedBox(width: AppSpacing.xs),
                 Text('Sort by', style: chipTextStyle),
               ],
             ),
@@ -234,15 +207,15 @@ class _ShopScreenState extends State<ShopScreen> {
   Widget _chip({required String label, required TextStyle? textStyle}) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: const Color(0xFF2D2D2D)),
+        borderRadius: AppRadius.xxlBorder,
+        border: Border.all(color: AppColors.borderMuted),
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 14),
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm + 6),
       alignment: Alignment.center,
       child: Row(
         children: [
           Text(label, style: textStyle),
-          const SizedBox(width: 4),
+          const SizedBox(width: AppSpacing.xs),
           const Icon(
             Icons.keyboard_arrow_down_rounded,
             size: 15,
@@ -278,20 +251,14 @@ class _StyledProductTile extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(
                 color: AppColors.surface,
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Colors.black45,
-                    blurRadius: 14,
-                    offset: Offset(0, 8),
-                  ),
-                ],
+                borderRadius: AppRadius.lgBorder,
+                boxShadow: const [AppShadows.card],
               ),
               child: Stack(
                 children: [
                   Positioned.fill(
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: AppRadius.lgBorder,
                       child: Hero(
                         tag: 'product_${product.id}',
                         child: Image.network(
@@ -311,41 +278,41 @@ class _StyledProductTile extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    top: 8,
-                    left: 8,
+                    top: AppSpacing.sm,
+                    left: AppSpacing.sm,
                     child: Container(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
+                        horizontal: AppSpacing.sm,
+                        vertical: AppSpacing.xs,
                       ),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFB89A42),
-                        borderRadius: BorderRadius.circular(4),
+                        color: AppColors.badgeGold,
+                        borderRadius: AppRadius.xsBorder,
                       ),
                       child: Text(
                         badgeText,
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: Colors.black,
                           fontWeight: FontWeight.w700,
-                          fontSize: 10,
+                          fontSize: AppTypography.fontSizeTiny,
                         ),
                       ),
                     ),
                   ),
                   Positioned(
-                    right: 8,
-                    bottom: 8,
+                    right: AppSpacing.sm,
+                    bottom: AppSpacing.sm,
                     child: Container(
                       width: 30,
                       height: 30,
                       decoration: BoxDecoration(
-                        color: Colors.black.withValues(alpha: 0.45),
+                        color: AppColors.black45,
                         shape: BoxShape.circle,
                       ),
                       child: const Icon(
                         Icons.favorite_border,
                         size: 16,
-                        color: Colors.white,
+                        color: AppColors.textWhite,
                       ),
                     ),
                   ),
@@ -353,14 +320,14 @@ class _StyledProductTile extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: AppSpacing.sm),
           Row(
             children: [
               Container(
                 width: 6,
                 height: 6,
                 decoration: const BoxDecoration(
-                  color: Color(0xFF00C26E),
+                  color: AppColors.success,
                   shape: BoxShape.circle,
                 ),
               ),
@@ -368,9 +335,9 @@ class _StyledProductTile extends StatelessWidget {
               Text(
                 'IN STOCK',
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: const Color(0xFF00C26E),
-                  fontSize: 11,
-                  letterSpacing: 1,
+                  color: AppColors.success,
+                  fontSize: AppTypography.fontSizeXXS,
+                  letterSpacing: AppTypography.letterSpacingNormal,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -384,10 +351,10 @@ class _StyledProductTile extends StatelessWidget {
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
               color: const Color(0xFFE7E3D9),
               height: 1.2,
-              fontSize: 14,
+              fontSize: AppTypography.fontSizeSM,
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: AppSpacing.xs),
           Row(
             children: [
               Text(
@@ -395,7 +362,7 @@ class _StyledProductTile extends StatelessWidget {
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                   color: AppColors.primary,
                   fontWeight: FontWeight.bold,
-                  fontSize: 16,
+                  fontSize: AppTypography.fontSizeBase,
                 ),
               ),
               if (product.originalPrice > product.price) ...[
@@ -407,7 +374,7 @@ class _StyledProductTile extends StatelessWidget {
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       decoration: TextDecoration.lineThrough,
                       color: AppColors.textMuted,
-                      fontSize: 12,
+                      fontSize: AppTypography.fontSizeXS,
                     ),
                   ),
                 ),

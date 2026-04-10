@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
+import '../../../core/theme/app_theme.dart';
 import '../../blocs/cart/cart_bloc.dart';
 import '../../blocs/cart/cart_event.dart';
 import '../../blocs/cart/cart_state.dart';
-import '../../../core/constants/colors.dart';
 import 'checkout_screen.dart';
 
 class CartScreen extends StatefulWidget {
@@ -48,8 +47,8 @@ class _CartScreenState extends State<CartScreen> {
         ),
         title: Column(
           children: [
-            Text('SANWARIYA', style: GoogleFonts.cinzel(color: AppColors.primary, fontSize: 16, letterSpacing: 4)),
-            Text('IMITATION', style: GoogleFonts.cinzel(color: AppColors.primary, fontSize: 16, letterSpacing: 4)),
+            Text('SANWARIYA', style: AppTypography.brandTitle()),
+            Text('IMITATION', style: AppTypography.brandSubtitle()),
           ],
         ),
         actions: [
@@ -70,10 +69,10 @@ class _CartScreenState extends State<CartScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Icon(LucideIcons.shoppingBag, size: 64, color: AppColors.textMuted),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: AppSpacing.lg),
                     Text(
                       'Your selection is empty.',
-                      style: GoogleFonts.playfairDisplay(color: Colors.white, fontSize: 24),
+                      style: AppTypography.headingLarge(),
                     ),
                   ],
                 ),
@@ -81,21 +80,20 @@ class _CartScreenState extends State<CartScreen> {
             }
 
             final subtotal = state.totalAmount;
-            final tax = subtotal * 0.18; // 18% GST
+            final tax = subtotal * 0.18;
             final total = subtotal + tax;
 
             return CustomScrollView(
               slivers: [
                 SliverToBoxAdapter(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppSpacing.screenPaddingH,
+                      vertical: AppSpacing.xxl,
+                    ),
                     child: Text(
                       'Your Private Selection',
-                      style: GoogleFonts.playfairDisplay(
-                        fontSize: 32,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                      ),
+                      style: AppTypography.display(),
                     ),
                   ),
                 ),
@@ -104,7 +102,10 @@ class _CartScreenState extends State<CartScreen> {
                     (context, index) {
                       final item = state.items[index];
                       return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: AppSpacing.screenPaddingH,
+                          vertical: AppSpacing.lg,
+                        ),
                         child: _buildCartItem(context, item),
                       );
                     },
@@ -113,21 +114,23 @@ class _CartScreenState extends State<CartScreen> {
                 ),
                 SliverToBoxAdapter(
                   child: Padding(
-                    padding: const EdgeInsets.all(24),
+                    padding: AppSpacing.cardLarge,
                     child: _buildPromoCodeSection(),
                   ),
                 ),
                 SliverToBoxAdapter(
                   child: Padding(
-                    padding: const EdgeInsets.all(24),
+                    padding: AppSpacing.cardLarge,
                     child: _buildSummarySection(subtotal, tax, total),
                   ),
                 ),
-                const SliverToBoxAdapter(child: SizedBox(height: 48)),
+                const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.massive)),
               ],
             );
           }
-          return const Center(child: Text('Error loading cart', style: TextStyle(color: Colors.white)));
+          return const Center(
+            child: Text('Error loading cart', style: TextStyle(color: AppColors.textWhite)),
+          );
         },
       ),
     );
@@ -139,7 +142,7 @@ class _CartScreenState extends State<CartScreen> {
       children: [
         // Image
         ClipRRect(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: AppRadius.xlBorder,
           child: AspectRatio(
             aspectRatio: 1,
             child: CachedNetworkImage(
@@ -148,12 +151,12 @@ class _CartScreenState extends State<CartScreen> {
               placeholder: (context, url) => Container(color: AppColors.surface),
               errorWidget: (context, url, error) => Container(
                 color: AppColors.surface,
-                child: const Icon(Icons.image_not_supported, color: Colors.white54),
+                child: Icon(Icons.image_not_supported, color: AppColors.white54),
               ),
             ),
           ),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: AppSpacing.lg),
         // Title & Remove
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -162,10 +165,7 @@ class _CartScreenState extends State<CartScreen> {
             Expanded(
               child: Text(
                 item.product.title,
-                style: GoogleFonts.playfairDisplay(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
+                style: AppTypography.headingLarge(),
               ),
             ),
             IconButton(
@@ -180,14 +180,12 @@ class _CartScreenState extends State<CartScreen> {
         ),
         // Subtitle
         Text(
-          '${item.product.category.toUpperCase()} • LUXURY EDITION', // Mock subtitle
-          style: GoogleFonts.inter(
-            color: AppColors.textMuted,
-            fontSize: 10,
-            letterSpacing: 1.5,
+          '${item.product.category.toUpperCase()} • LUXURY EDITION',
+          style: AppTypography.labelMedium(
+            letterSpacing: AppTypography.letterSpacingWide,
           ),
         ),
-        const SizedBox(height: 24),
+        const SizedBox(height: AppSpacing.xxl),
         // Quantity & Price
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -195,9 +193,8 @@ class _CartScreenState extends State<CartScreen> {
             _buildQuantityPill(context, item),
             Text(
               _currencyFormat.format(item.product.price),
-              style: GoogleFonts.inter(
+              style: AppTypography.headingMedium(
                 color: AppColors.primary,
-                fontSize: 20,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -210,11 +207,14 @@ class _CartScreenState extends State<CartScreen> {
   Widget _buildQuantityPill(BuildContext context, dynamic item) {
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFF151515), // Deep dark, slightly distinct from black
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.white10),
+        color: AppColors.surfaceDeep,
+        borderRadius: AppRadius.mdBorder,
+        border: Border.all(color: AppColors.white10),
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.lg,
+        vertical: AppSpacing.sm,
+      ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -226,12 +226,12 @@ class _CartScreenState extends State<CartScreen> {
             },
             child: const Icon(LucideIcons.minus, color: AppColors.textMuted, size: 16),
           ),
-          const SizedBox(width: 24),
+          const SizedBox(width: AppSpacing.xxl),
           Text(
             item.quantity.toString().padLeft(2, '0'),
-            style: GoogleFonts.inter(color: Colors.white, fontSize: 16),
+            style: AppTypography.bodyLarge(),
           ),
-          const SizedBox(width: 24),
+          const SizedBox(width: AppSpacing.xxl),
           GestureDetector(
             onTap: () {
               context.read<CartBloc>().add(UpdateCartItemQuantity(item.id, item.quantity + 1));
@@ -249,30 +249,35 @@ class _CartScreenState extends State<CartScreen> {
       children: [
         Text(
           'IMITATION PRIVILEGE CODE',
-          style: GoogleFonts.inter(
-            color: AppColors.textMuted,
-            fontSize: 10,
-            letterSpacing: 1.5,
+          style: AppTypography.labelMedium(
+            letterSpacing: AppTypography.letterSpacingWide,
           ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: AppSpacing.md),
         Container(
           decoration: BoxDecoration(
-            border: Border.all(color: Colors.white12),
-            borderRadius: BorderRadius.circular(4),
+            border: Border.all(color: AppColors.white12),
+            borderRadius: AppRadius.xsBorder,
           ),
           child: TextField(
             controller: _promoController,
-            style: const TextStyle(color: Colors.white),
-            decoration: const InputDecoration(
+            style: const TextStyle(color: AppColors.textWhite),
+            decoration: InputDecoration(
               hintText: 'ENTER CODE',
-              hintStyle: TextStyle(color: AppColors.textMuted, fontSize: 14, letterSpacing: 1.0),
+              hintStyle: TextStyle(
+                color: AppColors.textMuted,
+                fontSize: AppTypography.fontSizeSM,
+                letterSpacing: AppTypography.letterSpacingNormal,
+              ),
               border: InputBorder.none,
-              contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.lg,
+                vertical: AppSpacing.lg,
+              ),
             ),
           ),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: AppSpacing.lg),
         SizedBox(
           width: double.infinity,
           height: 48,
@@ -280,15 +285,14 @@ class _CartScreenState extends State<CartScreen> {
             onPressed: () {},
             style: OutlinedButton.styleFrom(
               side: const BorderSide(color: AppColors.primary),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+              shape: RoundedRectangleBorder(borderRadius: AppRadius.xsBorder),
             ),
             child: Text(
               'APPLY',
-              style: GoogleFonts.inter(
+              style: AppTypography.bodySmall(
                 color: AppColors.primary,
-                letterSpacing: 2.0,
-                fontSize: 12,
                 fontWeight: FontWeight.w600,
+                letterSpacing: AppTypography.letterSpacingXWide,
               ),
             ),
           ),
@@ -300,47 +304,43 @@ class _CartScreenState extends State<CartScreen> {
   Widget _buildSummarySection(double subtotal, double tax, double total) {
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFF151515),
-        borderRadius: BorderRadius.circular(16),
+        color: AppColors.surfaceDeep,
+        borderRadius: AppRadius.xlBorder,
       ),
-      padding: const EdgeInsets.all(24),
+      padding: AppSpacing.cardLarge,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             'Acquisition Summary',
-            style: GoogleFonts.playfairDisplay(
-              color: Colors.white,
-              fontSize: 24,
-            ),
+            style: AppTypography.headingLarge(),
           ),
-          const SizedBox(height: 32),
+          const SizedBox(height: AppSpacing.sectionGap),
           _buildSummaryRow('SUBTOTAL', _currencyFormat.format(subtotal)),
-          const SizedBox(height: 20),
+          const SizedBox(height: AppSpacing.xl),
           _buildSummaryRow('TAX (GST)', _currencyFormat.format(tax)),
-          const SizedBox(height: 20),
+          const SizedBox(height: AppSpacing.xl),
           _buildSummaryRow('INSURED SHIPPING', 'COMPLIMENTARY', valueColor: AppColors.primary),
-          const SizedBox(height: 24),
-          const Divider(color: Colors.white10),
-          const SizedBox(height: 24),
+          const SizedBox(height: AppSpacing.xxl),
+          Divider(color: AppColors.white10),
+          const SizedBox(height: AppSpacing.xxl),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 'Total Investment',
-                style: GoogleFonts.playfairDisplay(color: Colors.white, fontSize: 20),
+                style: AppTypography.headingMedium(fontWeight: FontWeight.normal),
               ),
               Text(
                 _currencyFormat.format(total),
-                style: GoogleFonts.inter(
+                style: AppTypography.headingLarge(
                   color: AppColors.primary,
-                  fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 32),
+          const SizedBox(height: AppSpacing.sectionGap),
           SizedBox(
             width: double.infinity,
             height: 54,
@@ -350,54 +350,60 @@ class _CartScreenState extends State<CartScreen> {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                shape: RoundedRectangleBorder(borderRadius: AppRadius.mdBorder),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     'PROCEED TO CHECKOUT',
-                    style: GoogleFonts.inter(
+                    style: AppTypography.bodyMedium(
                       color: Colors.black,
                       fontWeight: FontWeight.w700,
-                      letterSpacing: 1.0,
-                    ),
+                    ).copyWith(letterSpacing: AppTypography.letterSpacingNormal),
                   ),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: AppSpacing.sm),
                   const Icon(LucideIcons.chevronRight, color: Colors.black, size: 18),
                 ],
               ),
             ),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: AppSpacing.xxl),
           Text(
             'WHITE-GLOVE DELIVERY AVAILABLE. 14-DAY HERITAGE APPRAISAL WINDOW APPLIES TO ALL COLLECTIONS.',
             textAlign: TextAlign.center,
-            style: GoogleFonts.inter(
+            style: AppTypography.labelSmall(
               color: AppColors.textMuted,
-              fontSize: 9,
-              letterSpacing: 0.5,
-              height: 1.5,
-            ),
+              fontWeight: FontWeight.normal,
+              letterSpacing: AppTypography.letterSpacingTight,
+            ).copyWith(height: 1.5),
           ),
-          const SizedBox(height: 32),
+          const SizedBox(height: AppSpacing.sectionGap),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Icon(LucideIcons.shieldCheck, color: AppColors.primary, size: 24),
-              const SizedBox(width: 12),
+              const SizedBox(width: AppSpacing.md),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       'SECURE CURATION',
-                      style: GoogleFonts.inter(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
+                      style: AppTypography.labelMedium(
+                        color: AppColors.textWhite,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 0,
+                      ),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: AppSpacing.xs),
                     Text(
                       'ENCRYPTED TRANSACTION & HALLMARK GUARANTEED',
-                      style: GoogleFonts.inter(color: AppColors.textMuted, fontSize: 9),
+                      style: AppTypography.labelSmall(
+                        color: AppColors.textMuted,
+                        fontWeight: FontWeight.normal,
+                        letterSpacing: 0,
+                      ),
                     ),
                   ],
                 ),
@@ -409,17 +415,23 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-  Widget _buildSummaryRow(String label, String value, {Color valueColor = Colors.white}) {
+  Widget _buildSummaryRow(String label, String value, {Color valueColor = AppColors.textWhite}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
           label,
-          style: GoogleFonts.inter(color: AppColors.textMuted, fontSize: 12, letterSpacing: 1.0),
+          style: AppTypography.bodySmall(
+            color: AppColors.textMuted,
+            letterSpacing: AppTypography.letterSpacingNormal,
+          ),
         ),
         Text(
           value,
-          style: GoogleFonts.inter(color: valueColor, fontSize: 14, fontWeight: FontWeight.w500),
+          style: AppTypography.bodyMedium(
+            color: valueColor,
+            fontWeight: FontWeight.w500,
+          ),
         ),
       ],
     );

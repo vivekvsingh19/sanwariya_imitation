@@ -4,7 +4,7 @@ import '../../blocs/auth/auth_bloc.dart';
 import '../../blocs/auth/auth_event.dart';
 import '../../blocs/auth/auth_state.dart';
 import '../../widgets/custom_button.dart';
-import '../../../core/constants/colors.dart';
+import '../../../core/theme/app_theme.dart';
 import '../main_screen.dart';
 import 'login_screen.dart';
 

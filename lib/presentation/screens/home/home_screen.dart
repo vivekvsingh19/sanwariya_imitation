@@ -1,15 +1,14 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:sanwariya_imitation/presentation/screens/cart/cart_screen.dart';
+import '../../../core/theme/app_theme.dart';
 import '../../blocs/product/product_bloc.dart';
 import '../../blocs/product/product_state.dart';
 import '../../blocs/product/product_event.dart';
-import '../../../core/constants/colors.dart';
 import '../../../domain/entities/product.dart';
 import '../shop/product_detail_screen.dart';
+import '../../widgets/brand_app_bar.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -27,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Map<String, String>> _heroBanners = [
     {
       'image':
-          'https://images.unsplash.com/photo-1599643478524-fb66f70d00f7?q=80&w=600&auto=format&fit=crop',
+          'https://images.unsplash.com/photo-1695049918857-1e27d67782e5?q=80&w=686&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       'subtitle': 'NEW ARRIVAL',
       'title': 'The Wedding\nEdit',
       'description':
@@ -35,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
     },
     {
       'image':
-          'https://images.unsplash.com/photo-1515562141207-7a8ef0f1db55?q=80&w=600&auto=format&fit=crop',
+          'https://images.unsplash.com/photo-1651160670627-2896ddf7822f?q=80&w=1968&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       'subtitle': 'LIMITED EDITION',
       'title': 'Royal\nHeritage',
       'description':
@@ -54,7 +53,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    // Dispatch event if not loaded
     final productBloc = context.read<ProductBloc>();
     if (productBloc.state is ProductInitial) {
       productBloc.add(const FetchProducts());
@@ -105,13 +103,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _buildHeroSection(context),
-                    const SizedBox(height: 32),
+                    const SizedBox(height: AppSpacing.sectionGap),
                     _buildFeaturedSection(context, state.featuredProducts),
-                    const SizedBox(height: 48),
+                    const SizedBox(height: AppSpacing.massive),
                     _buildBrowseCollection(context),
-                    const SizedBox(height: 48),
+                    const SizedBox(height: AppSpacing.massive),
                     _buildLimitedEditionCard(context),
-                    const SizedBox(height: 40),
+                    const SizedBox(height: AppSpacing.huge),
                   ],
                 ),
               ),
@@ -165,61 +163,54 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   Positioned(
                     bottom: 40,
-                    left: 24,
-                    right: 24,
+                    left: AppSpacing.xxl,
+                    right: AppSpacing.xxl,
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
                           banner['subtitle']!,
-                          style: GoogleFonts.inter(
+                          style: AppTypography.labelMedium(
                             color: AppColors.primary,
-                            letterSpacing: 3,
-                            fontSize: 10,
+                            letterSpacing: AppTypography.letterSpacingXXWide,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: AppSpacing.md),
                         Text(
                           banner['title']!,
                           textAlign: TextAlign.center,
-                          style: GoogleFonts.playfairDisplay(
-                            color: Colors.white,
-                            fontSize: 48,
-                            height: 1.1,
-                          ),
+                          style: AppTypography.displayHero(),
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: AppSpacing.lg),
                         Text(
                           banner['description']!,
                           textAlign: TextAlign.center,
-                          style: GoogleFonts.inter(
-                            color: Colors.white70,
-                            fontSize: 12,
+                          style: AppTypography.bodySmall(
+                            color: AppColors.white70,
                             height: 1.5,
                           ),
                         ),
-                        const SizedBox(height: 24),
+                        const SizedBox(height: AppSpacing.xxl),
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
                             onPressed: () {},
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFFD3A449),
+                              backgroundColor: AppColors.primaryWarm,
                               foregroundColor: Colors.black,
-                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(4),
+                                borderRadius: AppRadius.xsBorder,
                               ),
                               elevation: 0,
                             ),
                             child: Text(
                               'EXPLORE COLLECTION',
-                              style: GoogleFonts.inter(
-                                fontSize: 12,
+                              style: AppTypography.bodySmall(
                                 fontWeight: FontWeight.bold,
-                                letterSpacing: 1.5,
+                                letterSpacing: AppTypography.letterSpacingWide,
                               ),
                             ),
                           ),
@@ -245,90 +236,19 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         // Top App Bar Elements
-        SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16.0,
-              vertical: 8.0,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Icon(Icons.menu, color: AppColors.primary, size: 24),
-                Text(
-                  'S A N W A R I Y A  I M I T A T I O N',
-                  style: GoogleFonts.inter(
-                    color: AppColors.primary,
-                    fontSize: 10,
-                    letterSpacing: 2.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.search,
-                      color: AppColors.primary,
-                      size: 22,
-                    ),
-                    const SizedBox(width: 16),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (_) => const CartScreen()),
-                        );
-                      },
-                      child: Stack(
-                        clipBehavior: Clip.none,
-                        children: [
-                          const Icon(
-                            Icons.shopping_bag_outlined,
-                            color: AppColors.primary,
-                            size: 22,
-                          ),
-                          Positioned(
-                            right: -4,
-                            top: -4,
-                            child: Container(
-                              width: 14,
-                              height: 14,
-                              decoration: const BoxDecoration(
-                                color: AppColors.primary,
-                                shape: BoxShape.circle,
-                              ),
-                              alignment: Alignment.center,
-                              child: const Text(
-                                '0',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 8,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
+        const BrandAppBar(isTransparent: true),
       ],
     );
   }
 
   Widget _buildDot(bool isActive) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 4),
+      margin: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
       width: isActive ? 24 : 8,
       height: 4,
       decoration: BoxDecoration(
-        color: isActive ? AppColors.primary : Colors.white24,
-        borderRadius: BorderRadius.circular(2),
+        color: isActive ? AppColors.primary : AppColors.white24,
+        borderRadius: BorderRadius.circular(AppRadius.xs),
       ),
     );
   }
@@ -341,46 +261,39 @@ class _HomeScreenState extends State<HomeScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          padding: AppSpacing.screenH,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
                 'Featured\nMasterpieces',
-                style: GoogleFonts.playfairDisplay(
-                  color: Colors.white,
-                  fontSize: 28,
-                  height: 1.1,
-                ),
+                style: AppTypography.displaySmall(),
               ),
               Text(
                 'VIEW\nALL >',
                 textAlign: TextAlign.right,
-                style: GoogleFonts.inter(
-                  color: const Color(0xFFC0A054),
-                  fontSize: 9,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1.0,
-                  height: 1.5,
-                ),
+                style: AppTypography.labelSmall(
+                  color: AppColors.primaryMuted,
+                  letterSpacing: AppTypography.letterSpacingNormal,
+                ).copyWith(height: 1.5),
               ),
             ],
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: AppSpacing.sm),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          padding: AppSpacing.screenH,
           child: Container(width: 40, height: 1, color: AppColors.primary),
         ),
-        const SizedBox(height: 24),
+        const SizedBox(height: AppSpacing.xxl),
         SizedBox(
           height: 300,
           child: ListView.separated(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            padding: AppSpacing.screenH,
             scrollDirection: Axis.horizontal,
             itemCount: featuredProducts.length,
-            separatorBuilder: (context, index) => const SizedBox(width: 16),
+            separatorBuilder: (context, index) => const SizedBox(width: AppSpacing.lg),
             itemBuilder: (context, index) {
               final product = featuredProducts[index];
               return SizedBox(
@@ -408,25 +321,22 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildBrowseCollection(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24.0),
+      padding: AppSpacing.screenH,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
             'Browse the Collection',
             textAlign: TextAlign.center,
-            style: GoogleFonts.playfairDisplay(
-              color: Colors.white,
-              fontSize: 28,
-            ),
+            style: AppTypography.displaySmall(),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: AppSpacing.sm),
           Text(
             'Explore our curated selections by jewellery\ntype',
             textAlign: TextAlign.center,
-            style: GoogleFonts.inter(color: Colors.white70, fontSize: 12),
+            style: AppTypography.bodySmall(color: AppColors.white70),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: AppSpacing.xxl),
           // Categories Grid
           Row(
             children: [
@@ -439,24 +349,24 @@ class _HomeScreenState extends State<HomeScreen> {
                       imageUrl:
                           'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=400&auto=format&fit=crop',
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: AppSpacing.lg),
                     _CategoryCard(
                       label: 'EARRINGS',
                       height: 140,
                       imageUrl:
                           'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=400&auto=format&fit=crop',
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: AppSpacing.lg),
                     _CategoryCard(
                       label: 'PENDANTS',
                       height: 120,
                       imageUrl:
-                          'https://images.unsplash.com/photo-1599643478524-fb66f70d00f7?q=80&w=400&auto=format&fit=crop', // generic pendant
+                          'https://images.unsplash.com/photo-1599643478524-fb66f70d00f7?q=80&w=400&auto=format&fit=crop',
                     ),
                   ],
                 ),
               ),
-              const SizedBox(width: 16),
+              const SizedBox(width: AppSpacing.lg),
               Expanded(
                 child: Column(
                   children: [
@@ -466,14 +376,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       imageUrl:
                           'https://images.unsplash.com/photo-1515562141207-7a8ef0f1db55?q=80&w=400&auto=format&fit=crop',
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: AppSpacing.lg),
                     _CategoryCard(
                       label: 'NECKLACES',
                       height: 140,
                       imageUrl:
                           'https://images.unsplash.com/photo-1599643478524-fb66f70d00f7?q=80&w=400&auto=format&fit=crop',
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: AppSpacing.lg),
                     _CategoryCard(
                       label: 'RINGS',
                       height: 120,
@@ -492,21 +402,21 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildLimitedEditionCard(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24.0),
+      padding: AppSpacing.screenH,
       child: Container(
-        padding: const EdgeInsets.all(24.0),
+        padding: AppSpacing.cardLarge,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: AppRadius.lgBorder,
           gradient: LinearGradient(
-            colors: [const Color(0xFF1E1C16), Colors.black],
+            colors: [AppColors.surfaceGoldDark, Colors.black],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          border: Border.all(color: const Color(0xFF3B3524)),
+          border: Border.all(color: AppColors.borderGold),
           image: const DecorationImage(
             image: NetworkImage(
               'https://images.unsplash.com/photo-1599643478524-fb66f70d00f7?q=80&w=600&auto=format&fit=crop',
-            ), // Optional subtle bg
+            ),
             fit: BoxFit.cover,
             opacity: 0.15,
           ),
@@ -520,56 +430,47 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(width: 6),
                 Text(
                   'LIMITED EDITION',
-                  style: GoogleFonts.inter(
+                  style: AppTypography.labelMedium(
                     color: AppColors.primary,
-                    fontSize: 10,
                     fontWeight: FontWeight.bold,
-                    letterSpacing: 2.0,
+                    letterSpacing: AppTypography.letterSpacingXWide,
                   ),
                 ),
                 const SizedBox(width: 6),
                 const Icon(Icons.star, color: AppColors.primary, size: 10),
               ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: AppSpacing.lg),
             Text(
               'Royal\nTreasures &',
-              style: GoogleFonts.playfairDisplay(
-                color: Colors.white,
-                fontSize: 32,
-                height: 1.1,
-              ),
+              style: AppTypography.display(),
             ),
             Text(
               'Exclusive Offers',
-              style: GoogleFonts.playfairDisplay(
+              style: AppTypography.display(
                 color: AppColors.primary,
-                fontSize: 32,
                 fontStyle: FontStyle.italic,
-                height: 1.1,
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: AppSpacing.lg),
             Text(
               'Unlock access to our premium\nevents and limited discount\npieces as an exclusive patron.\nElevate your lifestyle.',
-              style: GoogleFonts.inter(
-                color: Colors.white70,
-                fontSize: 11,
-                height: 1.5,
-              ),
+              style: AppTypography.labelLarge(
+                color: AppColors.white70,
+              ).copyWith(height: 1.5),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: AppSpacing.xxl),
             OutlinedButton(
               onPressed: () {},
               style: OutlinedButton.styleFrom(
                 side: const BorderSide(color: AppColors.primary),
                 foregroundColor: AppColors.primary,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(4),
+                  borderRadius: AppRadius.xsBorder,
                 ),
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 24,
-                  vertical: 12,
+                  horizontal: AppSpacing.xxl,
+                  vertical: AppSpacing.md,
                 ),
               ),
               child: Row(
@@ -577,13 +478,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   Text(
                     'VIEW ALL OFFERS',
-                    style: GoogleFonts.inter(
-                      fontSize: 10,
+                    style: AppTypography.labelMedium(
+                      color: AppColors.primary,
                       fontWeight: FontWeight.bold,
-                      letterSpacing: 1.5,
+                      letterSpacing: AppTypography.letterSpacingWide,
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: AppSpacing.sm),
                   const Icon(Icons.arrow_forward_ios, size: 10),
                 ],
               ),
@@ -612,7 +513,7 @@ class _CategoryCard extends StatelessWidget {
       height: height,
       width: double.infinity,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: AppRadius.mdBorder,
         image: DecorationImage(
           image: NetworkImage(imageUrl),
           fit: BoxFit.cover,
@@ -625,11 +526,9 @@ class _CategoryCard extends StatelessWidget {
       alignment: Alignment.center,
       child: Text(
         label,
-        style: GoogleFonts.inter(
-          color: Colors.white,
-          fontSize: 12,
+        style: AppTypography.bodySmall(
           fontWeight: FontWeight.bold,
-          letterSpacing: 2.0,
+          letterSpacing: AppTypography.letterSpacingXWide,
         ),
       ),
     );
@@ -655,9 +554,9 @@ class _FeaturedProductCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: const Color(0xFF141414),
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: const Color(0xFF222222)),
+          color: AppColors.surfaceDark,
+          borderRadius: AppRadius.mdBorder,
+          border: Border.all(color: AppColors.borderSubtle),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -667,32 +566,25 @@ class _FeaturedProductCard extends StatelessWidget {
                 children: [
                   Positioned.fill(
                     child: ClipRRect(
-                      borderRadius: const BorderRadius.vertical(
-                        top: Radius.circular(8),
-                      ),
+                      borderRadius: AppRadius.topMd,
                       child: Image.network(product.imageUrl, fit: BoxFit.cover),
                     ),
                   ),
                   Positioned(
-                    top: 12,
-                    left: 12,
+                    top: AppSpacing.md,
+                    left: AppSpacing.md,
                     child: Container(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
+                        horizontal: AppSpacing.sm,
+                        vertical: AppSpacing.xs,
                       ),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFD3A449),
-                        borderRadius: BorderRadius.circular(12),
+                        color: AppColors.primaryWarm,
+                        borderRadius: AppRadius.lgBorder,
                       ),
                       child: Text(
                         badgeText,
-                        style: GoogleFonts.inter(
-                          color: Colors.black,
-                          fontSize: 8,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 0.5,
-                        ),
+                        style: AppTypography.caption(color: Colors.black),
                       ),
                     ),
                   ),
@@ -700,7 +592,7 @@ class _FeaturedProductCard extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(12.0),
+              padding: const EdgeInsets.all(AppSpacing.md),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -708,11 +600,9 @@ class _FeaturedProductCard extends StatelessWidget {
                     product.title.toUpperCase(),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.inter(
-                      color: Colors.white70,
-                      fontSize: 9,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1.0,
+                    style: AppTypography.labelSmall(
+                      color: AppColors.white70,
+                      letterSpacing: AppTypography.letterSpacingNormal,
                     ),
                   ),
                   const SizedBox(height: 6),
@@ -720,18 +610,17 @@ class _FeaturedProductCard extends StatelessWidget {
                     children: [
                       Text(
                         '₹${currencyFormatter.format(product.price)}',
-                        style: GoogleFonts.inter(
+                        style: AppTypography.bodyMedium(
                           color: AppColors.primary,
-                          fontSize: 14,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: AppSpacing.sm),
                       Text(
                         '₹${currencyFormatter.format(product.originalPrice)}',
-                        style: GoogleFonts.inter(
-                          color: Colors.white30,
-                          fontSize: 10,
+                        style: AppTypography.labelMedium(
+                          color: AppColors.white30,
+                        ).copyWith(
                           decoration: TextDecoration.lineThrough,
                         ),
                       ),

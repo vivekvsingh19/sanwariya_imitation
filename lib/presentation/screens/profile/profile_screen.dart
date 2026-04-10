@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import '../../../core/theme/app_theme.dart';
 import '../../blocs/auth/auth_bloc.dart';
 import '../../blocs/auth/auth_state.dart';
 import '../../blocs/auth/auth_event.dart';
-import '../../../core/constants/colors.dart';
 import '../auth/login_screen.dart';
-import '../cart/cart_screen.dart';
+import '../../widgets/brand_app_bar.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -16,37 +15,12 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.menu, color: AppColors.primary),
-          onPressed: () {},
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(80),
+        child: BrandAppBar(
+          useSafeArea: false,
+          showSearch: false,
         ),
-        title: Text(
-          'SANWARIYA IMITATION',
-          style: GoogleFonts.playfairDisplay(
-            color: AppColors.primary,
-            fontSize: 18,
-            letterSpacing: 1.5,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            icon: const Icon(
-              Icons.shopping_bag_outlined,
-              color: AppColors.primary,
-            ),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const CartScreen()),
-              );
-            },
-          ),
-        ],
       ),
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
@@ -60,7 +34,7 @@ class ProfileScreen extends StatelessWidget {
         builder: (context, state) {
           if (state is AuthAuthenticated) {
             return SingleChildScrollView(
-              padding: const EdgeInsets.all(24),
+              padding: AppSpacing.cardLarge,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -69,8 +43,8 @@ class ProfileScreen extends StatelessWidget {
                     alignment: Alignment.bottomCenter,
                     children: [
                       Container(
-                        padding: const EdgeInsets.all(4),
-                        margin: const EdgeInsets.only(bottom: 16),
+                        padding: const EdgeInsets.all(AppSpacing.xs),
+                        margin: const EdgeInsets.only(bottom: AppSpacing.lg),
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           border: Border.all(
@@ -90,12 +64,12 @@ class ProfileScreen extends StatelessWidget {
                         bottom: 0,
                         child: Container(
                           padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
+                            horizontal: AppSpacing.lg,
                             vertical: 6,
                           ),
                           decoration: BoxDecoration(
-                            color: const Color(0xFF161616),
-                            borderRadius: BorderRadius.circular(20),
+                            color: AppColors.surfaceElevated,
+                            borderRadius: AppRadius.xxlBorder,
                             border: Border.all(
                               color: AppColors.secondary.withValues(alpha: 0.3),
                               width: 1,
@@ -113,11 +87,10 @@ class ProfileScreen extends StatelessWidget {
                               Text(
                                 'ROYAL\nTIER MEMBER',
                                 textAlign: TextAlign.center,
-                                style: GoogleFonts.inter(
+                                style: AppTypography.caption(
                                   color: AppColors.secondary,
-                                  fontSize: 8,
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: 1.5,
+                                ).copyWith(
+                                  letterSpacing: AppTypography.letterSpacingWide,
                                   height: 1.2,
                                 ),
                               ),
@@ -127,7 +100,7 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: AppSpacing.xxl),
 
                   // Name and Patron status
                   Text(
@@ -135,21 +108,15 @@ class ProfileScreen extends StatelessWidget {
                         ? 'Vaidehi Sharma'
                         : state.user.name,
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.playfairDisplay(
-                      color: Colors.white,
-                      fontSize: 28,
-                    ),
+                    style: AppTypography.displaySmall(),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: AppSpacing.sm),
                   Text(
                     'Patron since 2021',
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.inter(
-                      color: AppColors.textMuted,
-                      fontSize: 12,
-                    ),
+                    style: AppTypography.bodySmall(color: AppColors.textMuted),
                   ),
-                  const SizedBox(height: 48),
+                  const SizedBox(height: AppSpacing.massive),
 
                   // Menu Options
                   _buildProfileOption(
@@ -182,7 +149,7 @@ class ProfileScreen extends StatelessWidget {
                     subtitle: 'Direct concierge access',
                     onTap: () {},
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: AppSpacing.lg),
                   _buildProfileOption(
                     icon: LucideIcons.settings,
                     title: 'SETTINGS',
@@ -190,7 +157,7 @@ class ProfileScreen extends StatelessWidget {
                     onTap: () {},
                   ),
 
-                  const SizedBox(height: 40),
+                  const SizedBox(height: AppSpacing.huge),
 
                   // Logout Button
                   TextButton(
@@ -199,15 +166,14 @@ class ProfileScreen extends StatelessWidget {
                     },
                     child: Text(
                       'L O G O U T',
-                      style: GoogleFonts.inter(
+                      style: AppTypography.bodySmall(
                         color: AppColors.textMuted,
-                        fontSize: 12,
                         fontWeight: FontWeight.w600,
-                        letterSpacing: 4.0,
+                        letterSpacing: AppTypography.letterSpacingUltra,
                       ),
                     ),
                   ),
-                  const SizedBox(height: 40), // Extra padding for bottom nav
+                  const SizedBox(height: AppSpacing.huge),
                 ],
               ),
             );
@@ -227,48 +193,44 @@ class ProfileScreen extends StatelessWidget {
     required VoidCallback onTap,
   }) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 12.0),
+      padding: const EdgeInsets.only(bottom: AppSpacing.md),
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: AppRadius.xlBorder,
         child: Container(
-          padding: const EdgeInsets.all(16),
+          padding: AppSpacing.card,
           decoration: BoxDecoration(
-            color: const Color(
-              0xFF1E1E1E,
-            ), // Slightly lighter than background, matching screenshot AppColors.surface
-            borderRadius: BorderRadius.circular(16),
+            color: AppColors.surfaceLight,
+            borderRadius: AppRadius.xlBorder,
           ),
           child: Row(
             children: [
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: Colors.black, // Dark icon background container
+                  color: Colors.black,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Icon(icon, color: AppColors.secondary, size: 20),
               ),
-              const SizedBox(width: 16),
+              const SizedBox(width: AppSpacing.lg),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       title,
-                      style: GoogleFonts.inter(
-                        color: Colors.white,
-                        fontSize: 11,
+                      style: AppTypography.labelLarge(
                         fontWeight: FontWeight.bold,
-                        letterSpacing: 0.5,
+                        letterSpacing: AppTypography.letterSpacingTight,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: AppSpacing.xs),
                     Text(
                       subtitle,
-                      style: GoogleFonts.inter(
+                      style: AppTypography.labelMedium(
                         color: AppColors.textMuted.withValues(alpha: 0.8),
-                        fontSize: 10,
+                        letterSpacing: 0,
                       ),
                     ),
                   ],

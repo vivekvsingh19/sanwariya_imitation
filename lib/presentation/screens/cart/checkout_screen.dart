@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../core/constants/colors.dart';
+import '../../../core/theme/app_theme.dart';
 import '../../blocs/cart/cart_bloc.dart';
 import '../../blocs/cart/cart_event.dart';
 import '../../blocs/cart/cart_state.dart';
@@ -22,7 +21,7 @@ class CheckoutScreen extends StatefulWidget {
 }
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
-  int _paymentMethod = 0; // 0: UPI, 1: Card, 2: Net Banking, 3: COD
+  int _paymentMethod = 0;
   final _currencyFormat = NumberFormat.currency(locale: 'en_IN', symbol: '₹', decimalDigits: 2);
 
   @override
@@ -39,12 +38,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         ),
         title: Text(
           'CHECKOUT',
-          style: GoogleFonts.playfairDisplay(
+          style: AppTypography.bodyLarge(
             color: AppColors.primary,
-            fontSize: 16,
-            letterSpacing: 4.0,
             fontWeight: FontWeight.w600,
-          ),
+          ).copyWith(letterSpacing: AppTypography.letterSpacingUltra),
         ),
         actions: [
           IconButton(
@@ -61,41 +58,44 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           }
         },
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.screenPaddingH,
+            vertical: AppSpacing.screenPaddingV,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildHeaderRow('Delivery Address', 'CHANGE'),
-              const SizedBox(height: 16),
+              const SizedBox(height: AppSpacing.lg),
               _buildAddressCard(),
-              const SizedBox(height: 32),
+              const SizedBox(height: AppSpacing.sectionGap),
 
               _buildHeaderRow('Payment Method', ''),
-              const SizedBox(height: 16),
+              const SizedBox(height: AppSpacing.lg),
               _buildPaymentOption(0, 'UPI', 'Google Pay, PhonePe, Paytm', Icons.account_balance_wallet_outlined),
-              const SizedBox(height: 12),
+              const SizedBox(height: AppSpacing.md),
               _buildPaymentOption(1, 'Credit / Debit Card', 'Visa, Mastercard, RuPay', Icons.credit_card_outlined),
-              const SizedBox(height: 12),
+              const SizedBox(height: AppSpacing.md),
               _buildPaymentOption(2, 'Net Banking', 'All major Indian banks', Icons.account_balance_outlined),
-              const SizedBox(height: 12),
+              const SizedBox(height: AppSpacing.md),
               _buildPaymentOption(3, 'Cash on Delivery', 'Pay when you receive your order', Icons.payments_outlined),
 
-              const SizedBox(height: 32),
+              const SizedBox(height: AppSpacing.sectionGap),
               _buildHeaderRow('Order Summary', ''),
-              const SizedBox(height: 16),
+              const SizedBox(height: AppSpacing.lg),
 
               BlocBuilder<CartBloc, CartState>(
                 builder: (context, cartState) {
                   if (cartState is CartLoaded) {
                     final subtotal = cartState.totalAmount;
-                    final tax = subtotal * 0.03; // GST 3% for imitation jewelry/gems
+                    final tax = subtotal * 0.03;
                     final total = subtotal + tax;
                     final itemCount = cartState.items.fold(0, (sum, item) => sum + item.quantity);
 
                     return Column(
                       children: [
                         _buildSummaryCard(subtotal, tax, total, itemCount),
-                        const SizedBox(height: 32),
+                        const SizedBox(height: AppSpacing.sectionGap),
                         _buildPlaceOrderButton(cartState, total),
                       ],
                     );
@@ -104,9 +104,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 },
               ),
 
-              const SizedBox(height: 16),
+              const SizedBox(height: AppSpacing.lg),
               _buildFooterText(),
-              const SizedBox(height: 32),
+              const SizedBox(height: AppSpacing.sectionGap),
             ],
           ),
         ),
@@ -119,13 +119,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       context: context,
       barrierDismissible: false,
       builder: (context) => AlertDialog(
-        backgroundColor: const Color(0xFF1E1E1E),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        backgroundColor: AppColors.surfaceLight,
+        shape: RoundedRectangleBorder(borderRadius: AppRadius.xlBorder),
         title: const Icon(LucideIcons.checkCircle, color: AppColors.primary, size: 60),
         content: Text(
           'Your masterpiece is being prepared for delivery.',
           textAlign: TextAlign.center,
-          style: GoogleFonts.inter(color: Colors.white),
+          style: AppTypography.bodyMedium(color: AppColors.textWhite),
         ),
         actions: [
           Center(
@@ -135,7 +135,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               },
               child: Text(
                 'BACK TO HOME',
-                style: GoogleFonts.inter(color: AppColors.primary, fontWeight: FontWeight.bold),
+                style: AppTypography.bodyMedium(
+                  color: AppColors.primary,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           )
@@ -150,19 +153,17 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       children: [
         Text(
           title,
-          style: GoogleFonts.playfairDisplay(
-            fontSize: 24,
-            color: const Color(0xFFD4AF37), // Gold
+          style: AppTypography.headingLarge(
+            color: AppColors.primary,
             fontWeight: FontWeight.w500,
           ),
         ),
         if (action.isNotEmpty)
           Text(
             action,
-            style: GoogleFonts.inter(
-              fontSize: 12,
-              color: const Color(0xFFD4AF37).withOpacity(0.6), // Muted gold
-              letterSpacing: 1.0,
+            style: AppTypography.bodySmall(
+              color: AppColors.primary.withOpacity(0.6),
+              letterSpacing: AppTypography.letterSpacingNormal,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -172,17 +173,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   Widget _buildAddressCard() {
     return Container(
-      padding: const EdgeInsets.all(24),
+      padding: AppSpacing.cardLarge,
       decoration: BoxDecoration(
-        color: const Color(0xFF201F1F),
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 20,
-            offset: const Offset(0, 10),
-          ),
-        ],
+        color: AppColors.surfaceWarm,
+        borderRadius: AppRadius.xlBorder,
+        boxShadow: [AppShadows.soft],
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -193,39 +188,31 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               children: [
                 Text(
                   'Priya Sharma',
-                  style: GoogleFonts.inter(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: AppTypography.headingSmall(),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: AppSpacing.md),
                 Text(
                   '102, Emerald Heights, Marine Drive\nNear Oberoi Hotel, Mumbai - 400021\nMaharashtra, India',
-                  style: GoogleFonts.inter(
-                    color: Colors.white70,
-                    fontSize: 14,
+                  style: AppTypography.bodyMedium(
+                    color: AppColors.white70,
                     height: 1.5,
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: AppSpacing.lg),
                 Row(
                   children: [
-                    const Icon(LucideIcons.phone, color: Colors.white70, size: 14),
-                    const SizedBox(width: 8),
+                    Icon(LucideIcons.phone, color: AppColors.white70, size: 14),
+                    const SizedBox(width: AppSpacing.sm),
                     Text(
                       '+91 98765 43210',
-                      style: GoogleFonts.inter(
-                        color: Colors.white70,
-                        fontSize: 14,
-                      ),
+                      style: AppTypography.bodyMedium(color: AppColors.white70),
                     ),
                   ],
                 ),
               ],
             ),
           ),
-          const Icon(LucideIcons.mapPin, color: Colors.white24, size: 28),
+          Icon(LucideIcons.mapPin, color: AppColors.white24, size: 28),
         ],
       ),
     );
@@ -238,34 +225,30 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         setState(() => _paymentMethod = index);
       },
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.xl,
+          vertical: AppSpacing.lg,
+        ),
         decoration: BoxDecoration(
-          color: const Color(0xFF201F1F),
-          borderRadius: BorderRadius.circular(12),
+          color: AppColors.surfaceWarm,
+          borderRadius: AppRadius.lgBorder,
         ),
         child: Row(
           children: [
-            Icon(icon, color: const Color(0xFFD4AF37), size: 24),
-            const SizedBox(width: 16),
+            Icon(icon, color: AppColors.primary, size: 24),
+            const SizedBox(width: AppSpacing.lg),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     title,
-                    style: GoogleFonts.inter(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
+                    style: AppTypography.bodyLarge(fontWeight: FontWeight.w500),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: AppSpacing.xs),
                   Text(
                     subtitle,
-                    style: GoogleFonts.inter(
-                      color: Colors.white54,
-                      fontSize: 12,
-                    ),
+                    style: AppTypography.bodySmall(color: AppColors.white54),
                   ),
                 ],
               ),
@@ -276,7 +259,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: isSelected ? const Color(0xFFF2D368) : Colors.white24,
+                  color: isSelected ? AppColors.primaryBright : AppColors.white24,
                   width: isSelected ? 6 : 1,
                 ),
               ),
@@ -289,10 +272,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   Widget _buildSummaryCard(double subtotal, double tax, double total, int itemCount) {
     return Container(
-      padding: const EdgeInsets.all(24),
+      padding: AppSpacing.cardLarge,
       decoration: BoxDecoration(
-        color: const Color(0xFF201F1F),
-        borderRadius: BorderRadius.circular(16),
+        color: AppColors.surfaceWarm,
+        borderRadius: AppRadius.xlBorder,
       ),
       child: Column(
         children: [
@@ -301,73 +284,68 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             children: [
               Text(
                 'Subtotal ($itemCount items)',
-                style: GoogleFonts.inter(color: Colors.white70, fontSize: 14),
+                style: AppTypography.bodyMedium(color: AppColors.white70),
               ),
               Text(
                 _currencyFormat.format(subtotal),
-                style: GoogleFonts.inter(color: Colors.white, fontSize: 14),
+                style: AppTypography.bodyMedium(color: AppColors.textWhite),
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: AppSpacing.lg),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 'GST (3%)',
-                style: GoogleFonts.inter(color: Colors.white70, fontSize: 14),
+                style: AppTypography.bodyMedium(color: AppColors.white70),
               ),
               Text(
                 _currencyFormat.format(tax),
-                style: GoogleFonts.inter(color: Colors.white, fontSize: 14),
+                style: AppTypography.bodyMedium(color: AppColors.textWhite),
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: AppSpacing.lg),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 'Express Shipping',
-                style: GoogleFonts.inter(color: Colors.white70, fontSize: 14),
+                style: AppTypography.bodyMedium(color: AppColors.white70),
               ),
               Text(
                 'FREE',
-                style: GoogleFonts.inter(color: const Color(0xFFD4AF37), fontSize: 14),
+                style: AppTypography.bodyMedium(color: AppColors.primary),
               ),
             ],
           ),
-          const SizedBox(height: 24),
-          const Divider(color: Colors.white12),
-          const SizedBox(height: 16),
+          const SizedBox(height: AppSpacing.xxl),
+          Divider(color: AppColors.white12),
+          const SizedBox(height: AppSpacing.lg),
           Align(
             alignment: Alignment.centerRight,
             child: Text(
               'INCLUSIVE OF ALL TAXES',
-              style: GoogleFonts.inter(
-                color: Colors.white54,
-                fontSize: 9,
-                letterSpacing: 0.5,
+              style: AppTypography.labelSmall(
+                color: AppColors.white54,
+                fontWeight: FontWeight.normal,
+                letterSpacing: AppTypography.letterSpacingTight,
               ),
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: AppSpacing.sm),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 'Total Amount',
-                style: GoogleFonts.playfairDisplay(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                ),
+                style: AppTypography.headingMedium(fontWeight: FontWeight.w500),
               ),
               Text(
                 _currencyFormat.format(total),
-                style: GoogleFonts.inter(
-                  color: const Color(0xFFD4AF37),
-                  fontSize: 24,
+                style: AppTypography.headingLarge(
+                  color: AppColors.primary,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -396,9 +374,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           context.read<OrderBloc>().add(PlaceOrder(order));
         },
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFFD4A347), // Solid warm gold
+          backgroundColor: AppColors.primaryWarm,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: AppRadius.mdBorder,
           ),
           elevation: 0,
         ),
@@ -407,15 +385,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           children: [
             Text(
               'PLACE ORDER',
-              style: GoogleFonts.inter(
-                color: Colors.black87,
-                fontSize: 14,
+              style: AppTypography.bodyMedium(
+                color: AppColors.black87,
                 fontWeight: FontWeight.w700,
-                letterSpacing: 2.0,
-              ),
+              ).copyWith(letterSpacing: AppTypography.letterSpacingXWide),
             ),
-            const SizedBox(width: 8),
-            const Icon(LucideIcons.arrowRight, color: Colors.black87, size: 18),
+            const SizedBox(width: AppSpacing.sm),
+            Icon(LucideIcons.arrowRight, color: AppColors.black87, size: 18),
           ],
         ),
       ),
@@ -426,11 +402,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     return Text(
       'By placing the order, you agree to Sanwariya Imitation\'s\nTerms of Service and Privacy Policy.',
       textAlign: TextAlign.center,
-      style: GoogleFonts.inter(
-        color: Colors.white38,
-        fontSize: 10,
-        height: 1.5,
-      ),
+      style: AppTypography.labelMedium(
+        color: AppColors.white38,
+        letterSpacing: 0,
+      ).copyWith(height: 1.5),
     );
   }
 }

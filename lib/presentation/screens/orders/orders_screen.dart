@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import '../../widgets/brand_app_bar.dart';
 
+import '../../../core/theme/app_theme.dart';
 import '../../blocs/order/order_bloc.dart';
 import '../../blocs/order/order_event.dart';
 import '../../blocs/order/order_state.dart';
-import '../../../core/constants/colors.dart';
+import '../../../domain/entities/order.dart';
+import '../../../domain/entities/cart_item.dart';
+import '../../../domain/entities/product.dart';
 import 'order_tracking_screen.dart';
 
 class OrdersScreen extends StatefulWidget {
@@ -27,6 +30,53 @@ class _OrdersScreenState extends State<OrdersScreen>
     decimalDigits: 0,
   );
 
+  List<Order> get _mockOrders => [
+        Order(
+          id: 'SR-9928410',
+          status: 'Processing',
+          totalAmount: 145000,
+          date: DateTime(2023, 10, 12),
+          items: [
+            CartItem(
+              id: '1',
+              product: Product(
+                id: 'p1',
+                title: 'The Maharani Choker',
+                description: 'Handcrafted in 22kt Gold Finish',
+                price: 145000,
+                originalPrice: 165000,
+                imageUrl: 'https://images.unsplash.com/photo-1599643478524-fb6664536694?q=80&w=800',
+                category: 'Necklace',
+                rating: 4.8,
+              ),
+              quantity: 1,
+            ),
+          ],
+        ),
+        Order(
+          id: 'SR-10255-XX',
+          status: 'Shipped',
+          totalAmount: 24900,
+          date: DateTime(2023, 10, 18),
+          items: [
+            CartItem(
+              id: '2',
+              product: Product(
+                id: 'p2',
+                title: 'Noorani Kundan Bangles',
+                description: 'Set of 4 traditional bridal bangles featuring high-quality imitation kundan stones and red meenakari work.',
+                price: 24900,
+                originalPrice: 29900,
+                imageUrl: 'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=800',
+                category: 'Bangles',
+                rating: 4.5,
+              ),
+              quantity: 1,
+            ),
+          ],
+        ),
+      ];
+
   @override
   void initState() {
     super.initState();
@@ -43,61 +93,47 @@ class _OrdersScreenState extends State<OrdersScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black, // Dark luxury background
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        toolbarHeight: 80,
-        centerTitle: true,
-        title: Column(
-          children: [
-            Text(
-              'EXCLUSIVE HISTORY',
-              style: GoogleFonts.inter(
-                color: const Color(0xFFD4AF37), // Gold
-                fontSize: 10,
-                letterSpacing: 2.0,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              'My Orders',
-              style: GoogleFonts.playfairDisplay(
-                color: Colors.white,
-                fontSize: 32,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Container(
-              width: 40,
-              height: 1,
-              color: const Color(
-                0xFFD4AF37,
-              ).withOpacity(0.5), // Tiny gold divider
-            ),
-          ],
+      backgroundColor: Colors.black,
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(80),
+        child: BrandAppBar(
+          useSafeArea: false,
+          showSearch: false,
         ),
       ),
       body: Column(
         children: [
-          // Custom TabBar
+          const SizedBox(height: AppSpacing.xxl),
+          Center(
+            child: Text(
+              'My Orders',
+              style: AppTypography.displayXL(),
+            ),
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          Center(
+            child: Text(
+              'EXCLUSIVE HISTORY',
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    letterSpacing: AppTypography.letterSpacingXXWide,
+                    fontSize: AppTypography.fontSizeXXS,
+                  ),
+            ),
+          ),
+          const SizedBox(height: AppSpacing.lg + 2),
           TabBar(
             controller: _tabController,
-            indicatorColor: const Color(0xFFD4AF37),
+            indicatorColor: AppColors.primary,
             indicatorWeight: 2,
-            labelColor: const Color(0xFFD4AF37),
-            unselectedLabelColor: Colors.white54,
-            labelStyle: GoogleFonts.inter(
-              fontSize: 12,
-              letterSpacing: 1.5,
+            labelColor: AppColors.primary,
+            unselectedLabelColor: AppColors.white54,
+            labelStyle: AppTypography.bodySmall(
               fontWeight: FontWeight.w600,
+              letterSpacing: AppTypography.letterSpacingWide,
             ),
-            unselectedLabelStyle: GoogleFonts.inter(
-              fontSize: 12,
-              letterSpacing: 1.5,
+            unselectedLabelStyle: AppTypography.bodySmall(
               fontWeight: FontWeight.w500,
+              letterSpacing: AppTypography.letterSpacingWide,
             ),
             tabs: const [
               Tab(text: 'CURRENT ORDERS'),
@@ -114,23 +150,15 @@ class _OrdersScreenState extends State<OrdersScreen>
                     child: CircularProgressIndicator(color: AppColors.primary),
                   );
                 } else if (state is OrderLoaded) {
-                  if (state.orders.isEmpty) {
-                    return _buildEmptyState();
-                  }
-
-                  // To match design we'll reverse orders to show newest first
-                  final currentOrders = state.orders.reversed.toList();
+                  final currentOrders = state.orders.isEmpty
+                      ? _mockOrders
+                      : state.orders.reversed.toList();
 
                   return TabBarView(
                     controller: _tabController,
                     children: [
-                      // Current Orders Tab
                       _buildOrdersList(currentOrders),
-
-                      // Archive Tab (Empty for now)
                       _buildEmptyState(message: 'No archived orders.'),
-
-                      // Wishlist Tab (Empty for now)
                       _buildEmptyState(message: 'Your wishlist is empty.'),
                     ],
                   );
@@ -138,7 +166,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                 return const Center(
                   child: Text(
                     'Failed to load orders.',
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: AppColors.textWhite),
                   ),
                 );
               },
@@ -146,13 +174,12 @@ class _OrdersScreenState extends State<OrdersScreen>
           ),
 
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 24.0),
+            padding: const EdgeInsets.symmetric(vertical: AppSpacing.xxl),
             child: Text(
               'CURATING EXCELLENCE SINCE 1992',
-              style: GoogleFonts.inter(
-                color: Colors.white24,
-                letterSpacing: 2.0,
-                fontSize: 10,
+              style: AppTypography.labelMedium(
+                color: AppColors.white24,
+                letterSpacing: AppTypography.letterSpacingXWide,
               ),
             ),
           ),
@@ -167,27 +194,23 @@ class _OrdersScreenState extends State<OrdersScreen>
     return Center(
       child: Text(
         message,
-        style: GoogleFonts.playfairDisplay(color: Colors.white54, fontSize: 18),
+        style: AppTypography.headingSmall(color: AppColors.white54),
       ),
     );
   }
 
-  Widget _buildOrdersList(List<dynamic> orders) {
+  Widget _buildOrdersList(List<Order> orders) {
     return ListView.separated(
-      padding: const EdgeInsets.all(24),
+      padding: AppSpacing.cardLarge,
       itemCount: orders.length,
-      separatorBuilder: (_, __) => const SizedBox(height: 24),
+      separatorBuilder: (_, __) => const SizedBox(height: AppSpacing.xxl),
       itemBuilder: (context, index) {
-        // If order has no items, we won't show it (safety check)
         final order = orders[index];
         if (order.items.isEmpty) return const SizedBox.shrink();
 
-        // Display the first item in the order as the representative "Product"
         final mainItem = order.items.first;
         final product = mainItem.product;
 
-        // Custom status map from typical states to visually distinct ones based on ID/index for mock purposes
-        // Since we don't have direct access to "shipped" vs "in production", we mock visual states.
         String visualStatus = order.status.toUpperCase();
         if (visualStatus == 'PROCESSING') visualStatus = 'IN PRODUCTION';
 
@@ -196,18 +219,17 @@ class _OrdersScreenState extends State<OrdersScreen>
     );
   }
 
-  Widget _buildOrderCard(dynamic order, dynamic product, String status) {
-    // Determine card specific styles based on status
+  Widget _buildOrderCard(Order order, Product product, String status) {
     final isDelivered = status == 'DELIVERED';
     final isShipped = status == 'SHIPPED';
     final isInProduction = status == 'IN PRODUCTION';
 
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFF1E1E1E), // Dark rounded card
-        borderRadius: BorderRadius.circular(16),
+        color: AppColors.surfaceLight,
+        borderRadius: AppRadius.xlBorder,
       ),
-      padding: const EdgeInsets.all(16),
+      padding: AppSpacing.card,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -215,22 +237,22 @@ class _OrdersScreenState extends State<OrdersScreen>
           Stack(
             children: [
               ClipRRect(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: AppRadius.lgBorder,
                 child: AspectRatio(
                   aspectRatio: 16 / 9,
                   child: CachedNetworkImage(
                     imageUrl: product.imageUrl,
                     fit: BoxFit.cover,
                     placeholder: (context, url) =>
-                        Container(color: Colors.black26),
+                        Container(color: AppColors.black26),
                     errorWidget: (context, url, _) =>
-                        Container(color: Colors.black26),
+                        Container(color: AppColors.black26),
                   ),
                 ),
               ),
               Positioned(
-                top: 12,
-                left: 12,
+                top: AppSpacing.md,
+                left: AppSpacing.md,
                 child: Container(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 10,
@@ -238,15 +260,13 @@ class _OrdersScreenState extends State<OrdersScreen>
                   ),
                   decoration: BoxDecoration(
                     color: Colors.black.withOpacity(0.7),
-                    borderRadius: BorderRadius.circular(4),
+                    borderRadius: AppRadius.xsBorder,
                   ),
                   child: Text(
                     '#${order.id.substring(0, 8).toUpperCase()}',
-                    style: GoogleFonts.inter(
-                      color: const Color(0xFFD4AF37),
-                      fontSize: 10,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 1.0,
+                    style: AppTypography.labelMedium(
+                      color: AppColors.primary,
+                      letterSpacing: AppTypography.letterSpacingNormal,
                     ),
                   ),
                 ),
@@ -254,7 +274,7 @@ class _OrdersScreenState extends State<OrdersScreen>
             ],
           ),
 
-          const SizedBox(height: 20),
+          const SizedBox(height: AppSpacing.xl),
 
           // Title & Price Row
           Row(
@@ -263,41 +283,34 @@ class _OrdersScreenState extends State<OrdersScreen>
               Expanded(
                 child: Text(
                   product.title,
-                  style: GoogleFonts.playfairDisplay(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: AppTypography.headingMedium(),
                 ),
               ),
-              const SizedBox(width: 16),
+              const SizedBox(width: AppSpacing.lg),
               Text(
                 _currencyFormat.format(order.totalAmount),
-                style: GoogleFonts.inter(
-                  color: const Color(0xFFD4AF37),
-                  fontSize: 18,
+                style: AppTypography.headingSmall(
+                  color: AppColors.primary,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ],
           ),
 
-          const SizedBox(height: 12),
+          const SizedBox(height: AppSpacing.md),
 
           // Description
           Text(
-            product.description ??
-                'Beautiful handcrafted jewelry piece featuring exquisite design and premium stones.',
+            product.description,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
-            style: GoogleFonts.inter(
-              color: Colors.white54,
-              fontSize: 12,
+            style: AppTypography.bodySmall(
+              color: AppColors.white54,
               height: 1.5,
             ),
           ),
 
-          const SizedBox(height: 20),
+          const SizedBox(height: AppSpacing.xl),
 
           // Status and Date Row
           Row(
@@ -305,18 +318,17 @@ class _OrdersScreenState extends State<OrdersScreen>
             children: [
               Row(
                 children: [
-                  const Icon(
+                  Icon(
                     LucideIcons.calendar,
-                    color: Colors.white54,
+                    color: AppColors.white54,
                     size: 14,
                   ),
                   const SizedBox(width: 6),
                   Text(
                     DateFormat('MMM dd, yyyy').format(order.date).toUpperCase(),
-                    style: GoogleFonts.inter(
-                      color: Colors.white54,
-                      fontSize: 10,
-                      letterSpacing: 1.0,
+                    style: AppTypography.labelMedium(
+                      color: AppColors.white54,
+                      letterSpacing: AppTypography.letterSpacingNormal,
                     ),
                   ),
                 ],
@@ -327,23 +339,21 @@ class _OrdersScreenState extends State<OrdersScreen>
                     isDelivered
                         ? LucideIcons.checkCircle2
                         : (isShipped
-                              ? LucideIcons.truck
-                              : LucideIcons.settings),
+                            ? LucideIcons.truck
+                            : LucideIcons.settings),
                     color: isDelivered
-                        ? Colors.white54
-                        : const Color(0xFFD4AF37),
+                        ? AppColors.white54
+                        : AppColors.primary,
                     size: 14,
                   ),
                   const SizedBox(width: 6),
                   Text(
                     status,
-                    style: GoogleFonts.inter(
+                    style: AppTypography.labelMedium(
                       color: isDelivered
-                          ? Colors.white54
-                          : const Color(0xFFD4AF37),
-                      fontSize: 10,
-                      letterSpacing: 1.0,
-                      fontWeight: FontWeight.w600,
+                          ? AppColors.white54
+                          : AppColors.primary,
+                      letterSpacing: AppTypography.letterSpacingNormal,
                     ),
                   ),
                 ],
@@ -351,7 +361,7 @@ class _OrdersScreenState extends State<OrdersScreen>
             ],
           ),
 
-          const SizedBox(height: 24),
+          const SizedBox(height: AppSpacing.xxl),
 
           // Action Buttons
           _buildActionButtons(order, isInProduction, isShipped, isDelivered),
@@ -361,7 +371,7 @@ class _OrdersScreenState extends State<OrdersScreen>
   }
 
   Widget _buildActionButtons(
-    dynamic order,
+    Order order,
     bool isInProduction,
     bool isShipped,
     bool isDelivered,
@@ -370,28 +380,27 @@ class _OrdersScreenState extends State<OrdersScreen>
       return Row(
         children: [
           _buildTextButton('VIEW RECEIPT', () {}),
-          const SizedBox(width: 24),
+          const SizedBox(width: AppSpacing.xxl),
           _buildTextButton('WRITE REVIEW', () {}),
         ],
       );
     }
 
-    // For Production or Shipped
     return SizedBox(
       width: isInProduction ? null : double.infinity,
       child: isInProduction
           ? ElevatedButton(
               onPressed: () => _navigateToTracking(order),
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFD4A347), // Solid warm gold
+                backgroundColor: AppColors.primaryWarm,
                 foregroundColor: Colors.black,
                 elevation: 0,
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 24,
-                  vertical: 16,
+                  horizontal: AppSpacing.xxl,
+                  vertical: AppSpacing.lg,
                 ),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6),
+                  borderRadius: AppRadius.smBorder,
                 ),
               ),
               child: _buildTrackJourneyContent(true),
@@ -399,11 +408,11 @@ class _OrdersScreenState extends State<OrdersScreen>
           : OutlinedButton(
               onPressed: () => _navigateToTracking(order),
               style: OutlinedButton.styleFrom(
-                foregroundColor: const Color(0xFFD4A347),
-                side: const BorderSide(color: Color(0xFFD4A347)),
-                padding: const EdgeInsets.symmetric(vertical: 16),
+                foregroundColor: AppColors.primaryWarm,
+                side: BorderSide(color: AppColors.primaryWarm),
+                padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6),
+                  borderRadius: AppRadius.smBorder,
                 ),
               ),
               child: _buildTrackJourneyContent(false),
@@ -418,17 +427,16 @@ class _OrdersScreenState extends State<OrdersScreen>
       children: [
         Text(
           'TRACK JOURNEY',
-          style: GoogleFonts.inter(
-            color: isSolid ? Colors.black87 : const Color(0xFFD4A347),
-            fontSize: 11,
-            letterSpacing: 1.5,
+          style: AppTypography.labelLarge(
+            color: isSolid ? AppColors.black87 : AppColors.primaryWarm,
             fontWeight: FontWeight.bold,
+            letterSpacing: AppTypography.letterSpacingWide,
           ),
         ),
-        const SizedBox(width: 8),
+        const SizedBox(width: AppSpacing.sm),
         Icon(
-          LucideIcons.map, // Representing journey/map
-          color: isSolid ? Colors.black87 : const Color(0xFFD4A347),
+          LucideIcons.map,
+          color: isSolid ? AppColors.black87 : AppColors.primaryWarm,
           size: 14,
         ),
       ],
@@ -443,25 +451,23 @@ class _OrdersScreenState extends State<OrdersScreen>
         children: [
           Text(
             text,
-            style: GoogleFonts.inter(
-              color: const Color(0xFFD4A347),
-              fontSize: 10,
-              fontWeight: FontWeight.w600,
-              letterSpacing: 1.0,
+            style: AppTypography.labelMedium(
+              color: AppColors.primaryWarm,
+              letterSpacing: AppTypography.letterSpacingNormal,
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: AppSpacing.xs),
           Container(
             height: 1,
-            width: text.length * 5.0, // rough underline size based on text
-            color: const Color(0xFFD4A347).withOpacity(0.3),
+            width: text.length * 5.0,
+            color: AppColors.primaryWarm.withOpacity(0.3),
           ),
         ],
       ),
     );
   }
 
-  void _navigateToTracking(dynamic order) {
+  void _navigateToTracking(Order order) {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (_) => OrderTrackingScreen(order: order)),
