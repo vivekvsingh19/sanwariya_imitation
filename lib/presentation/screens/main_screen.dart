@@ -100,12 +100,21 @@ class _NavItem extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 7,
+                ),
                 decoration: BoxDecoration(
-                  color: isActive ? const Color(0xFF35301E) : Colors.transparent,
+                  color: isActive
+                      ? const Color(0xFF35301E)
+                      : Colors.transparent,
                   borderRadius: BorderRadius.circular(6),
                 ),
-                child: Icon(isActive ? activeIcon : icon, color: color, size: 20),
+                child: Icon(
+                  isActive ? activeIcon : icon,
+                  color: color,
+                  size: 20,
+                ),
               ),
               const SizedBox(height: 3),
               Text(

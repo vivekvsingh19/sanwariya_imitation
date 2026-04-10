@@ -33,7 +33,9 @@ class _ShopScreenState extends State<ShopScreen> {
       body: BlocBuilder<ProductBloc, ProductState>(
         builder: (context, state) {
           if (state is ProductLoading) {
-            return const Center(child: CircularProgressIndicator(color: AppColors.primary));
+            return const Center(
+              child: CircularProgressIndicator(color: AppColors.primary),
+            );
           } else if (state is ProductLoaded) {
             return RefreshIndicator(
               color: AppColors.primary,
@@ -42,7 +44,9 @@ class _ShopScreenState extends State<ShopScreen> {
                 context.read<ProductBloc>().add(const FetchProducts());
               },
               child: CustomScrollView(
-                physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                physics: const BouncingScrollPhysics(
+                  parent: AlwaysScrollableScrollPhysics(),
+                ),
                 slivers: [
                   SliverToBoxAdapter(
                     child: SafeArea(
@@ -54,10 +58,11 @@ class _ShopScreenState extends State<ShopScreen> {
                           children: [
                             Text(
                               'Shop - Category View',
-                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                color: AppColors.textMuted,
-                                fontSize: 12,
-                              ),
+                              style: Theme.of(context).textTheme.bodyMedium
+                                  ?.copyWith(
+                                    color: AppColors.textMuted,
+                                    fontSize: 12,
+                                  ),
                             ),
                             const SizedBox(height: 10),
                             _buildTopBrandBar(context),
@@ -65,20 +70,19 @@ class _ShopScreenState extends State<ShopScreen> {
                             Center(
                               child: Text(
                                 'The Necklaces',
-                                style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                                  color: Colors.white,
-                                  fontSize: 46,
-                                ),
+                                style: Theme.of(context).textTheme.displayMedium
+                                    ?.copyWith(
+                                      color: Colors.white,
+                                      fontSize: 46,
+                                    ),
                               ),
                             ),
                             const SizedBox(height: 8),
                             Center(
                               child: Text(
                                 'ARTISANAL IMITATION COLLECTION',
-                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  letterSpacing: 3,
-                                  fontSize: 11,
-                                ),
+                                style: Theme.of(context).textTheme.bodyMedium
+                                    ?.copyWith(letterSpacing: 3, fontSize: 11),
                               ),
                             ),
                             const SizedBox(height: 18),
@@ -91,29 +95,30 @@ class _ShopScreenState extends State<ShopScreen> {
                   SliverPadding(
                     padding: const EdgeInsets.fromLTRB(16, 18, 16, 24),
                     sliver: SliverGrid(
-                      delegate: SliverChildBuilderDelegate(
-                        (context, index) {
-                          final product = state.products[index];
-                          return _StyledProductTile(
-                            product: product,
-                            badgeText: _badgeText(product: product, index: index),
-                            currencyFormatter: _currencyFormatter,
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (_) => ProductDetailScreen(product: product)),
-                              );
-                            },
-                          );
-                        },
-                        childCount: state.products.length,
-                      ),
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 22,
-                        crossAxisSpacing: 10,
-                        childAspectRatio: 0.54,
-                      ),
+                      delegate: SliverChildBuilderDelegate((context, index) {
+                        final product = state.products[index];
+                        return _StyledProductTile(
+                          product: product,
+                          badgeText: _badgeText(product: product, index: index),
+                          currencyFormatter: _currencyFormatter,
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) =>
+                                    ProductDetailScreen(product: product),
+                              ),
+                            );
+                          },
+                        );
+                      }, childCount: state.products.length),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 22,
+                            crossAxisSpacing: 10,
+                            childAspectRatio: 0.54,
+                          ),
                     ),
                   ),
                 ],
@@ -133,7 +138,8 @@ class _ShopScreenState extends State<ShopScreen> {
 
   String _badgeText({required Product product, required int index}) {
     if (product.originalPrice > product.price) {
-      final discount = ((1 - (product.price / product.originalPrice)) * 100).round();
+      final discount = ((1 - (product.price / product.originalPrice)) * 100)
+          .round();
       if (discount >= 10) {
         return '$discount % OFF';
       }
@@ -163,7 +169,11 @@ class _ShopScreenState extends State<ShopScreen> {
               ),
             ),
           ),
-          const Icon(Icons.shopping_bag_outlined, color: AppColors.primary, size: 20),
+          const Icon(
+            Icons.shopping_bag_outlined,
+            color: AppColors.primary,
+            size: 20,
+          ),
         ],
       ),
     );
@@ -191,7 +201,11 @@ class _ShopScreenState extends State<ShopScreen> {
             alignment: Alignment.center,
             child: Row(
               children: [
-                const Icon(Icons.filter_alt_outlined, size: 14, color: AppColors.primary),
+                const Icon(
+                  Icons.filter_alt_outlined,
+                  size: 14,
+                  color: AppColors.primary,
+                ),
                 const SizedBox(width: 4),
                 Text('Sort by', style: chipTextStyle),
               ],
@@ -220,7 +234,11 @@ class _ShopScreenState extends State<ShopScreen> {
         children: [
           Text(label, style: textStyle),
           const SizedBox(width: 4),
-          const Icon(Icons.keyboard_arrow_down_rounded, size: 15, color: AppColors.textMuted),
+          const Icon(
+            Icons.keyboard_arrow_down_rounded,
+            size: 15,
+            color: AppColors.textMuted,
+          ),
         ],
       ),
     );
@@ -253,7 +271,11 @@ class _StyledProductTile extends StatelessWidget {
                 color: AppColors.surface,
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: const [
-                  BoxShadow(color: Colors.black45, blurRadius: 14, offset: Offset(0, 8)),
+                  BoxShadow(
+                    color: Colors.black45,
+                    blurRadius: 14,
+                    offset: Offset(0, 8),
+                  ),
                 ],
               ),
               child: Stack(
@@ -266,11 +288,15 @@ class _StyledProductTile extends StatelessWidget {
                         child: Image.network(
                           product.imageUrl,
                           fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) => Container(
-                            color: AppColors.surface,
-                            alignment: Alignment.center,
-                            child: const Icon(Icons.image_not_supported_outlined, color: AppColors.textMuted),
-                          ),
+                          errorBuilder: (context, error, stackTrace) =>
+                              Container(
+                                color: AppColors.surface,
+                                alignment: Alignment.center,
+                                child: const Icon(
+                                  Icons.image_not_supported_outlined,
+                                  color: AppColors.textMuted,
+                                ),
+                              ),
                         ),
                       ),
                     ),
@@ -279,7 +305,10 @@ class _StyledProductTile extends StatelessWidget {
                     top: 8,
                     left: 8,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
                         color: const Color(0xFFB89A42),
                         borderRadius: BorderRadius.circular(4),
@@ -304,7 +333,11 @@ class _StyledProductTile extends StatelessWidget {
                         color: Colors.black.withValues(alpha: 0.45),
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(Icons.favorite_border, size: 16, color: Colors.white),
+                      child: const Icon(
+                        Icons.favorite_border,
+                        size: 16,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ],
@@ -317,7 +350,10 @@ class _StyledProductTile extends StatelessWidget {
               Container(
                 width: 6,
                 height: 6,
-                decoration: const BoxDecoration(color: Color(0xFF00C26E), shape: BoxShape.circle),
+                decoration: const BoxDecoration(
+                  color: Color(0xFF00C26E),
+                  shape: BoxShape.circle,
+                ),
               ),
               const SizedBox(width: 6),
               Text(
@@ -366,7 +402,7 @@ class _StyledProductTile extends StatelessWidget {
                     ),
                   ),
                 ),
-              ]
+              ],
             ],
           ),
         ],
