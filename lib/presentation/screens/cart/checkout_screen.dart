@@ -28,14 +28,30 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white, // As per the design provided
+      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
         elevation: 0,
+        centerTitle: true,
         leading: IconButton(
-          icon: const Icon(LucideIcons.arrowLeft, color: Colors.black),
+          icon: const Icon(LucideIcons.chevronLeft, color: AppColors.primary),
           onPressed: () => Navigator.pop(context),
         ),
+        title: Text(
+          'CHECKOUT',
+          style: GoogleFonts.playfairDisplay(
+            color: AppColors.primary,
+            fontSize: 16,
+            letterSpacing: 4.0,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(LucideIcons.lock, color: AppColors.primary, size: 18),
+            onPressed: () {},
+          ),
+        ],
       ),
       body: BlocListener<OrderBloc, OrderState>(
         listener: (context, state) {
@@ -411,7 +427,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       'By placing the order, you agree to Sanwariya Imitation\'s\nTerms of Service and Privacy Policy.',
       textAlign: TextAlign.center,
       style: GoogleFonts.inter(
-        color: Colors.black38,
+        color: Colors.white38,
         fontSize: 10,
         height: 1.5,
       ),
