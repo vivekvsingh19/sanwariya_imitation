@@ -35,7 +35,10 @@ class ProfileScreen extends StatelessWidget {
         centerTitle: true,
         actions: [
           IconButton(
-            icon: const Icon(Icons.shopping_bag_outlined, color: AppColors.primary),
+            icon: const Icon(
+              Icons.shopping_bag_outlined,
+              color: AppColors.primary,
+            ),
             onPressed: () {
               Navigator.push(
                 context,
@@ -70,27 +73,42 @@ class ProfileScreen extends StatelessWidget {
                         margin: const EdgeInsets.only(bottom: 16),
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          border: Border.all(color: AppColors.secondary.withValues(alpha: 0.5), width: 1.5),
+                          border: Border.all(
+                            color: AppColors.secondary.withValues(alpha: 0.5),
+                            width: 1.5,
+                          ),
                         ),
                         child: const CircleAvatar(
                           radius: 50,
                           backgroundColor: Colors.black,
-                          backgroundImage: NetworkImage('https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=300&auto=format&fit=crop'),
+                          backgroundImage: NetworkImage(
+                            'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=300&auto=format&fit=crop',
+                          ),
                         ),
                       ),
                       Positioned(
                         bottom: 0,
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 6,
+                          ),
                           decoration: BoxDecoration(
                             color: const Color(0xFF161616),
                             borderRadius: BorderRadius.circular(20),
-                            border: Border.all(color: AppColors.secondary.withValues(alpha: 0.3), width: 1),
+                            border: Border.all(
+                              color: AppColors.secondary.withValues(alpha: 0.3),
+                              width: 1,
+                            ),
                           ),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              const Icon(Icons.star, color: AppColors.secondary, size: 10),
+                              const Icon(
+                                Icons.star,
+                                color: AppColors.secondary,
+                                size: 10,
+                              ),
                               const SizedBox(width: 6),
                               Text(
                                 'ROYAL\nTIER MEMBER',
@@ -106,14 +124,16 @@ class ProfileScreen extends StatelessWidget {
                             ],
                           ),
                         ),
-                      )
+                      ),
                     ],
                   ),
                   const SizedBox(height: 24),
-                  
+
                   // Name and Patron status
                   Text(
-                    state.user.name.isEmpty ? 'Vaidehi Sharma' : state.user.name,
+                    state.user.name.isEmpty
+                        ? 'Vaidehi Sharma'
+                        : state.user.name,
                     textAlign: TextAlign.center,
                     style: GoogleFonts.playfairDisplay(
                       color: Colors.white,
@@ -171,7 +191,7 @@ class ProfileScreen extends StatelessWidget {
                   ),
 
                   const SizedBox(height: 40),
-                  
+
                   // Logout Button
                   TextButton(
                     onPressed: () {
@@ -192,7 +212,9 @@ class ProfileScreen extends StatelessWidget {
               ),
             );
           }
-          return const Center(child: CircularProgressIndicator(color: AppColors.primary));
+          return const Center(
+            child: CircularProgressIndicator(color: AppColors.primary),
+          );
         },
       ),
     );
@@ -212,7 +234,9 @@ class ProfileScreen extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: const Color(0xFF1E1E1E), // Slightly lighter than background, matching screenshot AppColors.surface
+            color: const Color(
+              0xFF1E1E1E,
+            ), // Slightly lighter than background, matching screenshot AppColors.surface
             borderRadius: BorderRadius.circular(16),
           ),
           child: Row(
@@ -250,7 +274,11 @@ class ProfileScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              const Icon(Icons.chevron_right, color: AppColors.textMuted, size: 18),
+              const Icon(
+                Icons.chevron_right,
+                color: AppColors.textMuted,
+                size: 18,
+              ),
             ],
           ),
         ),

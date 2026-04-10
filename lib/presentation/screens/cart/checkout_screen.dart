@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
-import '../../../core/constants/colors.dart';
-import '../../widgets/custom_button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../blocs/order/order_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:lucide_icons/lucide_icons.dart';
+import 'package:intl/intl.dart';
+import 'package:uuid/uuid.dart';
+
+import '../../../core/constants/colors.dart';
 import '../../blocs/cart/cart_bloc.dart';
 import '../../blocs/cart/cart_event.dart';
 import '../../blocs/cart/cart_state.dart';
+import '../../blocs/order/order_bloc.dart';
 import '../../blocs/order/order_event.dart';
 import '../../blocs/order/order_state.dart';
 import '../../../../domain/entities/order.dart';
-import 'package:uuid/uuid.dart';
 
 class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen({super.key});
@@ -19,90 +22,75 @@ class CheckoutScreen extends StatefulWidget {
 }
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
-  int _paymentMethod = 0; // 0: UPI, 1: Card, 2: COD
+  int _paymentMethod = 0; // 0: UPI, 1: Card, 2: Net Banking, 3: COD
+  final _currencyFormat = NumberFormat.currency(locale: 'en_IN', symbol: '₹', decimalDigits: 2);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white, // As per the design provided
       appBar: AppBar(
-         title: const Text('CHECKOUT'),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(LucideIcons.arrowLeft, color: Colors.black),
+          onPressed: () => Navigator.pop(context),
+        ),
       ),
       body: BlocListener<OrderBloc, OrderState>(
         listener: (context, state) {
           if (state is OrderPlacedSuccess) {
-            context.read<CartBloc>().add(ClearCart());
-            showDialog(
-              context: context,
-              barrierDismissible: false,
-              builder: (context) => AlertDialog(
-                backgroundColor: AppColors.surface,
-                title: const Icon(Icons.check_circle, color: AppColors.primary, size: 60),
-                content: const Text('Your masterpiece is being prepared for delivery.', textAlign: TextAlign.center),
-                actions: [
-                   Center(
-                     child: TextButton(
-                       onPressed: () {
-                         Navigator.popUntil(context, (route) => route.isFirst);
-                       },
-                       child: const Text('BACK TO HOME', style: TextStyle(color: AppColors.primary)),
-                     ),
-                   )
-                ],
-              ),
-            );
+             context.read<CartBloc>().add(ClearCart());
+             _showSuccessDialog();
           }
         },
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Delivery Address', style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppColors.primary)),
+              _buildHeaderRow('Delivery Address', 'CHANGE'),
               const SizedBox(height: 16),
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: AppColors.surface,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: AppColors.primary.withOpacity(0.5)),
-                ),
-                child: const Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Vaidehi Sharma', style: TextStyle(fontWeight: FontWeight.bold)),
-                    SizedBox(height: 8),
-                    Text('123, Khandeshwar, Navi Mumbai\nMaharashtra, India, 410206', style: TextStyle(color: AppColors.textMuted)),
-                    SizedBox(height: 8),
-                    Text('+91 99999 00000'),
-                  ],
-                ),
-              ),
+              _buildAddressCard(),
               const SizedBox(height: 32),
-              Text('Payment Method', style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppColors.primary)),
-              const SizedBox(height: 16),
-              _buildPaymentOption(0, 'UPI', Icons.qr_code_scanner),
-              const SizedBox(height: 12),
-              _buildPaymentOption(1, 'Credit / Debit Card', Icons.credit_card),
-              const SizedBox(height: 12),
-              _buildPaymentOption(2, 'Cash on Delivery', Icons.money),
               
-              const SizedBox(height: 48),
-              CustomButton(
-                text: 'CONFIRM ORDER',
-                onPressed: () {
-                  final cartState = context.read<CartBloc>().state;
-                  if (cartState is! CartLoaded || cartState.items.isEmpty) return;
+              _buildHeaderRow('Payment Method', ''),
+              const SizedBox(height: 16),
+              _buildPaymentOption(0, 'UPI', 'Google Pay, PhonePe, Paytm', Icons.account_balance_wallet_outlined),
+              const SizedBox(height: 12),
+              _buildPaymentOption(1, 'Credit / Debit Card', 'Visa, Mastercard, RuPay', Icons.credit_card_outlined),
+              const SizedBox(height: 12),
+              _buildPaymentOption(2, 'Net Banking', 'All major Indian banks', Icons.account_balance_outlined),
+              const SizedBox(height: 12),
+              _buildPaymentOption(3, 'Cash on Delivery', 'Pay when you receive your order', Icons.payments_outlined),
+              
+              const SizedBox(height: 32),
+              _buildHeaderRow('Order Summary', ''),
+              const SizedBox(height: 16),
+              
+              BlocBuilder<CartBloc, CartState>(
+                builder: (context, cartState) {
+                  if (cartState is CartLoaded) {
+                    final subtotal = cartState.totalAmount;
+                    final tax = subtotal * 0.03; // GST 3% for imitation jewelry/gems
+                    final total = subtotal + tax;
+                    final itemCount = cartState.items.fold(0, (sum, item) => sum + item.quantity);
 
-                  final order = Order(
-                    id: const Uuid().v4(),
-                    items: cartState.items,
-                    totalAmount: cartState.totalAmount,
-                    status: 'Processing',
-                    date: DateTime.now(),
-                  );
-                  context.read<OrderBloc>().add(PlaceOrder(order));
+                    return Column(
+                      children: [
+                        _buildSummaryCard(subtotal, tax, total, itemCount),
+                        const SizedBox(height: 32),
+                        _buildPlaceOrderButton(cartState, total),
+                      ],
+                    );
+                  }
+                  return const Center(child: CircularProgressIndicator(color: AppColors.primary));
                 },
-              )
+              ),
+              
+              const SizedBox(height: 16),
+              _buildFooterText(),
+              const SizedBox(height: 32),
             ],
           ),
         ),
@@ -110,28 +98,322 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     );
   }
 
-  Widget _buildPaymentOption(int index, String title, IconData icon) {
+  void _showSuccessDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        backgroundColor: const Color(0xFF1E1E1E),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: const Icon(LucideIcons.checkCircle, color: AppColors.primary, size: 60),
+        content: Text(
+          'Your masterpiece is being prepared for delivery.', 
+          textAlign: TextAlign.center,
+          style: GoogleFonts.inter(color: Colors.white),
+        ),
+        actions: [
+          Center(
+            child: TextButton(
+              onPressed: () {
+                Navigator.popUntil(context, (route) => route.isFirst);
+              },
+              child: Text(
+                'BACK TO HOME', 
+                style: GoogleFonts.inter(color: AppColors.primary, fontWeight: FontWeight.bold),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHeaderRow(String title, String action) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          title,
+          style: GoogleFonts.playfairDisplay(
+            fontSize: 24,
+            color: const Color(0xFFD4AF37), // Gold
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        if (action.isNotEmpty)
+          Text(
+            action,
+            style: GoogleFonts.inter(
+              fontSize: 12,
+              color: const Color(0xFFD4AF37).withOpacity(0.6), // Muted gold
+              letterSpacing: 1.0,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+      ],
+    );
+  }
+
+  Widget _buildAddressCard() {
+    return Container(
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: const Color(0xFF201F1F),
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 20,
+            offset: const Offset(0, 10),
+          ),
+        ],
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Priya Sharma',
+                  style: GoogleFonts.inter(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  '102, Emerald Heights, Marine Drive\nNear Oberoi Hotel, Mumbai - 400021\nMaharashtra, India',
+                  style: GoogleFonts.inter(
+                    color: Colors.white70,
+                    fontSize: 14,
+                    height: 1.5,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    const Icon(LucideIcons.phone, color: Colors.white70, size: 14),
+                    const SizedBox(width: 8),
+                    Text(
+                      '+91 98765 43210',
+                      style: GoogleFonts.inter(
+                        color: Colors.white70,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          const Icon(LucideIcons.mapPin, color: Colors.white24, size: 28),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPaymentOption(int index, String title, String subtitle, IconData icon) {
     final isSelected = _paymentMethod == index;
     return GestureDetector(
       onTap: () {
         setState(() => _paymentMethod = index);
       },
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color: const Color(0xFF201F1F),
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: isSelected ? AppColors.primary : Colors.transparent),
         ),
         child: Row(
           children: [
-            Icon(icon, color: isSelected ? AppColors.primary : Colors.white),
+            Icon(icon, color: const Color(0xFFD4AF37), size: 24),
             const SizedBox(width: 16),
-            Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-            const Spacer(),
-            if (isSelected) const Icon(Icons.check_circle, color: AppColors.primary),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: GoogleFonts.inter(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    subtitle,
+                    style: GoogleFonts.inter(
+                      color: Colors.white54,
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              width: 20,
+              height: 20,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: isSelected ? const Color(0xFFF2D368) : Colors.white24,
+                  width: isSelected ? 6 : 1,
+                ),
+              ),
+            ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildSummaryCard(double subtotal, double tax, double total, int itemCount) {
+    return Container(
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: const Color(0xFF201F1F),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Subtotal ($itemCount items)',
+                style: GoogleFonts.inter(color: Colors.white70, fontSize: 14),
+              ),
+              Text(
+                _currencyFormat.format(subtotal),
+                style: GoogleFonts.inter(color: Colors.white, fontSize: 14),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'GST (3%)',
+                style: GoogleFonts.inter(color: Colors.white70, fontSize: 14),
+              ),
+              Text(
+                _currencyFormat.format(tax),
+                style: GoogleFonts.inter(color: Colors.white, fontSize: 14),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Express Shipping',
+                style: GoogleFonts.inter(color: Colors.white70, fontSize: 14),
+              ),
+              Text(
+                'FREE',
+                style: GoogleFonts.inter(color: const Color(0xFFD4AF37), fontSize: 14),
+              ),
+            ],
+          ),
+          const SizedBox(height: 24),
+          const Divider(color: Colors.white12),
+          const SizedBox(height: 16),
+          Align(
+            alignment: Alignment.centerRight,
+            child: Text(
+              'INCLUSIVE OF ALL TAXES',
+              style: GoogleFonts.inter(
+                color: Colors.white54,
+                fontSize: 9,
+                letterSpacing: 0.5,
+              ),
+            ),
+          ),
+          const SizedBox(height: 8),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Total Amount',
+                style: GoogleFonts.playfairDisplay(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              Text(
+                _currencyFormat.format(total),
+                style: GoogleFonts.inter(
+                  color: const Color(0xFFD4AF37),
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPlaceOrderButton(CartLoaded cartState, double totalAmount) {
+    return SizedBox(
+      width: double.infinity,
+      height: 56,
+      child: ElevatedButton(
+        onPressed: () {
+          if (cartState.items.isEmpty) return;
+
+          final order = Order(
+            id: const Uuid().v4(),
+            items: cartState.items,
+            totalAmount: totalAmount,
+            status: 'Processing',
+            date: DateTime.now(),
+          );
+          context.read<OrderBloc>().add(PlaceOrder(order));
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: const Color(0xFFD4A347), // Solid warm gold
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          elevation: 0,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'PLACE ORDER',
+              style: GoogleFonts.inter(
+                color: Colors.black87,
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+                letterSpacing: 2.0,
+              ),
+            ),
+            const SizedBox(width: 8),
+            const Icon(LucideIcons.arrowRight, color: Colors.black87, size: 18),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFooterText() {
+    return Text(
+      'By placing the order, you agree to Sanwariya Imitation\'s\nTerms of Service and Privacy Policy.',
+      textAlign: TextAlign.center,
+      style: GoogleFonts.inter(
+        color: Colors.black38,
+        fontSize: 10,
+        height: 1.5,
       ),
     );
   }
