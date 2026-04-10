@@ -6,7 +6,8 @@ import '../../blocs/auth/auth_bloc.dart';
 import '../../blocs/auth/auth_state.dart';
 import '../../blocs/auth/auth_event.dart';
 import '../../../core/constants/colors.dart';
-import 'package:sanwariya_imitation/presentation/screens/auth/login_screen.dart';
+import '../auth/login_screen.dart';
+import '../cart/cart_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -35,7 +36,12 @@ class ProfileScreen extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.shopping_bag_outlined, color: AppColors.primary),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const CartScreen()),
+              );
+            },
           ),
         ],
       ),

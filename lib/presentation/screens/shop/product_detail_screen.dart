@@ -9,6 +9,7 @@ import '../../../../domain/entities/cart_item.dart';
 import '../../blocs/cart/cart_bloc.dart';
 import '../../blocs/cart/cart_event.dart';
 import '../../../core/constants/colors.dart';
+import '../cart/cart_screen.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   final Product product;
@@ -30,10 +31,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         physics: const ClampingScrollPhysics(),
         slivers: [
           // Custom App Bar with image overlay
-          SliverToBoxAdapter(
-            child: _buildHeroHeader(context),
-          ),
-          
+          SliverToBoxAdapter(child: _buildHeroHeader(context)),
+
           // Product Details
           SliverToBoxAdapter(
             child: Padding(
@@ -47,7 +46,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 4,
+                        ),
                         decoration: BoxDecoration(
                           color: const Color(0xFF231F17),
                           borderRadius: BorderRadius.circular(16),
@@ -87,9 +89,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       ),
                     ],
                   ),
-                  
+
                   const SizedBox(height: 20),
-                  
+
                   // Title
                   Text(
                     widget.product.title,
@@ -100,9 +102,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       height: 1.2,
                     ),
                   ),
-                  
+
                   const SizedBox(height: 20),
-                  
+
                   // Price row
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -129,9 +131,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       ),
                     ],
                   ),
-                  
+
                   const SizedBox(height: 8),
-                  
+
                   Text(
                     'INCLUSIVE OF ALL TAXES',
                     style: GoogleFonts.inter(
@@ -176,22 +178,24 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   _buildFeatureCard(
                     icon: LucideIcons.badgeCheck,
                     title: 'Heritage Certified',
-                    subtitle: 'Each piece comes with an IGI certification for emeralds and BIS hallmarking for gold.',
+                    subtitle:
+                        'Each piece comes with an IGI certification for emeralds and BIS hallmarking for gold.',
                   ),
-                  
+
                   const SizedBox(height: 16),
-                  
+
                   _buildFeatureCard(
                     icon: LucideIcons.truck,
                     title: 'Insured Delivery',
-                    subtitle: 'Complimentary door-to-door insured shipping across India and select international cities.',
+                    subtitle:
+                        'Complimentary door-to-door insured shipping across India and select international cities.',
                   ),
-                  
-                   const SizedBox(height: 140),
+
+                  const SizedBox(height: 140),
                 ],
               ),
             ),
-          )
+          ),
         ],
       ),
       bottomSheet: _buildBottomActions(context),
@@ -213,10 +217,14 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   child: CachedNetworkImage(
                     imageUrl: widget.product.imageUrl,
                     fit: BoxFit.cover,
-                    placeholder: (context, url) => Container(color: AppColors.surface),
+                    placeholder: (context, url) =>
+                        Container(color: AppColors.surface),
                     errorWidget: (context, url, error) => Container(
                       color: AppColors.surface,
-                      child: const Icon(Icons.image_not_supported_outlined, color: AppColors.textMuted),
+                      child: const Icon(
+                        Icons.image_not_supported_outlined,
+                        color: AppColors.textMuted,
+                      ),
                     ),
                   ),
                 ),
@@ -240,7 +248,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             ],
           ),
         ),
-        
+
         // Paging dots overlay (static design placeholder)
         Positioned(
           bottom: 24,
@@ -257,17 +265,26 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             ],
           ),
         ),
-        
+
         // Top Transparent App Bar area
         SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 8.0,
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
-                  icon: const Icon(Icons.menu, color: AppColors.secondary, size: 20),
-                  onPressed: () => Navigator.pop(context), // Typically leads to menu, but pop is suitable for detail back
+                  icon: const Icon(
+                    Icons.menu,
+                    color: AppColors.secondary,
+                    size: 20,
+                  ),
+                  onPressed: () => Navigator.pop(
+                    context,
+                  ), // Typically leads to menu, but pop is suitable for detail back
                 ),
                 Text(
                   'S A N W A R I Y A\nI M I T A T I O N',
@@ -281,8 +298,19 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   ),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.shopping_bag_outlined, color: Colors.white, size: 20),
-                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.shopping_bag_outlined,
+                    color: Colors.white,
+                    size: 20,
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const CartScreen(),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
@@ -292,7 +320,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     );
   }
 
-  Widget _buildAccordion({required String title, required bool initiallyExpanded, required Widget content}) {
+  Widget _buildAccordion({
+    required String title,
+    required bool initiallyExpanded,
+    required Widget content,
+  }) {
     return Theme(
       data: Theme.of(context).copyWith(
         dividerColor: Colors.transparent,
@@ -305,20 +337,19 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         collapsedIconColor: AppColors.primary,
         title: Text(
           title,
-          style: GoogleFonts.playfairDisplay(
-            color: Colors.white,
-            fontSize: 18,
-          ),
+          style: GoogleFonts.playfairDisplay(color: Colors.white, fontSize: 18),
         ),
         childrenPadding: const EdgeInsets.only(bottom: 16.0),
-        children: [
-          content,
-        ],
+        children: [content],
       ),
     );
   }
 
-  Widget _buildFeatureCard({required IconData icon, required String title, required String subtitle}) {
+  Widget _buildFeatureCard({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+  }) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(28.0),
@@ -371,7 +402,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 style: OutlinedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 18),
                   side: const BorderSide(color: Color(0xFF2D2D2D)),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
                   foregroundColor: Colors.white,
                 ),
                 child: Row(
@@ -393,19 +426,27 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             ),
             const SizedBox(width: 16),
             Expanded(
-               flex: 5,
+              flex: 5,
               child: ElevatedButton(
                 onPressed: () {
                   context.read<CartBloc>().add(
-                    AddItemToCart(CartItem(
-                      id: DateTime.now().toString(),
-                      product: widget.product,
-                      quantity: 1,
-                    )),
+                    AddItemToCart(
+                      CartItem(
+                        id: DateTime.now().toString(),
+                        product: widget.product,
+                        quantity: 1,
+                      ),
+                    ),
                   );
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                      content: Text('Acquired to Cart', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+                      content: Text(
+                        'Acquired to Cart',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       backgroundColor: AppColors.primary,
                       duration: Duration(seconds: 2),
                     ),
@@ -415,7 +456,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   backgroundColor: AppColors.primary,
                   foregroundColor: Colors.black,
                   padding: const EdgeInsets.symmetric(vertical: 18),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
                   elevation: 0,
                 ),
                 child: Row(

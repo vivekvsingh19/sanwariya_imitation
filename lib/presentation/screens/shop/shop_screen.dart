@@ -7,6 +7,7 @@ import '../../blocs/product/product_state.dart';
 import 'product_detail_screen.dart';
 import '../../../core/constants/colors.dart';
 import '../../../domain/entities/product.dart';
+import '../cart/cart_screen.dart';
 
 class ShopScreen extends StatefulWidget {
   const ShopScreen({super.key});
@@ -169,10 +170,18 @@ class _ShopScreenState extends State<ShopScreen> {
               ),
             ),
           ),
-          const Icon(
-            Icons.shopping_bag_outlined,
-            color: AppColors.primary,
-            size: 20,
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const CartScreen()),
+              );
+            },
+            child: const Icon(
+              Icons.shopping_bag_outlined,
+              color: AppColors.primary,
+              size: 20,
+            ),
           ),
         ],
       ),

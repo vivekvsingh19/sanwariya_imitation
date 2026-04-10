@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:sanwariya_imitation/presentation/screens/cart/cart_screen.dart';
 import '../../blocs/product/product_bloc.dart';
 import '../../blocs/product/product_state.dart';
 import '../../blocs/product/product_event.dart';
@@ -25,22 +26,28 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List<Map<String, String>> _heroBanners = [
     {
-      'image': 'https://images.unsplash.com/photo-1599643478524-fb66f70d00f7?q=80&w=600&auto=format&fit=crop',
+      'image':
+          'https://images.unsplash.com/photo-1599643478524-fb66f70d00f7?q=80&w=600&auto=format&fit=crop',
       'subtitle': 'NEW ARRIVAL',
       'title': 'The Wedding\nEdit',
-      'description': 'Experience the timeless elegance of\nRajasthan\'s artisanal, handcrafted for\nthe Indian bride.',
+      'description':
+          'Experience the timeless elegance of\nRajasthan\'s artisanal, handcrafted for\nthe Indian bride.',
     },
     {
-      'image': 'https://images.unsplash.com/photo-1515562141207-7a8ef0f1db55?q=80&w=600&auto=format&fit=crop',
+      'image':
+          'https://images.unsplash.com/photo-1515562141207-7a8ef0f1db55?q=80&w=600&auto=format&fit=crop',
       'subtitle': 'LIMITED EDITION',
       'title': 'Royal\nHeritage',
-      'description': 'Discover the ancient beauty of\nKundan and Polki, restored for\nthe modern queen.',
+      'description':
+          'Discover the ancient beauty of\nKundan and Polki, restored for\nthe modern queen.',
     },
     {
-      'image': 'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=600&auto=format&fit=crop',
+      'image':
+          'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=600&auto=format&fit=crop',
       'subtitle': 'MASTERPIECE',
       'title': 'Temple\nCollection',
-      'description': 'Divine inspirations crafted in gold.\nEmbrace the spiritual aura of\nour exquisite temple jewelry.',
+      'description':
+          'Divine inspirations crafted in gold.\nEmbrace the spiritual aura of\nour exquisite temple jewelry.',
     },
   ];
 
@@ -82,7 +89,9 @@ class _HomeScreenState extends State<HomeScreen> {
       body: BlocBuilder<ProductBloc, ProductState>(
         builder: (context, state) {
           if (state is ProductLoading) {
-            return const Center(child: CircularProgressIndicator(color: AppColors.primary));
+            return const Center(
+              child: CircularProgressIndicator(color: AppColors.primary),
+            );
           } else if (state is ProductLoaded) {
             return RefreshIndicator(
               color: AppColors.primary,
@@ -138,10 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
               return Stack(
                 fit: StackFit.expand,
                 children: [
-                  Image.network(
-                    banner['image']!,
-                    fit: BoxFit.cover,
-                  ),
+                  Image.network(banner['image']!, fit: BoxFit.cover),
                   Container(
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
@@ -203,7 +209,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               backgroundColor: const Color(0xFFD3A449),
                               foregroundColor: Colors.black,
                               padding: const EdgeInsets.symmetric(vertical: 16),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(4),
+                              ),
                               elevation: 0,
                             ),
                             child: Text(
@@ -239,7 +247,10 @@ class _HomeScreenState extends State<HomeScreen> {
         // Top App Bar Elements
         SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 8.0,
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -255,27 +266,50 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Row(
                   children: [
-                    const Icon(Icons.search, color: AppColors.primary, size: 22),
+                    const Icon(
+                      Icons.search,
+                      color: AppColors.primary,
+                      size: 22,
+                    ),
                     const SizedBox(width: 16),
-                    Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        const Icon(Icons.shopping_bag_outlined, color: AppColors.primary, size: 22),
-                        Positioned(
-                          right: -4,
-                          top: -4,
-                          child: Container(
-                            width: 14,
-                            height: 14,
-                            decoration: const BoxDecoration(
-                              color: AppColors.primary,
-                              shape: BoxShape.circle,
-                            ),
-                            alignment: Alignment.center,
-                            child: const Text('0', style: TextStyle(color: Colors.black, fontSize: 8, fontWeight: FontWeight.bold)),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => const CartScreen()),
+                        );
+                      },
+                      child: Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          const Icon(
+                            Icons.shopping_bag_outlined,
+                            color: AppColors.primary,
+                            size: 22,
                           ),
-                        ),
-                      ],
+                          Positioned(
+                            right: -4,
+                            top: -4,
+                            child: Container(
+                              width: 14,
+                              height: 14,
+                              decoration: const BoxDecoration(
+                                color: AppColors.primary,
+                                shape: BoxShape.circle,
+                              ),
+                              alignment: Alignment.center,
+                              child: const Text(
+                                '0',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 8,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -299,7 +333,10 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildFeaturedSection(BuildContext context, List<Product> featuredProducts) {
+  Widget _buildFeaturedSection(
+    BuildContext context,
+    List<Product> featuredProducts,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -355,7 +392,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (_) => ProductDetailScreen(product: product)),
+                      MaterialPageRoute(
+                        builder: (_) => ProductDetailScreen(product: product),
+                      ),
                     );
                   },
                 ),
@@ -385,10 +424,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Text(
             'Explore our curated selections by jewellery\ntype',
             textAlign: TextAlign.center,
-            style: GoogleFonts.inter(
-              color: Colors.white70,
-              fontSize: 12,
-            ),
+            style: GoogleFonts.inter(color: Colors.white70, fontSize: 12),
           ),
           const SizedBox(height: 24),
           // Categories Grid
@@ -400,19 +436,22 @@ class _HomeScreenState extends State<HomeScreen> {
                     _CategoryCard(
                       label: 'BANGLES',
                       height: 120,
-                      imageUrl: 'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=400&auto=format&fit=crop',
+                      imageUrl:
+                          'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=400&auto=format&fit=crop',
                     ),
                     const SizedBox(height: 16),
                     _CategoryCard(
                       label: 'EARRINGS',
                       height: 140,
-                      imageUrl: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=400&auto=format&fit=crop',
+                      imageUrl:
+                          'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=400&auto=format&fit=crop',
                     ),
                     const SizedBox(height: 16),
                     _CategoryCard(
                       label: 'PENDANTS',
                       height: 120,
-                      imageUrl: 'https://images.unsplash.com/photo-1599643478524-fb66f70d00f7?q=80&w=400&auto=format&fit=crop', // generic pendant
+                      imageUrl:
+                          'https://images.unsplash.com/photo-1599643478524-fb66f70d00f7?q=80&w=400&auto=format&fit=crop', // generic pendant
                     ),
                   ],
                 ),
@@ -424,19 +463,22 @@ class _HomeScreenState extends State<HomeScreen> {
                     _CategoryCard(
                       label: 'CHAINS',
                       height: 120,
-                      imageUrl: 'https://images.unsplash.com/photo-1515562141207-7a8ef0f1db55?q=80&w=400&auto=format&fit=crop',
+                      imageUrl:
+                          'https://images.unsplash.com/photo-1515562141207-7a8ef0f1db55?q=80&w=400&auto=format&fit=crop',
                     ),
                     const SizedBox(height: 16),
                     _CategoryCard(
                       label: 'NECKLACES',
                       height: 140,
-                      imageUrl: 'https://images.unsplash.com/photo-1599643478524-fb66f70d00f7?q=80&w=400&auto=format&fit=crop',
+                      imageUrl:
+                          'https://images.unsplash.com/photo-1599643478524-fb66f70d00f7?q=80&w=400&auto=format&fit=crop',
                     ),
                     const SizedBox(height: 16),
                     _CategoryCard(
                       label: 'RINGS',
                       height: 120,
-                      imageUrl: 'https://images.unsplash.com/photo-1605100804763-247f67b254a4?q=80&w=400&auto=format&fit=crop',
+                      imageUrl:
+                          'https://images.unsplash.com/photo-1605100804763-247f67b254a4?q=80&w=400&auto=format&fit=crop',
                     ),
                   ],
                 ),
@@ -462,7 +504,9 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           border: Border.all(color: const Color(0xFF3B3524)),
           image: const DecorationImage(
-            image: NetworkImage('https://images.unsplash.com/photo-1599643478524-fb66f70d00f7?q=80&w=600&auto=format&fit=crop'), // Optional subtle bg
+            image: NetworkImage(
+              'https://images.unsplash.com/photo-1599643478524-fb66f70d00f7?q=80&w=600&auto=format&fit=crop',
+            ), // Optional subtle bg
             fit: BoxFit.cover,
             opacity: 0.15,
           ),
@@ -520,8 +564,13 @@ class _HomeScreenState extends State<HomeScreen> {
               style: OutlinedButton.styleFrom(
                 side: const BorderSide(color: AppColors.primary),
                 foregroundColor: AppColors.primary,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 12,
+                ),
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -538,7 +587,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   const Icon(Icons.arrow_forward_ios, size: 10),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -567,7 +616,10 @@ class _CategoryCard extends StatelessWidget {
         image: DecorationImage(
           image: NetworkImage(imageUrl),
           fit: BoxFit.cover,
-          colorFilter: ColorFilter.mode(Colors.black.withValues(alpha: 0.3), BlendMode.darken),
+          colorFilter: ColorFilter.mode(
+            Colors.black.withValues(alpha: 0.3),
+            BlendMode.darken,
+          ),
         ),
       ),
       alignment: Alignment.center,
@@ -615,18 +667,20 @@ class _FeaturedProductCard extends StatelessWidget {
                 children: [
                   Positioned.fill(
                     child: ClipRRect(
-                      borderRadius: const BorderRadius.vertical(top: Radius.circular(8)),
-                      child: Image.network(
-                        product.imageUrl,
-                        fit: BoxFit.cover,
+                      borderRadius: const BorderRadius.vertical(
+                        top: Radius.circular(8),
                       ),
+                      child: Image.network(product.imageUrl, fit: BoxFit.cover),
                     ),
                   ),
                   Positioned(
                     top: 12,
                     left: 12,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
                         color: const Color(0xFFD3A449),
                         borderRadius: BorderRadius.circular(12),
