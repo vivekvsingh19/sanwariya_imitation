@@ -41,38 +41,32 @@ class BrandAppBar extends StatelessWidget implements PreferredSizeWidget {
         children: [
           if (showBackButton)
             IconButton(
-              icon: const Icon(Icons.arrow_back_ios_new,
-                  color: AppColors.primary, size: 20),
+              icon: const Icon(
+                Icons.arrow_back_ios_new,
+                color: AppColors.primary,
+                size: 20,
+              ),
               onPressed: () => Navigator.pop(context),
             )
           else if (showMenu)
-            const Icon(
-              Icons.menu,
-              color: AppColors.primary,
-              size: 24,
-            ),
+            const Icon(Icons.menu, color: AppColors.primary, size: 24),
+          const SizedBox(width: AppSpacing.lg),
           Expanded(
-            child: Center(
-              child: Text(
-                title ?? 'SANWARIYA  IMITATION',
-                textAlign: TextAlign.center,
-                style: title != null
-                    ? AppTypography.headingMedium(color: AppColors.primary)
-                    : AppTypography.brandTitle(
-                        fontSize: AppTypography.fontSizeSM,
-                      ),
-              ),
+            child: Text(
+              title ?? 'SANWARIYA  IMITATION',
+              textAlign: TextAlign.start,
+              style: title != null
+                  ? AppTypography.headingMedium(color: AppColors.primary)
+                  : AppTypography.brandTitle(
+                      fontSize: AppTypography.fontSizeSM,
+                    ),
             ),
           ),
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               if (showSearch) ...[
-                const Icon(
-                  Icons.search,
-                  color: AppColors.primary,
-                  size: 22,
-                ),
+                const Icon(Icons.search, color: AppColors.primary, size: 22),
                 const SizedBox(width: AppSpacing.lg),
               ],
               if (showCart)
