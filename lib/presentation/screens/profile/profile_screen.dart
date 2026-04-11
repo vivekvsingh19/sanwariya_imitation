@@ -7,6 +7,7 @@ import '../../blocs/auth/auth_state.dart';
 import '../../blocs/auth/auth_event.dart';
 import '../auth/login_screen.dart';
 import '../../widgets/brand_app_bar.dart';
+import '../offers/offers_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -142,6 +143,18 @@ class ProfileScreen extends StatelessWidget {
                     title: 'PAYMENT PRIVILEGES',
                     subtitle: 'Vaulted cards & methods',
                     onTap: () {},
+                  ),
+                  _buildProfileOption(
+                    icon: LucideIcons.gift,
+                    title: 'EXCLUSIVE PRIVILEGES',
+                    subtitle: 'Your curated offers & gifts',
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => const OffersScreen(),
+                        ),
+                      );
+                    },
                   ),
                   _buildProfileOption(
                     icon: LucideIcons.headphones,

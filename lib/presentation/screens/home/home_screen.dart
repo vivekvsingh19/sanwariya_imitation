@@ -8,6 +8,7 @@ import '../../blocs/product/product_state.dart';
 import '../../blocs/product/product_event.dart';
 import '../../../domain/entities/product.dart';
 import '../shop/product_detail_screen.dart';
+import '../offers/offers_screen.dart';
 import '../../widgets/brand_app_bar.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -270,13 +271,21 @@ class _HomeScreenState extends State<HomeScreen> {
                 'Featured\nMasterpieces',
                 style: AppTypography.displaySmall(),
               ),
-              Text(
-                'VIEW\nALL >',
-                textAlign: TextAlign.right,
-                style: AppTypography.labelSmall(
-                  color: AppColors.primaryMuted,
-                  letterSpacing: AppTypography.letterSpacingNormal,
-                ).copyWith(height: 1.5),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const OffersScreen()),
+                  );
+                },
+                child: Text(
+                  'VIEW\nALL >',
+                  textAlign: TextAlign.right,
+                  style: AppTypography.labelSmall(
+                    color: AppColors.primaryMuted,
+                    letterSpacing: AppTypography.letterSpacingNormal,
+                  ).copyWith(height: 1.5),
+                ),
               ),
             ],
           ),
@@ -461,7 +470,12 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             const SizedBox(height: AppSpacing.xxl),
             OutlinedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const OffersScreen()),
+                );
+              },
               style: OutlinedButton.styleFrom(
                 side: const BorderSide(color: AppColors.primary),
                 foregroundColor: AppColors.primary,

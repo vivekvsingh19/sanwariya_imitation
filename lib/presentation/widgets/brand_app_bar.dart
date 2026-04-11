@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import '../../core/theme/app_theme.dart';
 import '../screens/cart/cart_screen.dart';
 
-class BrandAppBar extends StatelessWidget {
+class BrandAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final String? title;
   final bool showSearch;
   final bool showMenu;
   final bool showCart;
+  final bool showBackButton;
   final int cartCount;
   final bool isTransparent;
   final bool useSafeArea;
@@ -13,14 +15,19 @@ class BrandAppBar extends StatelessWidget {
 
   const BrandAppBar({
     super.key,
+    this.title,
     this.showSearch = true,
     this.showMenu = true,
     this.showCart = true,
+    this.showBackButton = false,
     this.cartCount = 0,
     this.isTransparent = true,
     this.useSafeArea = true,
     this.backgroundColor,
   });
+
+  @override
+  Size get preferredSize => const Size.fromHeight(80);
 
   @override
   Widget build(BuildContext context) {
@@ -32,22 +39,28 @@ class BrandAppBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          if (showMenu)
+          if (showBackButton)
+            IconButton(
+              icon: const Icon(Icons.arrow_back_ios_new,
+                  color: AppColors.primary, size: 20),
+              onPressed: () => Navigator.pop(context),
+            )
+          else if (showMenu)
             const Icon(
               Icons.menu,
               color: AppColors.primary,
               size: 24,
-            )
-          else
-            const SizedBox(width: 24),
+            ),
           Expanded(
             child: Center(
               child: Text(
-                'SANWARIYA  IMITATION',
+                title ?? 'SANWARIYA  IMITATION',
                 textAlign: TextAlign.center,
-                style: AppTypography.brandTitle(
-                  fontSize: AppTypography.fontSizeSM,
-                ),
+                style: title != null
+                    ? AppTypography.headingMedium(color: AppColors.primary)
+                    : AppTypography.brandTitle(
+                        fontSize: AppTypography.fontSizeSM,
+                      ),
               ),
             ),
           ),
