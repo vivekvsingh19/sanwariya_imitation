@@ -9,6 +9,7 @@ import '../../blocs/cart/cart_bloc.dart';
 import '../../blocs/cart/cart_event.dart';
 import '../../blocs/cart/cart_state.dart';
 import 'checkout_screen.dart';
+import '../../widgets/brand_app_bar.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -37,26 +38,12 @@ class _CartScreenState extends State<CartScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(LucideIcons.menu, color: AppColors.primary),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: Column(
-          children: [
-            Text('SANWARIYA', style: AppTypography.brandTitle()),
-            Text('IMITATION', style: AppTypography.brandSubtitle()),
-          ],
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(LucideIcons.shoppingBag, color: AppColors.primary),
-            onPressed: () {},
-          ),
-        ],
+      appBar: const BrandAppBar(
+        showCart: false,
+        showSearch: false,
+        showMenu: true,
+        showBackButton: false,
+        isTransparent: false,
       ),
       body: BlocBuilder<CartBloc, CartState>(
         builder: (context, state) {

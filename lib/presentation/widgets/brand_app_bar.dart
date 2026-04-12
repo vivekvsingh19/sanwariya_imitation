@@ -49,7 +49,12 @@ class BrandAppBar extends StatelessWidget implements PreferredSizeWidget {
               onPressed: () => Navigator.pop(context),
             )
           else if (showMenu)
-            const Icon(Icons.menu, color: AppColors.primary, size: 24),
+            Image.asset(
+              'assets/images/logo.png',
+              height: 40,
+              width: 40,
+              fit: BoxFit.contain,
+            ),
           const SizedBox(width: AppSpacing.lg),
           Expanded(
             child: Text(
