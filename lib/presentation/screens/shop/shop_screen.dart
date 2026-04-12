@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../widgets/product_card.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../blocs/product/product_bloc.dart';
 import '../../blocs/product/product_event.dart';
@@ -18,7 +17,6 @@ class ShopScreen extends StatefulWidget {
 }
 
 class _ShopScreenState extends State<ShopScreen> {
-  final NumberFormat _currencyFormatter = NumberFormat('#,##0', 'en_IN');
 
   @override
   void initState() {
@@ -111,10 +109,9 @@ class _ShopScreenState extends State<ShopScreen> {
                     sliver: SliverGrid(
                       delegate: SliverChildBuilderDelegate((context, index) {
                         final product = state.products[index];
-                        return _StyledProductTile(
+                        return ProductCard(
                           product: product,
                           badgeText: _badgeText(product: product, index: index),
-                          currencyFormatter: _currencyFormatter,
                           onTap: () {
                             Navigator.push(
                               context,
@@ -221,178 +218,6 @@ class _ShopScreenState extends State<ShopScreen> {
             Icons.keyboard_arrow_down_rounded,
             size: 15,
             color: AppColors.textMuted,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _StyledProductTile extends StatelessWidget {
-  const _StyledProductTile({
-    required this.product,
-    required this.badgeText,
-    required this.currencyFormatter,
-    required this.onTap,
-  });
-
-  final Product product;
-  final String badgeText;
-  final NumberFormat currencyFormatter;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          AspectRatio(
-            aspectRatio: 0.8,
-            child: Container(
-              decoration: BoxDecoration(
-                color: AppColors.surface,
-                borderRadius: AppRadius.lgBorder,
-                boxShadow: const [AppShadows.card],
-              ),
-              child: Stack(
-                children: [
-                  Positioned.fill(
-                    child: ClipRRect(
-                      borderRadius: AppRadius.lgBorder,
-                      child: Hero(
-                        tag: 'product_${product.id}',
-                        child: CachedNetworkImage(
-                          imageUrl: product.imageUrl,
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                          height: double.infinity,
-                          fadeInDuration: const Duration(milliseconds: 300),
-                          placeholder: (context, url) => Container(
-                            color: AppColors.surface,
-                            child: const Center(
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                color: AppColors.primary,
-                              ),
-                            ),
-                          ),
-                          errorWidget: (context, url, error) => Container(
-                            color: AppColors.surface,
-                            alignment: Alignment.center,
-                            child: const Icon(
-                              Icons.image_not_supported_outlined,
-                              color: AppColors.textMuted,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    top: AppSpacing.sm,
-                    left: AppSpacing.sm,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: AppSpacing.sm,
-                        vertical: AppSpacing.xs,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColors.badgeGold,
-                        borderRadius: AppRadius.xsBorder,
-                      ),
-                      child: Text(
-                        badgeText,
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w700,
-                          fontSize: AppTypography.fontSizeTiny,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    right: AppSpacing.sm,
-                    bottom: AppSpacing.sm,
-                    child: Container(
-                      width: 30,
-                      height: 30,
-                      decoration: BoxDecoration(
-                        color: AppColors.black45,
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(
-                        Icons.favorite_border,
-                        size: 16,
-                        color: AppColors.textWhite,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: AppSpacing.sm),
-          Row(
-            children: [
-              Container(
-                width: 6,
-                height: 6,
-                decoration: const BoxDecoration(
-                  color: AppColors.success,
-                  shape: BoxShape.circle,
-                ),
-              ),
-              const SizedBox(width: 6),
-              Text(
-                'IN STOCK',
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: AppColors.success,
-                  fontSize: AppTypography.fontSizeXXS,
-                  letterSpacing: AppTypography.letterSpacingNormal,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 3),
-          Text(
-            product.title,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-              color: const Color(0xFFE7E3D9),
-              height: 1.2,
-              fontSize: AppTypography.fontSizeSM,
-            ),
-          ),
-          const SizedBox(height: AppSpacing.xs),
-          Row(
-            children: [
-              Text(
-                '₹${currencyFormatter.format(product.price)}',
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: AppColors.primary,
-                  fontWeight: FontWeight.bold,
-                  fontSize: AppTypography.fontSizeBase,
-                ),
-              ),
-              if (product.originalPrice > product.price) ...[
-                const SizedBox(width: 6),
-                Flexible(
-                  child: Text(
-                    '₹${currencyFormatter.format(product.originalPrice)}',
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      decoration: TextDecoration.lineThrough,
-                      color: AppColors.textMuted,
-                      fontSize: AppTypography.fontSizeXS,
-                    ),
-                  ),
-                ),
-              ],
-            ],
           ),
         ],
       ),

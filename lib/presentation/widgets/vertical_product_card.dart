@@ -4,12 +4,20 @@ import 'package:intl/intl.dart';
 import '../../domain/entities/product.dart';
 import '../../core/theme/app_theme.dart';
 
-class ProductCard extends StatelessWidget {
+/// A premium vertical product card used for displaying jewelry items in grids.
+///
+/// Features include:
+/// - Aspect ratio optimized for jewelry photography (0.8)
+/// - Custom badge support (e.g., 'SALE', 'NEW')
+/// - 'In Stock' status indicator
+/// - Wishlist favorite button
+/// - Professional currency formatting
+class VerticalProductCard extends StatelessWidget {
   final Product product;
   final VoidCallback onTap;
   final String? badgeText;
 
-  const ProductCard({
+  const VerticalProductCard({
     super.key,
     required this.product,
     required this.onTap,

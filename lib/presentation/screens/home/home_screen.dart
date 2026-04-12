@@ -5,8 +5,11 @@ import '../../../core/theme/app_theme.dart';
 import '../../blocs/product/product_bloc.dart';
 import '../../blocs/product/product_state.dart';
 import '../../blocs/product/product_event.dart';
+import '../../../domain/entities/product.dart';
+import '../shop/product_detail_screen.dart';
 import '../offers/offers_screen.dart';
 import '../../widgets/brand_app_bar.dart';
+import '../../widgets/product_card.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -131,14 +134,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 physics: const AlwaysScrollableScrollPhysics(),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildHeroSection(context),
-                    const SizedBox(height: AppSpacing.massive),
-                    _buildBrowseCollection(context),
-                    const SizedBox(height: AppSpacing.massive),
-                    _buildLimitedEditionCard(context),
-                    const SizedBox(height: AppSpacing.huge),
-                  ],
+                    children: [
+                      _buildHeroSection(context),
+                      const SizedBox(height: AppSpacing.massive),
+                      _buildBrowseCollection(context),
+                      const SizedBox(height: AppSpacing.massive),
+                      _buildProductGrid(context, state.products),
+                      const SizedBox(height: AppSpacing.huge),
+                    ],
                 ),
               ),
             );
@@ -339,32 +342,51 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildLimitedEditionCard(BuildContext context) {
-    return Center(
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 800),
-        child: Padding(
-          padding: AppSpacing.screenH,
-          child: Container(
-            padding: AppSpacing.cardLarge,
-            decoration: BoxDecoration(
-              borderRadius: AppRadius.lgBorder,
-              gradient: LinearGradient(
-                colors: [AppColors.surfaceGoldDark, Colors.black],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-              border: Border.all(color: AppColors.borderGold),
-              image: const DecorationImage(
-                image: NetworkImage(
-                  'https://images.unsplash.com/photo-1599643478524-fb66f70d00f7?q=80&w=600&auto=format&fit=crop',
-                ),
-                fit: BoxFit.cover,
-                opacity: 0.15,
-              ),
-            ),
+  Widget _buildProductGrid(BuildContext context, List<Product> products) {
+    if (products.isEmpty) return const SizedBox.shrink();
+
+    return Padding(
+      padding: AppSpacing.screenH,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Recommended for You',
+            style: AppTypography.displaySmall(),
           ),
-        ),
+          const SizedBox(height: AppSpacing.sm),
+          Padding(
+            padding: EdgeInsets.zero,
+            child: Container(width: 40, height: 1, color: AppColors.primary),
+          ),
+          const SizedBox(height: AppSpacing.xxl),
+          GridView.builder(
+            shrinkWrap: true,
+            padding: EdgeInsets.zero,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: products.length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              mainAxisSpacing: AppSpacing.lg,
+              crossAxisSpacing: AppSpacing.lg,
+              childAspectRatio: 0.55,
+            ),
+            itemBuilder: (context, index) {
+              final product = products[index];
+              return ProductCard(
+                product: product,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => ProductDetailScreen(product: product),
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+        ],
       ),
     );
   }
