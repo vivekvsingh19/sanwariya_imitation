@@ -1,13 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../blocs/product/product_bloc.dart';
 import '../../blocs/product/product_state.dart';
 import '../../blocs/product/product_event.dart';
-import '../../../domain/entities/product.dart';
-import '../shop/product_detail_screen.dart';
 import '../offers/offers_screen.dart';
 import '../../widgets/brand_app_bar.dart';
 
@@ -19,7 +16,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final NumberFormat _currencyFormatter = NumberFormat('#,##0', 'en_IN');
   final PageController _pageController = PageController();
   int _currentHeroIndex = 0;
   Timer? _heroTimer;
@@ -54,27 +50,33 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Map<String, String>> _categories = [
     {
       'label': 'BANGLES',
-      'image': 'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=400&auto=format&fit=crop',
+      'image':
+          'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=400&auto=format&fit=crop',
     },
     {
       'label': 'EARRINGS',
-      'image': 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=400&auto=format&fit=crop',
+      'image':
+          'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=400&auto=format&fit=crop',
     },
     {
       'label': 'PENDANTS',
-      'image': 'https://images.unsplash.com/photo-1599643478524-fb66f70d00f7?q=80&w=400&auto=format&fit=crop',
+      'image':
+          'https://images.unsplash.com/photo-1599643478524-fb66f70d00f7?q=80&w=400&auto=format&fit=crop',
     },
     {
       'label': 'CHAINS',
-      'image': 'https://images.unsplash.com/photo-1515562141207-7a8ef0f1db55?q=80&w=400&auto=format&fit=crop',
+      'image':
+          'https://images.unsplash.com/photo-1515562141207-7a8ef0f1db55?q=80&w=400&auto=format&fit=crop',
     },
     {
       'label': 'NECKLACES',
-      'image': 'https://images.unsplash.com/photo-1599643478524-fb66f70d00f7?q=80&w=400&auto=format&fit=crop',
+      'image':
+          'https://images.unsplash.com/photo-1599643478524-fb66f70d00f7?q=80&w=400&auto=format&fit=crop',
     },
     {
       'label': 'RINGS',
-      'image': 'https://images.unsplash.com/photo-1605100804763-247f67b254a4?q=80&w=400&auto=format&fit=crop',
+      'image':
+          'https://images.unsplash.com/photo-1605100804763-247f67b254a4?q=80&w=400&auto=format&fit=crop',
     },
   ];
 
@@ -131,8 +133,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _buildHeroSection(context),
-                    const SizedBox(height: AppSpacing.sectionGap),
-                    _buildFeaturedSection(context, state.featuredProducts),
                     const SizedBox(height: AppSpacing.massive),
                     _buildBrowseCollection(context),
                     const SizedBox(height: AppSpacing.massive),
@@ -160,12 +160,12 @@ class _HomeScreenState extends State<HomeScreen> {
     final screenWidth = MediaQuery.of(context).size.width;
 
     // Adaptive height based on screen size and orientation
-    final heroHeight = screenWidth > 800 ? screenHeight * 0.8 : 600.0;
+    final heroHeight = screenWidth > 800 ? screenHeight * 0.6 : 450.0;
 
     return Stack(
       children: [
         SizedBox(
-          height: heroHeight.clamp(500.0, 900.0),
+          height: heroHeight.clamp(350.0, 750.0),
           child: PageView.builder(
             controller: _pageController,
             onPageChanged: (index) {
@@ -234,7 +234,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.primaryWarm,
                               foregroundColor: Colors.black,
-                              padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
+                              padding: const EdgeInsets.symmetric(
+                                vertical: AppSpacing.lg,
+                              ),
                               shape: RoundedRectangleBorder(
                                 borderRadius: AppRadius.xsBorder,
                               ),
@@ -287,80 +289,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildFeaturedSection(
-    BuildContext context,
-    List<Product> featuredProducts,
-  ) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: AppSpacing.screenH,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(
-                'Featured\nMasterpieces',
-                style: AppTypography.displaySmall(),
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => const OffersScreen()),
-                  );
-                },
-                child: Text(
-                  'VIEW\nALL >',
-                  textAlign: TextAlign.right,
-                  style: AppTypography.labelSmall(
-                    color: AppColors.primaryMuted,
-                    letterSpacing: AppTypography.letterSpacingNormal,
-                  ).copyWith(height: 1.5),
-                ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: AppSpacing.sm),
-        Padding(
-          padding: AppSpacing.screenH,
-          child: Container(width: 40, height: 1, color: AppColors.primary),
-        ),
-        const SizedBox(height: AppSpacing.xxl),
-        SizedBox(
-          height: 300,
-          child: ListView.separated(
-            padding: AppSpacing.screenH,
-            scrollDirection: Axis.horizontal,
-            itemCount: featuredProducts.length,
-            separatorBuilder: (context, index) => const SizedBox(width: AppSpacing.lg),
-            itemBuilder: (context, index) {
-              final product = featuredProducts[index];
-              return SizedBox(
-                width: 180,
-                child: _FeaturedProductCard(
-                  product: product,
-                  currencyFormatter: _currencyFormatter,
-                  badgeText: index % 2 == 0 ? '20% OFF' : 'NEW',
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => ProductDetailScreen(product: product),
-                      ),
-                    );
-                  },
-                ),
-              );
-            },
-          ),
-        ),
-      ],
-    );
-  }
-
   Widget _buildBrowseCollection(BuildContext context) {
     return Padding(
       padding: AppSpacing.screenH,
@@ -389,7 +317,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: _categories.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: MediaQuery.of(context).size.width > 700 ? 3 : 2,
+                  crossAxisCount: MediaQuery.of(context).size.width > 700
+                      ? 3
+                      : 2,
                   mainAxisSpacing: AppSpacing.lg,
                   crossAxisSpacing: AppSpacing.lg,
                   childAspectRatio: 1.2,
@@ -433,81 +363,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 opacity: 0.15,
               ),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    const Icon(Icons.star, color: AppColors.primary, size: 10),
-                    const SizedBox(width: 6),
-                    Text(
-                      'LIMITED EDITION',
-                      style: AppTypography.labelMedium(
-                        color: AppColors.primary,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: AppTypography.letterSpacingXWide,
-                      ),
-                    ),
-                    const SizedBox(width: 6),
-                    const Icon(Icons.star, color: AppColors.primary, size: 10),
-                  ],
-                ),
-                const SizedBox(height: AppSpacing.lg),
-                Text(
-                  'Royal\nTreasures &',
-                  style: AppTypography.display(),
-                ),
-                Text(
-                  'Exclusive Offers',
-                  style: AppTypography.display(
-                    color: AppColors.primary,
-                    fontStyle: FontStyle.italic,
-                  ),
-                ),
-                const SizedBox(height: AppSpacing.lg),
-                Text(
-                  'Unlock access to our premium\nevents and limited discount\npieces as an exclusive patron.\nElevate your lifestyle.',
-                  style: AppTypography.labelLarge(
-                    color: AppColors.white70,
-                  ).copyWith(height: 1.5),
-                ),
-                const SizedBox(height: AppSpacing.xxl),
-                OutlinedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => const OffersScreen()),
-                    );
-                  },
-                  style: OutlinedButton.styleFrom(
-                    side: const BorderSide(color: AppColors.primary),
-                    foregroundColor: AppColors.primary,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: AppRadius.xsBorder,
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: AppSpacing.xxl,
-                      vertical: AppSpacing.md,
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'VIEW ALL OFFERS',
-                        style: AppTypography.labelMedium(
-                          color: AppColors.primary,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: AppTypography.letterSpacingWide,
-                        ),
-                      ),
-                      const SizedBox(width: AppSpacing.sm),
-                      const Icon(Icons.arrow_forward_ios, size: 10),
-                    ],
-                  ),
-                ),
-              ],
-            ),
           ),
         ),
       ),
@@ -519,10 +374,7 @@ class _CategoryCard extends StatelessWidget {
   final String label;
   final String imageUrl;
 
-  const _CategoryCard({
-    required this.label,
-    required this.imageUrl,
-  });
+  const _CategoryCard({required this.label, required this.imageUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -545,113 +397,6 @@ class _CategoryCard extends StatelessWidget {
         style: AppTypography.bodySmall(
           fontWeight: FontWeight.bold,
           letterSpacing: AppTypography.letterSpacingXWide,
-        ),
-      ),
-    );
-  }
-}
-
-class _FeaturedProductCard extends StatelessWidget {
-  final Product product;
-  final NumberFormat currencyFormatter;
-  final String badgeText;
-  final VoidCallback onTap;
-
-  const _FeaturedProductCard({
-    required this.product,
-    required this.currencyFormatter,
-    required this.badgeText,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        decoration: BoxDecoration(
-          color: AppColors.surfaceDark,
-          borderRadius: AppRadius.mdBorder,
-          border: Border.all(color: AppColors.borderSubtle),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            AspectRatio(
-              aspectRatio: 0.9,
-              child: Stack(
-                children: [
-                  Positioned.fill(
-                    child: ClipRRect(
-                      borderRadius: AppRadius.topMd,
-                      child: Image.network(
-                        product.imageUrl,
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                        height: double.infinity,
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    top: AppSpacing.md,
-                    left: AppSpacing.md,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: AppSpacing.sm,
-                        vertical: AppSpacing.xs,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColors.primaryWarm,
-                        borderRadius: AppRadius.lgBorder,
-                      ),
-                      child: Text(
-                        badgeText,
-                        style: AppTypography.caption(color: Colors.black),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(AppSpacing.md),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    product.title.toUpperCase(),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: AppTypography.labelSmall(
-                      color: AppColors.white70,
-                      letterSpacing: AppTypography.letterSpacingNormal,
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  Row(
-                    children: [
-                      Text(
-                        '₹${currencyFormatter.format(product.price)}',
-                        style: AppTypography.bodyMedium(
-                          color: AppColors.primary,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(width: AppSpacing.sm),
-                      Text(
-                        '₹${currencyFormatter.format(product.originalPrice)}',
-                        style: AppTypography.labelMedium(
-                          color: AppColors.white30,
-                        ).copyWith(
-                          decoration: TextDecoration.lineThrough,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ],
         ),
       ),
     );

@@ -5,6 +5,7 @@ import '../screens/cart/cart_screen.dart';
 class BrandAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
   final bool showSearch;
+  final bool showNotifications;
   final bool showMenu;
   final bool showCart;
   final bool showBackButton;
@@ -17,6 +18,7 @@ class BrandAppBar extends StatelessWidget implements PreferredSizeWidget {
     super.key,
     this.title,
     this.showSearch = true,
+    this.showNotifications = true,
     this.showMenu = true,
     this.showCart = true,
     this.showBackButton = false,
@@ -48,7 +50,7 @@ class BrandAppBar extends StatelessWidget implements PreferredSizeWidget {
               ),
               onPressed: () => Navigator.pop(context),
             ),
-          const SizedBox(width: AppSpacing.xs),
+          //const SizedBox(width: AppSpacing.xs),
           Expanded(
             child: Text(
               title ?? 'SANWARIYA  IMITATION',
@@ -65,6 +67,14 @@ class BrandAppBar extends StatelessWidget implements PreferredSizeWidget {
             children: [
               if (showSearch) ...[
                 const Icon(Icons.search, color: AppColors.primary, size: 22),
+                const SizedBox(width: AppSpacing.lg),
+              ],
+              if (showNotifications) ...[
+                const Icon(
+                  Icons.notifications_none_outlined,
+                  color: AppColors.primary,
+                  size: 22,
+                ),
                 const SizedBox(width: AppSpacing.lg),
               ],
               if (showCart)
