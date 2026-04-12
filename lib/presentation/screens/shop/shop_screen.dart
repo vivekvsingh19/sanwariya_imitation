@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../widgets/product_card.dart';
+import '../../widgets/vertical_product_card.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../blocs/product/product_bloc.dart';
@@ -109,7 +109,7 @@ class _ShopScreenState extends State<ShopScreen> {
                     sliver: SliverGrid(
                       delegate: SliverChildBuilderDelegate((context, index) {
                         final product = state.products[index];
-                        return ProductCard(
+                        return VerticalProductCard(
                           product: product,
                           badgeText: _badgeText(product: product, index: index),
                           onTap: () {

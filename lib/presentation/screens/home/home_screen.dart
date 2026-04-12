@@ -9,7 +9,7 @@ import '../../../domain/entities/product.dart';
 import '../shop/product_detail_screen.dart';
 import '../offers/offers_screen.dart';
 import '../../widgets/brand_app_bar.dart';
-import '../../widgets/product_card.dart';
+import '../../widgets/vertical_product_card.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -134,14 +134,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 physics: const AlwaysScrollableScrollPhysics(),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildHeroSection(context),
-                      const SizedBox(height: AppSpacing.massive),
-                      _buildBrowseCollection(context),
-                      const SizedBox(height: AppSpacing.massive),
-                      _buildProductGrid(context, state.products),
-                      const SizedBox(height: AppSpacing.huge),
-                    ],
+                  children: [
+                    _buildHeroSection(context),
+                    const SizedBox(height: AppSpacing.huge),
+                    _buildBrowseCollection(context),
+                    const SizedBox(height: AppSpacing.huge),
+                    _buildProductGrid(context, state.products),
+                    const SizedBox(height: AppSpacing.huge),
+                  ],
                 ),
               ),
             );
@@ -350,10 +350,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Recommended for You',
-            style: AppTypography.displaySmall(),
-          ),
+          Text('Recommended for You', style: AppTypography.displaySmall()),
           const SizedBox(height: AppSpacing.sm),
           Padding(
             padding: EdgeInsets.zero,
@@ -373,7 +370,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             itemBuilder: (context, index) {
               final product = products[index];
-              return ProductCard(
+              return VerticalProductCard(
                 product: product,
                 onTap: () {
                   Navigator.push(

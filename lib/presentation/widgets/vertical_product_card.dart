@@ -90,11 +90,12 @@ class VerticalProductCard extends StatelessWidget {
                         ),
                         child: Text(
                           badgeText!,
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w700,
-                            fontSize: AppTypography.fontSizeTiny,
-                          ),
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w700,
+                                fontSize: AppTypography.fontSizeTiny,
+                              ),
                         ),
                       ),
                     ),
@@ -120,32 +121,10 @@ class VerticalProductCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: AppSpacing.sm),
-          Row(
-            children: [
-              Container(
-                width: 6,
-                height: 6,
-                decoration: const BoxDecoration(
-                  color: AppColors.success,
-                  shape: BoxShape.circle,
-                ),
-              ),
-              const SizedBox(width: 6),
-              Text(
-                'IN STOCK',
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: AppColors.success,
-                  fontSize: AppTypography.fontSizeXXS,
-                  letterSpacing: AppTypography.letterSpacingNormal,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 3),
+
           Text(
             product.title,
-            maxLines: 2,
+            maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
               color: const Color(0xFFE7E3D9),
