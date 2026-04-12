@@ -398,36 +398,19 @@ class _OrdersScreenState extends State<OrdersScreen>
     }
 
     return SizedBox(
-      width: isInProduction ? null : double.infinity,
-      child: isInProduction
-          ? ElevatedButton(
-              onPressed: () => _navigateToTracking(order),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primaryWarm,
-                foregroundColor: Colors.black,
-                elevation: 0,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.xxl,
-                  vertical: AppSpacing.lg,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: AppRadius.smBorder,
-                ),
-              ),
-              child: _buildTrackJourneyContent(true),
-            )
-          : OutlinedButton(
-              onPressed: () => _navigateToTracking(order),
-              style: OutlinedButton.styleFrom(
-                foregroundColor: AppColors.primaryWarm,
-                side: BorderSide(color: AppColors.primaryWarm),
-                padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
-                shape: RoundedRectangleBorder(
-                  borderRadius: AppRadius.smBorder,
-                ),
-              ),
-              child: _buildTrackJourneyContent(false),
-            ),
+      width: double.infinity,
+      child: OutlinedButton(
+        onPressed: () => _navigateToTracking(order),
+        style: OutlinedButton.styleFrom(
+          foregroundColor: AppColors.primaryWarm,
+          side: BorderSide(color: AppColors.primaryWarm),
+          padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
+          shape: RoundedRectangleBorder(
+            borderRadius: AppRadius.smBorder,
+          ),
+        ),
+        child: _buildTrackJourneyContent(false),
+      ),
     );
   }
 
