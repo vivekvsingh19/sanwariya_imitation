@@ -172,17 +172,6 @@ class _OrdersScreenState extends State<OrdersScreen>
               },
             ),
           ),
-
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: AppSpacing.xxl),
-            child: Text(
-              'CURATING EXCELLENCE SINCE 1992',
-              style: AppTypography.labelMedium(
-                color: AppColors.white24,
-                letterSpacing: AppTypography.letterSpacingXWide,
-              ),
-            ),
-          ),
         ],
       ),
     );
@@ -201,10 +190,32 @@ class _OrdersScreenState extends State<OrdersScreen>
 
   Widget _buildOrdersList(List<Order> orders) {
     return ListView.separated(
-      padding: AppSpacing.cardLarge,
-      itemCount: orders.length,
-      separatorBuilder: (_, __) => const SizedBox(height: AppSpacing.xxl),
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacing.screenPaddingH,
+        AppSpacing.screenPaddingV,
+        AppSpacing.screenPaddingH,
+        AppSpacing.massive,
+      ),
+      itemCount: orders.length + 1,
+      separatorBuilder: (_, index) => SizedBox(
+        height: index == orders.length - 1 ? AppSpacing.giant : AppSpacing.xxl,
+      ),
       itemBuilder: (context, index) {
+        if (index == orders.length) {
+          return Center(
+            child: Opacity(
+              opacity: 0.6,
+              child: Text(
+                'CURATING EXCELLENCE SINCE 1992',
+                style: AppTypography.labelMedium(
+                  color: AppColors.white12,
+                  letterSpacing: AppTypography.letterSpacingXXWide,
+                ),
+              ),
+            ),
+          );
+        }
+
         final order = orders[index];
         if (order.items.isEmpty) return const SizedBox.shrink();
 
