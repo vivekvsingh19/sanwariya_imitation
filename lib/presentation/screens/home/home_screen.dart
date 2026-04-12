@@ -584,7 +584,12 @@ class _FeaturedProductCard extends StatelessWidget {
                   Positioned.fill(
                     child: ClipRRect(
                       borderRadius: AppRadius.topMd,
-                      child: Image.network(product.imageUrl, fit: BoxFit.cover),
+                      child: Image.network(
+                        product.imageUrl,
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                        height: double.infinity,
+                      ),
                     ),
                   ),
                   Positioned(

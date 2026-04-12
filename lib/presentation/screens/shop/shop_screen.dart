@@ -263,27 +263,27 @@ class _StyledProductTile extends StatelessWidget {
                       borderRadius: AppRadius.lgBorder,
                       child: Hero(
                         tag: 'product_${product.id}',
-                        child: AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 300),
-                          child: CachedNetworkImage(
-                            imageUrl: product.imageUrl,
-                            fit: BoxFit.cover,
-                            placeholder: (context, url) => Container(
-                              color: AppColors.surface,
-                              child: const Center(
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  color: AppColors.primary,
-                                ),
+                        child: CachedNetworkImage(
+                          imageUrl: product.imageUrl,
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                          height: double.infinity,
+                          fadeInDuration: const Duration(milliseconds: 300),
+                          placeholder: (context, url) => Container(
+                            color: AppColors.surface,
+                            child: const Center(
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: AppColors.primary,
                               ),
                             ),
-                            errorWidget: (context, url, error) => Container(
-                              color: AppColors.surface,
-                              alignment: Alignment.center,
-                              child: const Icon(
-                                Icons.image_not_supported_outlined,
-                                color: AppColors.textMuted,
-                              ),
+                          ),
+                          errorWidget: (context, url, error) => Container(
+                            color: AppColors.surface,
+                            alignment: Alignment.center,
+                            child: const Icon(
+                              Icons.image_not_supported_outlined,
+                              color: AppColors.textMuted,
                             ),
                           ),
                         ),

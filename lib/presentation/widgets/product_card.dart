@@ -41,6 +41,7 @@ class ProductCard extends StatelessWidget {
                   child: CachedNetworkImage(
                     imageUrl: product.imageUrl,
                     width: double.infinity,
+                    height: double.infinity,
                     fit: BoxFit.cover,
                     errorWidget: (context, url, error) => const Icon(Icons.error, color: AppColors.primary),
                   ),
