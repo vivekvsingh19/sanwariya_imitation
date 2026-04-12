@@ -51,6 +51,33 @@ class _HomeScreenState extends State<HomeScreen> {
     },
   ];
 
+  final List<Map<String, String>> _categories = [
+    {
+      'label': 'BANGLES',
+      'image': 'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=400&auto=format&fit=crop',
+    },
+    {
+      'label': 'EARRINGS',
+      'image': 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=400&auto=format&fit=crop',
+    },
+    {
+      'label': 'PENDANTS',
+      'image': 'https://images.unsplash.com/photo-1599643478524-fb66f70d00f7?q=80&w=400&auto=format&fit=crop',
+    },
+    {
+      'label': 'CHAINS',
+      'image': 'https://images.unsplash.com/photo-1515562141207-7a8ef0f1db55?q=80&w=400&auto=format&fit=crop',
+    },
+    {
+      'label': 'NECKLACES',
+      'image': 'https://images.unsplash.com/photo-1599643478524-fb66f70d00f7?q=80&w=400&auto=format&fit=crop',
+    },
+    {
+      'label': 'RINGS',
+      'image': 'https://images.unsplash.com/photo-1605100804763-247f67b254a4?q=80&w=400&auto=format&fit=crop',
+    },
+  ];
+
   @override
   void initState() {
     super.initState();
@@ -129,10 +156,16 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildHeroSection(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    // Adaptive height based on screen size and orientation
+    final heroHeight = screenWidth > 800 ? screenHeight * 0.8 : 600.0;
+
     return Stack(
       children: [
         SizedBox(
-          height: 600,
+          height: heroHeight.clamp(500.0, 900.0),
           child: PageView.builder(
             controller: _pageController,
             onPageChanged: (index) {
@@ -347,62 +380,29 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           const SizedBox(height: AppSpacing.xxl),
           // Categories Grid
-          Row(
-            children: [
-              Expanded(
-                child: Column(
-                  children: [
-                    _CategoryCard(
-                      label: 'BANGLES',
-                      height: 120,
-                      imageUrl:
-                          'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=400&auto=format&fit=crop',
-                    ),
-                    const SizedBox(height: AppSpacing.lg),
-                    _CategoryCard(
-                      label: 'EARRINGS',
-                      height: 140,
-                      imageUrl:
-                          'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=400&auto=format&fit=crop',
-                    ),
-                    const SizedBox(height: AppSpacing.lg),
-                    _CategoryCard(
-                      label: 'PENDANTS',
-                      height: 120,
-                      imageUrl:
-                          'https://images.unsplash.com/photo-1599643478524-fb66f70d00f7?q=80&w=400&auto=format&fit=crop',
-                    ),
-                  ],
+          Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 1000),
+              child: GridView.builder(
+                shrinkWrap: true,
+                padding: EdgeInsets.zero,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: _categories.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: MediaQuery.of(context).size.width > 700 ? 3 : 2,
+                  mainAxisSpacing: AppSpacing.lg,
+                  crossAxisSpacing: AppSpacing.lg,
+                  childAspectRatio: 1.2,
                 ),
+                itemBuilder: (context, index) {
+                  final category = _categories[index];
+                  return _CategoryCard(
+                    label: category['label']!,
+                    imageUrl: category['image']!,
+                  );
+                },
               ),
-              const SizedBox(width: AppSpacing.lg),
-              Expanded(
-                child: Column(
-                  children: [
-                    _CategoryCard(
-                      label: 'CHAINS',
-                      height: 120,
-                      imageUrl:
-                          'https://images.unsplash.com/photo-1515562141207-7a8ef0f1db55?q=80&w=400&auto=format&fit=crop',
-                    ),
-                    const SizedBox(height: AppSpacing.lg),
-                    _CategoryCard(
-                      label: 'NECKLACES',
-                      height: 140,
-                      imageUrl:
-                          'https://images.unsplash.com/photo-1599643478524-fb66f70d00f7?q=80&w=400&auto=format&fit=crop',
-                    ),
-                    const SizedBox(height: AppSpacing.lg),
-                    _CategoryCard(
-                      label: 'RINGS',
-                      height: 120,
-                      imageUrl:
-                          'https://images.unsplash.com/photo-1605100804763-247f67b254a4?q=80&w=400&auto=format&fit=crop',
-                    ),
-                  ],
-                ),
-              ),
-            ],
+            ),
           ),
         ],
       ),
@@ -410,100 +410,105 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildLimitedEditionCard(BuildContext context) {
-    return Padding(
-      padding: AppSpacing.screenH,
-      child: Container(
-        padding: AppSpacing.cardLarge,
-        decoration: BoxDecoration(
-          borderRadius: AppRadius.lgBorder,
-          gradient: LinearGradient(
-            colors: [AppColors.surfaceGoldDark, Colors.black],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          border: Border.all(color: AppColors.borderGold),
-          image: const DecorationImage(
-            image: NetworkImage(
-              'https://images.unsplash.com/photo-1599643478524-fb66f70d00f7?q=80&w=600&auto=format&fit=crop',
+    return Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 800),
+        child: Padding(
+          padding: AppSpacing.screenH,
+          child: Container(
+            padding: AppSpacing.cardLarge,
+            decoration: BoxDecoration(
+              borderRadius: AppRadius.lgBorder,
+              gradient: LinearGradient(
+                colors: [AppColors.surfaceGoldDark, Colors.black],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              border: Border.all(color: AppColors.borderGold),
+              image: const DecorationImage(
+                image: NetworkImage(
+                  'https://images.unsplash.com/photo-1599643478524-fb66f70d00f7?q=80&w=600&auto=format&fit=crop',
+                ),
+                fit: BoxFit.cover,
+                opacity: 0.15,
+              ),
             ),
-            fit: BoxFit.cover,
-            opacity: 0.15,
-          ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Icon(Icons.star, color: AppColors.primary, size: 10),
-                const SizedBox(width: 6),
+                Row(
+                  children: [
+                    const Icon(Icons.star, color: AppColors.primary, size: 10),
+                    const SizedBox(width: 6),
+                    Text(
+                      'LIMITED EDITION',
+                      style: AppTypography.labelMedium(
+                        color: AppColors.primary,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: AppTypography.letterSpacingXWide,
+                      ),
+                    ),
+                    const SizedBox(width: 6),
+                    const Icon(Icons.star, color: AppColors.primary, size: 10),
+                  ],
+                ),
+                const SizedBox(height: AppSpacing.lg),
                 Text(
-                  'LIMITED EDITION',
-                  style: AppTypography.labelMedium(
+                  'Royal\nTreasures &',
+                  style: AppTypography.display(),
+                ),
+                Text(
+                  'Exclusive Offers',
+                  style: AppTypography.display(
                     color: AppColors.primary,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: AppTypography.letterSpacingXWide,
+                    fontStyle: FontStyle.italic,
                   ),
                 ),
-                const SizedBox(width: 6),
-                const Icon(Icons.star, color: AppColors.primary, size: 10),
-              ],
-            ),
-            const SizedBox(height: AppSpacing.lg),
-            Text(
-              'Royal\nTreasures &',
-              style: AppTypography.display(),
-            ),
-            Text(
-              'Exclusive Offers',
-              style: AppTypography.display(
-                color: AppColors.primary,
-                fontStyle: FontStyle.italic,
-              ),
-            ),
-            const SizedBox(height: AppSpacing.lg),
-            Text(
-              'Unlock access to our premium\nevents and limited discount\npieces as an exclusive patron.\nElevate your lifestyle.',
-              style: AppTypography.labelLarge(
-                color: AppColors.white70,
-              ).copyWith(height: 1.5),
-            ),
-            const SizedBox(height: AppSpacing.xxl),
-            OutlinedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const OffersScreen()),
-                );
-              },
-              style: OutlinedButton.styleFrom(
-                side: const BorderSide(color: AppColors.primary),
-                foregroundColor: AppColors.primary,
-                shape: RoundedRectangleBorder(
-                  borderRadius: AppRadius.xsBorder,
+                const SizedBox(height: AppSpacing.lg),
+                Text(
+                  'Unlock access to our premium\nevents and limited discount\npieces as an exclusive patron.\nElevate your lifestyle.',
+                  style: AppTypography.labelLarge(
+                    color: AppColors.white70,
+                  ).copyWith(height: 1.5),
                 ),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.xxl,
-                  vertical: AppSpacing.md,
-                ),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'VIEW ALL OFFERS',
-                    style: AppTypography.labelMedium(
-                      color: AppColors.primary,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: AppTypography.letterSpacingWide,
+                const SizedBox(height: AppSpacing.xxl),
+                OutlinedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const OffersScreen()),
+                    );
+                  },
+                  style: OutlinedButton.styleFrom(
+                    side: const BorderSide(color: AppColors.primary),
+                    foregroundColor: AppColors.primary,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: AppRadius.xsBorder,
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppSpacing.xxl,
+                      vertical: AppSpacing.md,
                     ),
                   ),
-                  const SizedBox(width: AppSpacing.sm),
-                  const Icon(Icons.arrow_forward_ios, size: 10),
-                ],
-              ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'VIEW ALL OFFERS',
+                        style: AppTypography.labelMedium(
+                          color: AppColors.primary,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: AppTypography.letterSpacingWide,
+                        ),
+                      ),
+                      const SizedBox(width: AppSpacing.sm),
+                      const Icon(Icons.arrow_forward_ios, size: 10),
+                    ],
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
@@ -512,19 +517,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
 class _CategoryCard extends StatelessWidget {
   final String label;
-  final double height;
   final String imageUrl;
 
   const _CategoryCard({
     required this.label,
-    required this.height,
     required this.imageUrl,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: height,
       width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: AppRadius.mdBorder,
