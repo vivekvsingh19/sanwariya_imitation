@@ -224,7 +224,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       children: [
         SizedBox(
           width: double.infinity,
-          height: 520,
+          height: 450,
           child: Stack(
             children: [
               Positioned.fill(
