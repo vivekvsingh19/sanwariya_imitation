@@ -27,10 +27,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   Timer? _autoScrollTimer;
 
   List<String> get _productImages => [
-        widget.product.imageUrl,
-        'https://images.unsplash.com/photo-1515562141207-7a8ef0f1db55?q=80&w=800',
-        'https://images.unsplash.com/photo-1599643478524-fb66f70d00f7?q=80&w=800',
-      ];
+    widget.product.imageUrl,
+    'https://images.unsplash.com/photo-1515562141207-7a8ef0f1db55?q=80&w=800',
+    'https://images.unsplash.com/photo-1599643478524-fb66f70d00f7?q=80&w=800',
+  ];
 
   @override
   void initState() {
@@ -242,7 +242,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   itemCount: _productImages.length,
                   itemBuilder: (context, index) {
                     return Hero(
-                      tag: index == 0 ? 'product_${widget.product.id}' : 'image_$index',
+                      tag: index == 0
+                          ? 'product_${widget.product.id}'
+                          : 'image_$index',
                       child: CachedNetworkImage(
                         imageUrl: _productImages[index],
                         fit: BoxFit.cover,
@@ -297,7 +299,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   );
                 },
                 child: Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 4,
+                    vertical: 8,
+                  ),
                   padding: const EdgeInsets.symmetric(vertical: 4),
                   child: Container(
                     width: isActive ? 28 : 12,
@@ -334,10 +339,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         initiallyExpanded: initiallyExpanded,
         iconColor: AppColors.primary,
         collapsedIconColor: AppColors.primary,
-        title: Text(
-          title,
-          style: AppTypography.headingSmall(),
-        ),
+        title: Text(title, style: AppTypography.headingSmall()),
         childrenPadding: const EdgeInsets.only(bottom: AppSpacing.lg),
         children: [content],
       ),
@@ -362,10 +364,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         children: [
           Icon(icon, color: AppColors.primary, size: 28),
           const SizedBox(height: AppSpacing.lg),
-          Text(
-            title,
-            style: AppTypography.bodyLarge(),
-          ),
+          Text(title, style: AppTypography.bodyLarge()),
           const SizedBox(height: AppSpacing.sm),
           Text(
             subtitle,
@@ -464,7 +463,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     const Icon(LucideIcons.lock, size: 14),
                     const SizedBox(width: AppSpacing.sm),
                     Text(
-                      'ACQUIRE NOW',
+                      'ORDER NOW',
                       style: AppTypography.labelMedium(
                         color: Colors.black,
                         fontWeight: FontWeight.w900,
