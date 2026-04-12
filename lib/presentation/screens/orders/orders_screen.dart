@@ -97,7 +97,7 @@ class _OrdersScreenState extends State<OrdersScreen>
       appBar: const PreferredSize(
         preferredSize: Size.fromHeight(80),
         child: BrandAppBar(
-          useSafeArea: false,
+          useSafeArea: true,
           showSearch: false,
         ),
       ),

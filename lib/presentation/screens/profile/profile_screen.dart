@@ -17,7 +17,7 @@ class ProfileScreen extends StatelessWidget {
       backgroundColor: AppColors.background,
       appBar: const PreferredSize(
         preferredSize: Size.fromHeight(80),
-        child: BrandAppBar(useSafeArea: false, showSearch: false),
+        child: BrandAppBar(useSafeArea: true, showSearch: false),
       ),
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {

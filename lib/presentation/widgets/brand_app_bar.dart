@@ -47,15 +47,8 @@ class BrandAppBar extends StatelessWidget implements PreferredSizeWidget {
                 size: 20,
               ),
               onPressed: () => Navigator.pop(context),
-            )
-          else if (showMenu)
-            Image.asset(
-              'assets/images/logo.png',
-              height: 40,
-              width: 40,
-              fit: BoxFit.contain,
             ),
-          const SizedBox(width: AppSpacing.lg),
+          const SizedBox(width: AppSpacing.xs),
           Expanded(
             child: Text(
               title ?? 'SANWARIYA  IMITATION',
