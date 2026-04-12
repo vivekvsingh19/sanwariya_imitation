@@ -577,7 +577,8 @@ class _FeaturedProductCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(
+            AspectRatio(
+              aspectRatio: 0.9,
               child: Stack(
                 children: [
                   Positioned.fill(
